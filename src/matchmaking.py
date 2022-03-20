@@ -18,6 +18,10 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     if token == 'workout:':
         return TC.Workout(token,*others)
 
+    # None type
+    if validate(token, TC.Nothing.RegexPattern):
+        return TC.Nothing(token, *others)
+
     # dot 
     if token == '.':
         return TC.Dot(token,*others)
@@ -25,8 +29,11 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     # assignment
     if validate(token,TC.Assignment.RegexPattern):
         lv, rv = token.split('=')
-        print(rv)
-        return TC.Assignment(token,lv,matchAndMakeToken(rv,*others),*others) 
+        rv = matchAndMakeToken(rv,*others)
+        if rv == TC.UnknownToken:
+            return TC.UnknownToken(token,*others)
+
+        return TC.Assignment(token,lv,rv,*others) 
 
     # rep
     if validate(token,TC.Rep.RegexPattern):
@@ -98,5 +105,5 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     
 if __name__ == '__main__':
 
-    print(matchAndMakeToken('3:45:01', 1,1).getTimeDeltaObj())
+    print(matchAndMakeToken(str(None), 1,1))
     
