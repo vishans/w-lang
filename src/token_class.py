@@ -43,6 +43,14 @@ class Assignment(Token):
         return f'Assignment LV<{self.lv}>, RV<{self.rv}> at line {self.line} at position {self.start}'
 
 
+class Nothing(Token):
+    RegexPattern = r'^None$'
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+
+    def __repr__(self) -> str:
+        return f'Nothing Token at line {self.line} at position {self.start}'
+
 class Variable(Token):
     RegexPattern = r'^[A-Za-z][A-Za-z\-]*[A-Za-z]$'  
 
@@ -57,7 +65,7 @@ class Variable(Token):
 
 
 class String(Token):
-    RegexPattern = r'^\"[A-Za-z0-9 \.\-]*\"$'
+    RegexPattern = r'''^("[A-Za-z0-9 \.\-]*"|'[A-Za-z0-9 \.\-]*')$'''
 
     def __init__(self, token, line,start) -> None:
         super().__init__( token, line,start)
