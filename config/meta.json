@@ -1,11 +1,11 @@
 {
     "date":{
         "dataType":["String", "Date"],
-        "defaultValue":"today"
+        "defaultValue":"'today'"
     },
     "day":{
         "dataType":"String",
-        "defaultValue":"auto"
+        "defaultValue":"'auto'"
     },
     "include-qty-info":{
         "dataType":"Boolean",
