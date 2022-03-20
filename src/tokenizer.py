@@ -169,7 +169,7 @@ class Lexer:
 
                         self.nextChar = self.__getNextChar()
 
-                        while self.nextChar not in ['"','',"'"]:
+                        while self.nextChar not in ['"','',"'",'\n']:
                             token+=self.nextChar
                             self.characterPointer+=1
 
