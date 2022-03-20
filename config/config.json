@@ -1,0 +1,7 @@
+{
+    "paths":{
+        "meta":"config\\meta.json",
+        "workout":"config\\workout.json",
+        "set":"config\\set.json"
+    }
+}

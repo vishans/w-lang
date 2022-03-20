@@ -1,0 +1,42 @@
+{
+    "id":{
+        "dataType":["Integer","String"],
+        "defaultValue":null
+    },
+    "body-weight-before":{
+        "dataType":["Kilogram"],
+        "defaultValue":null
+    },
+    "body-weight-after":{
+        "dataType":["Kilogram"],
+        "defaultValue":null
+    },
+    "start-time":{
+        "dataType":["Time","Minute", "MinuteSecond"],
+        "defaultValue":null
+    },
+    "end-time":{
+        "dataType":["Time","Minute", "MinuteSecond"],
+        "defaultValue":null
+    },
+    "duration":{
+        "dataType":["Time", "Min"],
+        "defaultValue":null
+    },
+    "session":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "mood":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "last-meal":{
+        "dataType":["Time","Date","Minute", "MinuteSecond"],
+        "defaultValue":null
+    },
+    "last-bowel-movement":{
+        "dataType":["Time","Date","Minute", "MinuteSecond"],
+        "defaultValue":null
+    }
+}

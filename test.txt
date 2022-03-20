@@ -1,0 +1,19 @@
+
+meta:
+    debug
+    debug=false
+    print-output
+    print-output 
+
+workout:
+    ff
+
+
+set:
+    "12" 123 .
+    . 12s 
+    .
+    .
+    
+    
+

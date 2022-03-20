@@ -1,0 +1,38 @@
+{
+    "exercise-name":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "rep":{
+        "dataType":["Rep","Integer"],
+        "defaultValue":null
+    },
+    "type":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "resistance-type":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "exercise-execution":{
+        "dataType":"String",
+        "defaultValue":null
+    },
+    "external-resistance":{
+        "dataType":"Kilogram",
+        "defaultValue":null
+    },
+    "percentage-execution":{
+        "dataType":"Percentage",
+        "defaultValue":null
+    },
+    "rep-duration":{
+        "dataType":["Second", "Minute", "MinuteSecond"],
+        "defaultValue":null
+    },
+    "difficulty-index":{
+        "dataType":"String",
+        "defaultValue":null
+    }
+}
