@@ -125,7 +125,7 @@ class Lexer:
                 return 'newline',tempLineCounter, tokenStartPointer
 
 
-            if self.nextChar == '"':  #special case for string
+            if self.nextChar in ['"',"'"]:  #special case for string
 
                 tokenStartPointer = self.characterPointer
                 while 1:
@@ -135,7 +135,7 @@ class Lexer:
 
                     self.nextChar = self.__getNextChar()
 
-                    if self.nextChar in ['"', '\n', '']:
+                    if self.nextChar in ['"', '\n', '',"'"]:
                         break
 
                 # loop stops at " but the quote needs to be included in the token
@@ -163,13 +163,13 @@ class Lexer:
                     self.nextChar = self.__getNextChar()
 
                     # special case for string assignment
-                    if self.nextChar == '"':
+                    if self.nextChar in ['"',"'"]:
                         token+=self.nextChar
                         self.characterPointer+=1
 
                         self.nextChar = self.__getNextChar()
 
-                        while self.nextChar not in ['"','']:
+                        while self.nextChar not in ['"','',"'"]:
                             token+=self.nextChar
                             self.characterPointer+=1
 
