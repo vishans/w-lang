@@ -6,11 +6,12 @@ meta:
     print-output 
 
 workout:
-    ff
+    id=5
+    abc='hello'
 
 
 set:
-    "12" 123 .
+    "12" 123 
     . 12s 
     .
     .
