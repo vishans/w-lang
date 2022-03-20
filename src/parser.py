@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+from matchmaking import matchAndMakeToken
 import json
 from pprint import pprint
 
@@ -35,6 +35,10 @@ class Parser:
         self.metaCounter = 0
         self.setCounter = 0
         self.workoutCounter = 0
+
+    def createDictWithTokens(self, dict):
+        for key in dict:
+            pass
 
 
     # 'pour' means 'for' in french
@@ -99,14 +103,14 @@ class Parser:
     def getVirginMeta(self):
         meta = {}
         for key in self.meta:
-            meta[key] = self.meta[key]['defaultValue']
+            meta[key] = matchAndMakeToken(str(self.meta[key]['defaultValue']),-1,-1)
 
         return meta
 
     def getVirginWorkout(self):
         workout = {}
         for key in self.workout:
-            workout[key] = self.workout[key]['defaultValue']
+            workout[key] = matchAndMakeToken(str(self.workout[key]['defaultValue']),-1,-1)
 
         return workout
 
@@ -130,7 +134,7 @@ class Parser:
     def checkForBlankedAttribute(self, clause='meta'):
         print(f'The following attributes in {clause} are required:')
         for key in self.tree[clause]:
-            if self.tree[clause][key] == None:
+            if self.tree[clause][key] == TC.Nothing:
                 print('\t'+key)
 
         
@@ -186,7 +190,7 @@ class Parser:
                     var = self.getFirstOccurenceOfVarFromDT(className, dTypeMap)
                     self.removeFromDataTypeMap(var,dTypeMap)
                     
-                    self.tree['meta'][var] = currentToken.getValue()
+                    self.tree['meta'][var] = currentToken
                 else:
                     value = currentToken.getLiteral()
                     
@@ -200,7 +204,7 @@ class Parser:
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
                         # if this is the case
-                        self.tree['meta'][var] = value.getValue() #value is actually a Token
+                        self.tree['meta'][var] = value #value is actually a Token
 
                         # remove the var from dtype
                         self.removeFromDataTypeMap(var,dTypeMap)
@@ -264,7 +268,7 @@ class Parser:
                    
                     var = self.getFirstOccurenceOfVarFromDT(className, dTypeMap)
                     self.removeFromDataTypeMap(var,dTypeMap,'workout')
-                    value = currentToken.getValue()
+                    value = currentToken
                     self.tree['workout'][var] = value
                 else:
                     value = currentToken.getLiteral()
@@ -280,7 +284,7 @@ class Parser:
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
                         # if this is the case
-                        self.tree['workout'][var] = value.getValue() #value is actually a Token, .value is the Token's attribute
+                        self.tree['workout'][var] = value 
 
                         # remove the var from dtype
                         self.removeFromDataTypeMap(var,dTypeMap, 'workout')
