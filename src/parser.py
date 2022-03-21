@@ -13,9 +13,11 @@ class Parser:
         self.meta = json.load(open(config['paths']['meta'], 'r'))
         self.workout = json.load(open(config['paths']['workout'], 'r'))
         self.set = json.load(open(config['paths']['set'], 'r'))
+        self.exercises = json.load(open(config['paths']['exercises'], 'r'))
 
         self.metaDTypeMap = self.makeDataTypeMap()
         self.workoutDTypeMap = self.makeDataTypeMap('workout')
+        self.setDTypeMap = self.makeDataTypeMap('set')
 
         
         self.tokenStream = tokens
@@ -50,7 +52,8 @@ class Parser:
         if pour == 'workout':
             clause = self.workout
 
-
+        if pour == 'set':
+            clause = self.set
 
         for key in clause:
             
@@ -77,8 +80,10 @@ class Parser:
 
         if pour == 'workout':
             lookup = self.workout
-            # pprint(lookup)
-
+        
+        if pour == 'set':
+            lookup = self.set
+           
         dataTypeList = lookup[var]['dataType'] if isinstance(lookup[var]['dataType'],list) else [lookup[var]['dataType']]
 
         for dt in dataTypeList:
@@ -117,7 +122,7 @@ class Parser:
     def getVirginSet(self):
         set = {}
         for key in self.set:
-            set[key] = self.set[key]['defaultValue']
+            set[key] = matchAndMakeToken(str(self.set[key]['defaultValue']),-1,-1)
 
         return set
 
@@ -301,9 +306,138 @@ class Parser:
                             print(f'All attributes of type <{className}> have been assigned')
 
 
+    def parseSets(self):
+        currentSet = self.getVirginSet()
+        dTypeMap = self.makeDataTypeMap('set')
+        currentToken = self.getNextToken()
+        workoutTokenList = []
+        while currentToken != TC.EndofClause:
+            workoutTokenList.append(currentToken)
+            currentToken = self.getNextToken()
+
+        # re-order the list so that Assignment Tokens are at the begining
+        # but the first element which could either a string or a dot stays there
+        listOfExercisesInOneSet = []
+        temp = []
+        result = []
+        for token in workoutTokenList:
+            if token == TC.EndofClause:
+                break
+
+            if token != TC.EndofLine:
+                temp.append(token)
+            else:
+                temp.append(token)
+                firstElement, rest = temp[0],temp[1:]
+                temp = sorted(rest, key = lambda token: -1 if token == TC.Assignment else 1)
+                temp = [firstElement] + temp
+                result.extend(temp)
+               
+                temp = []
+
+        
+        
+        for currentToken in result:
+            if currentToken == TC.EndofLine:
+               
+                listOfExercisesInOneSet.append(currentSet)
+                currentSet = self.getVirginSet()
+                dTypeMap = self.makeDataTypeMap('set')
+                
+
+                continue
+
+            if currentToken == TC.Dot:
+                print('Dot is not allowed inside workout clause')
+
+            if currentToken == TC.Variable:
+                var = currentToken.getLiteral()
+               
+                if var in self.set:
+                    if 'Boolean' in dTypeMap:
+                        if var in dTypeMap['Boolean']:
+                            currentSet[var] = True
+
+                            self.removeFromDataTypeMap(var,dTypeMap,'set')
+                            continue
+                        
+                    if 'Boolean' in self.set[var]['dataType']:      
+                        print(f"You are trying to re-assign attibute <{var}>")
+                    else:
+                        print(f'Attribute <{var}> is not a Boolean')
+                else:
+                    print(f'Attribute {var} does not exist in set')
+
+                continue
+
+            # print(currentToken)
+            if currentToken != TC.Assignment:
+                className = type(currentToken).__name__
+                if className in dTypeMap:
+                   
+                    var = self.getFirstOccurenceOfVarFromDT(className, dTypeMap)
+                    print('---')
+                    print(var)
+                    if var in self.set:
+                        value = currentToken
+
+                        if var == 'exercise-name':
+                            #check if execercise exists in exercise.json
+                            currentSet[var] = value
+                            self.updateSetDict(currentSet,value.getValue())
+                        else:
+                            currentSet[var] = value
+
+                        self.removeFromDataTypeMap(var,dTypeMap,'set')
+                   
+                else:
+                    value = currentToken.getLiteral()
+                    
+                    print(f'No attribute accepts this value {value}')
+                    print(className)
+                    if className in self.setDTypeMap:
+                        print(f'All attributes of type <{className}> have been assigned')
+            else:
+                
+                var, value = currentToken.lv , currentToken.rv
+                className = type(value).__name__
+                # check if var is present in dtype map
+                if className in dTypeMap:
+                    if var in dTypeMap[className]:
+                        # if this is the case
+                        currentSet[var] = value 
+
+                        # remove the var from dtype
+                        self.removeFromDataTypeMap(var,dTypeMap, 'set')
+                    else:
+                        if var in self.set:
+                            print(f"You're trying to re-assign the attribute <{var}>  with value <{value}>.")
+                        else:
+                            print(f'the attribute <{var}> does not exist')
+                else:
+                        value = currentToken.getLiteral()
+
+                        print(f'No attribute accepts this value {value}')
+                        if className in self.settDTypeMap:
+                            print(f'All attributes of type <{className}> have been assigned')
+
+        self.tree['sets'].append(listOfExercisesInOneSet)
 
 
+    def updateSetDict(self, setDict, exercise_name):
+        try:
+            execiseDict = self.exercises[exercise_name]
+            for key in execiseDict:
+                if key in setDict:
+                    setDict[key] = matchAndMakeToken(str(execiseDict[key]),-1,-1)
 
+                else:
+                    print('Attribute does not exist in set')
+
+            return True
+        except:
+            print('Exercise not found')
+            return False
             
             
 
@@ -315,19 +449,30 @@ class Parser:
             if currentToken == TC.Meta:
                 self.metaCounter += 1
                 self.parseMeta()
+                currentToken = self.getNextToken()
+
 
 
             if currentToken == TC.Workout:
-                print('                             inside')
                 self.workoutCounter += 1
                 self.parseWorkout()
+                currentToken = self.getNextToken()
 
 
-            currentToken = self.getNextToken()
+            
+            if currentToken == TC.Set:
+                while currentToken != TC.EndofFile:
+                    self.setCounter += 1
+                    self.parseSets()
+                    currentToken = self.getNextToken()
 
 
-        self.checkForBlankedAttribute()
-        self.checkForBlankedAttribute('workout')
+
+            # currentToken = self.getNextToken()
+
+
+        # self.checkForBlankedAttribute()
+        # self.checkForBlankedAttribute('workout')
         
             
 

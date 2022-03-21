@@ -7,15 +7,15 @@
         "dataType":["Rep","Integer"],
         "defaultValue":null
     },
+    "exercise-execution":{
+        "dataType":"String",
+        "defaultValue":null
+    },
     "type":{
         "dataType":"String",
         "defaultValue":null
     },
     "resistance-type":{
-        "dataType":"String",
-        "defaultValue":null
-    },
-    "exercise-execution":{
         "dataType":"String",
         "defaultValue":null
     },
@@ -32,7 +32,7 @@
         "defaultValue":null
     },
     "difficulty-index":{
-        "dataType":"String",
+        "dataType":"Integer",
         "defaultValue":null
     }
 }
