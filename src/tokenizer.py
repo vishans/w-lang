@@ -295,7 +295,7 @@ class Lexer:
             while token not in ['newline', 'eof']:
                 if not isinstance(returnedObject := matchAndMakeToken(token, line, start), TC.Error):
                     if token == '.':
-                            return 'Dot not allowed'
+                            return TC.DotNotAllowed(token,line, start)
                     tokens.append(returnedObject)
                 else:
                     return returnedObject
@@ -394,7 +394,7 @@ class Lexer:
 
                     if not isinstance(returnedObject := matchAndMakeToken(token, line, start), TC.Error):
                         if token == '.':
-                            return 'Dot not allowed'
+                            return TC.DotNotAllowed(token,line, start)
                         tokens.append(returnedObject)
                     else:
                         return returnedObject
@@ -495,13 +495,7 @@ if __name__ == '__main__':
     #     print(t.getNextToken())
 
     # print(t.getNextToken())
-    def f(x):
-        if x == TC.Assignment:
-            return -1
-
-        else:
-            return 1
-
+    
     l = t.tokenize2()
     pprint(l)
     # for i in range(3):

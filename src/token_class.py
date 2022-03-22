@@ -310,6 +310,9 @@ class Error(Token):
     def __init__(self,*args) -> None:
         super().__init__(*args)
 
+    def __bool__(self):
+        return False
+
     def __repr__(self) -> str:
         return f'Error({self.literal}) at line {self.line} at position {self.start}'
 
@@ -413,11 +416,19 @@ class NoAttributeAcceptThisValue(Error):
        
 
     def __repr__(self) -> str:
-        return f'''No Attribute Accept ThisValue
+        return f'''No Attribute Accept This Value
            No attribute accepts the value <{self.literal}> on line {self.line}'''
 
 
+class DotNotAllowed(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
 
+    def __repr__(self) -> str:
+        return f'''Dot Not Allowed
+           Illegal Dot on line {self.line} at position {self.start}'''
 
         
 

@@ -245,7 +245,7 @@ class Parser:
                 continue
 
             if currentToken == TC.Dot:
-                print('Dot is not allowed inside workout clause')
+                return TC.DotNotAllowedError(*currentToken.getAll(),'workout')
 
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
@@ -259,11 +259,11 @@ class Parser:
                             continue
                         
                     if 'Boolean' in self.workout[var]['dataType']:      
-                        print(f"You are trying to re-assign attibute <{var}>")
+                        TC.ReAssignmentError(*currentToken.getAll(),'true')
                     else:
-                        print(f'Attribute <{var}> is not a Boolean')
+                        TC.NotABoolean(*currentToken.getAll())
                 else:
-                    print(f'Attribute {var} does not exist in workout')
+                    TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
 
                 continue
 
@@ -279,10 +279,11 @@ class Parser:
                 else:
                     value = currentToken.getLiteral()
                     
-                    print(f'No attribute accepts this value {value}')
-                    print(className)
+                   
                     if className in self.workoutDTypeMap:
                         print(f'All attributes of type <{className}> have been assigned')
+
+                    return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
             else:
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
@@ -296,15 +297,17 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'workout')
                     else:
                         if var in self.workout:
-                            print(f"You're trying to re-assign the attribute <{var}>  with value <{value}>.")
+                            return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
-                            print(f'the attribute <{var}> does not exist')
+                            TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
                 else:
                         value = currentToken.getLiteral()
 
-                        print(f'No attribute accepts this value {value}')
+                        
                         if className in self.workoutDTypeMap:
                             print(f'All attributes of type <{className}> have been assigned')
+
+                        return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
 
 
     def parseSets(self):
@@ -341,7 +344,7 @@ class Parser:
         
         for currentToken in result:
             if currentToken == TC.EndofLine:
-                prevLine = currentLine
+                prevLine = deepcopy(currentLine)
                 listOfExercisesInOneSet.append(currentLine)
                 currentLine = self.getVirginSet()
                 dTypeMap = self.makeDataTypeMap('set')
@@ -351,7 +354,7 @@ class Parser:
 
             if currentToken == TC.Dot:
                 if prevLine:
-                    currentLine = prevLine
+                    currentLine = deepcopy(prevLine)
                     self.removeFromDataTypeMap('exercise-name',dTypeMap,'set')
 
                 else:
@@ -490,15 +493,22 @@ class Parser:
 from tokenizer import Lexer
 
 l = Lexer()
-p = Parser(l.tokenize2())
-print(p.parse())
-# pprint(p.tree,sort_dicts=False)
+if (r := l.tokenize2()):
+    print(r)
+    p = Parser(r)
+    print(p.parse())
+    pprint(p.tree,sort_dicts=False)
+
+else:
+    print(r)
+
+# if not TC.Error(-1,-1,-1):
+#     print('hello')
+#     print(TC.ClauseError(-1,-1,-1) == TC.Error)
+#     print(bool(TC.ClauseError(-1,-1,-1)))
+#     print(bool(TC.Token(1,1,1)))
 
 
-
-
-
-   
 
 
 
