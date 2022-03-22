@@ -307,10 +307,11 @@ class Parser:
 
 
     def parseSets(self):
-        currentSet = self.getVirginSet()
+        currentLine = self.getVirginSet()
         dTypeMap = self.makeDataTypeMap('set')
         currentToken = self.getNextToken()
         workoutTokenList = []
+        prevLine = None
         while currentToken != TC.EndofClause:
             workoutTokenList.append(currentToken)
             currentToken = self.getNextToken()
@@ -339,16 +340,22 @@ class Parser:
         
         for currentToken in result:
             if currentToken == TC.EndofLine:
-               
-                listOfExercisesInOneSet.append(currentSet)
-                currentSet = self.getVirginSet()
+                prevLine = currentLine
+                listOfExercisesInOneSet.append(currentLine)
+                currentLine = self.getVirginSet()
                 dTypeMap = self.makeDataTypeMap('set')
                 
 
                 continue
 
             if currentToken == TC.Dot:
-                print('Dot is not allowed inside workout clause')
+                if prevLine:
+                    print(f' prev exer = {prevLine}')
+                    currentLine = prevLine
+                    self.removeFromDataTypeMap('exercise-name',dTypeMap,'set')
+
+                else:
+                    print('Dot is not allowed on the first line of a clause')
 
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
@@ -356,7 +363,7 @@ class Parser:
                 if var in self.set:
                     if 'Boolean' in dTypeMap:
                         if var in dTypeMap['Boolean']:
-                            currentSet[var] = True
+                            currentLine[var] = True
 
                             self.removeFromDataTypeMap(var,dTypeMap,'set')
                             continue
@@ -383,10 +390,10 @@ class Parser:
 
                         if var == 'exercise-name':
                             #check if execercise exists in exercise.json
-                            currentSet[var] = value
-                            self.updateSetDict(currentSet,value.getValue())
+                            currentLine[var] = value
+                            self.updateSetDict(currentLine,value.getValue())
                         else:
-                            currentSet[var] = value
+                            currentLine[var] = value
 
                         self.removeFromDataTypeMap(var,dTypeMap,'set')
                    
@@ -405,7 +412,7 @@ class Parser:
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
                         # if this is the case
-                        currentSet[var] = value 
+                        currentLine[var] = value 
 
                         # remove the var from dtype
                         self.removeFromDataTypeMap(var,dTypeMap, 'set')
