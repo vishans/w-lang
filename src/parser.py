@@ -2,8 +2,8 @@ from copy import deepcopy
 from matchmaking import matchAndMakeToken
 import json
 from pprint import pprint
-
 import token_class as TC
+from sys import exit
 
 class Parser:
     CONFIG = r'config\config.json'
@@ -164,7 +164,7 @@ class Parser:
                 continue
 
             if currentToken == TC.Dot:
-                print('Dot is not allowed inside meta clause')
+                return TC.DotNotAllowedError(*currentToken.getAll(),'meta')
 
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
@@ -178,11 +178,11 @@ class Parser:
                             continue
                         
                     if 'Boolean' in self.meta[var]['dataType']:      
-                        print(f"You are trying to re-assign attibute <{var}>")
+                        return TC.ReAssignmentError(*currentToken.getAll(),'true')
                     else:
-                        print(f'Attribute <{var}> is not a Boolean')
+                        return TC.NotABoolean(*currentToken.getAll())
                 else:
-                    print(f'Attribute {var} does not exist in meta')
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(), 'meta')
 
                 continue
 
@@ -199,9 +199,10 @@ class Parser:
                 else:
                     value = currentToken.getLiteral()
                     
-                    print(f'No attribute accepts this value {value}')
                     if className in self.metaDTypeMap:
                         print(f'All attributes of type <{className}> have been assigned')
+                        
+                    return TC.NoAttributeAcceptThisValue(*currentToken.getLiteral())
             else:
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
@@ -215,15 +216,15 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap)
                     else:
                         if var in self.meta:
-                            print(f"You're trying to re-assign the attribute <{var}> with value <{value}>.")
+                            return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
-                            print(f'the attribute <{var}> does not exist')
+                            return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
                 else:
-                    value = currentToken.getLiteral()
-                    print(f'No attribute accepts this value {value}')
+                    # value = currentToken.getLiteral()
                     if className in self.metaDTypeMap:
                         print(f'All attributes of type <{className}> have been assigned')
 
+                    return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
 
     def parseWorkout(self):
         
@@ -350,7 +351,6 @@ class Parser:
 
             if currentToken == TC.Dot:
                 if prevLine:
-                    print(f' prev exer = {prevLine}')
                     currentLine = prevLine
                     self.removeFromDataTypeMap('exercise-name',dTypeMap,'set')
 
@@ -455,7 +455,9 @@ class Parser:
         while currentToken != TC.EndofFile:
             if currentToken == TC.Meta:
                 self.metaCounter += 1
-                self.parseMeta()
+                if (r :=self.parseMeta()) == TC.Error:
+                    return r
+
                 currentToken = self.getNextToken()
 
 
@@ -489,8 +491,8 @@ from tokenizer import Lexer
 
 l = Lexer()
 p = Parser(l.tokenize2())
-p.parse()
-pprint(p.tree,sort_dicts=False)
+print(p.parse())
+# pprint(p.tree,sort_dicts=False)
 
 
 

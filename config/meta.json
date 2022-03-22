@@ -30,6 +30,10 @@
     "print-output":{
         "dataType":"Boolean",
         "defaultValue":"false"
+    },
+    "strict":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
     }
     
 }

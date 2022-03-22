@@ -15,6 +15,9 @@ class Token:
     def getLiteral(self):
         return self.literal
 
+    def getAll(self):
+        return self.literal,self.line,self.start
+
     def __eq__(self, __o: object) -> bool:
         return isinstance(self,__o)
 
@@ -362,6 +365,61 @@ class EmptyClauseError(Error):
     def __repr__(self) -> str:
         return f'''Empty Clause Error
             A clause cannot be empty (line {self.line})'''
+
+# parser error 
+
+class DotNotAllowedError(Error):
+    def __init__(self, token, line, start, clause) -> None:
+        super().__init__(token, line, start)
+        self.clause = clause
+
+    def __repr__(self) -> str:
+        return f'''Dot Not Allowed Error
+            Dot is not allowed in {self.clause} on line {self.line}'''
+
+
+class ReAssignmentError(Error):
+    def __init__(self, token, line, start,with_='') -> None:
+        super().__init__(token, line, start)
+        self.with_ = with_
+
+    def __repr__(self) -> str:
+        return f'''Re-assignment Error
+            f"You are trying to re-assign attibute <{self.literal}> with value <{self.with_}> on line {self.line}'''
+
+
+class AttributeDoesNotExist(Error):
+    def __init__(self, token, line, start, clause) -> None:
+        super().__init__(token, line, start)
+        self.clause = clause
+
+    def __repr__(self) -> str:
+        return f'''Attribute Does Not Exist
+           Attribute <{self.literal}> does not exist in {self.clause} on line {self.line}'''
+
+class NotABoolean(Error):
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Not A Boolean
+           Attribute <{self.literal}> is not a Boolean on line {self.line}'''
+
+
+class NoAttributeAcceptThisValue(Error):
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''No Attribute Accept ThisValue
+           No attribute accepts the value <{self.literal}> on line {self.line}'''
+
+
+
+
+        
 
 
 class Newline(Token):
