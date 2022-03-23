@@ -64,6 +64,15 @@ class Variable(Token):
     def __repr__(self) -> str:
         return f'Variable <{self.literal}> at line {self.line} at position {self.start}'
 
+class NaN(Token):
+    RegexPattern = r'''^NaN$'''
+
+    def __init__(self, token, line,start) -> None:
+        super().__init__( token, line,start)
+        
+
+    def __repr__(self) -> str:
+        return f'NaN at line {self.line} at position {self.start}'
     
 
 
@@ -126,7 +135,7 @@ class Percentage(Quantity):
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
         self.value = token[:-1]
-        print(self.value)
+       
 
     def __repr__(self) -> str:
         return f'Percentage <{self.literal}> at line {self.line} at position {self.start}'
@@ -145,7 +154,7 @@ class Kilogram(Quantity):
 
 
 class Second(Quantity):
-    RegexPattern = r'^(([1-9][0-9]*s)|([0]s)|(:[0-5][0-9]))$'
+    RegexPattern = r'^(([1-9][0-9]*s)|(0s)|(:[0-5][0-9]))$'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
@@ -302,6 +311,9 @@ class Time(Token):
 
     def __repr__(self) -> str:
         return f'Time <{self.literal}> at line {self.line} at position {self.start} '
+
+
+
 
 
 # errors
