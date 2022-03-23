@@ -145,6 +145,31 @@ class Parser:
             if self.tree[clause][key] == TC.Nothing:
                 print('\t'+key)
 
+    def checkForBlankAttributesInSet(self):
+        for i, set_ in enumerate(self.tree['sets']):
+           
+            headerPrinted = False
+            valid = True
+            for j, exercise in enumerate(set_):
+                exercisePrinted = False
+                for  key in exercise:
+                    token = exercise[key]
+                    if token == TC.Nothing:
+                        valid = False
+                        if not headerPrinted:
+                            print(f'In set {i+1}, these attributes are required')
+                            headerPrinted = True
+
+                        if not exercisePrinted:
+                            print(f'\tIn exercise {j+1}')
+                            exercisePrinted = True
+
+
+                        print(f'\t\t{key}')
+
+        
+        return valid
+
         
 
 
@@ -493,6 +518,8 @@ class Parser:
         # self.checkForBlankedAttribute()
         # self.checkForBlankedAttribute('workout')
         
+        self.checkForBlankAttributesInSet()
+        
             
 
 
@@ -504,7 +531,7 @@ if (r := l.tokenize2()):
     # print(r)
     p = Parser(r)
     print(f' ====> {p.parse()}')
-    pprint(p.tree,sort_dicts=False)
+    # pprint(p.tree,sort_dicts=False)
 
 else:
     print(r)
