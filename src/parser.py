@@ -41,6 +41,9 @@ class Parser:
 
         self.strict = False
 
+        # set warning cache
+        self.setWarningCache = {}
+
     def createDictWithTokens(self, dict):
         for key in dict:
             pass
@@ -113,6 +116,15 @@ class Parser:
         for key in self.meta:
             meta[key] = matchAndMakeToken(str(self.meta[key]['defaultValue']),-1,-1)
 
+            listOfDT = (self.meta[key]['dataType']) if isinstance(self.meta[key]['dataType'],list) else [self.meta[key]['dataType']]
+            listOfDT.extend(['Nothing'])
+            # print(listOfDT)
+            # input()
+            if type(meta[key]).__name__ not in listOfDT:
+                print(f'Warning: Attribute {key} does not accept type {type(meta[key]).__name__ }')
+                print('Please check meta.json file.')
+                print()
+
         return meta
 
     def getVirginWorkout(self):
@@ -120,12 +132,31 @@ class Parser:
         for key in self.workout:
             workout[key] = matchAndMakeToken(str(self.workout[key]['defaultValue']),-1,-1)
 
+            listOfDT = (self.workout[key]['dataType']) if isinstance(self.workout[key]['dataType'],list) else [self.workout[key]['dataType']]
+            listOfDT.extend(['Nothing'])
+            # print(listOfDT)
+            # input()
+            if type(workout[key]).__name__ not in listOfDT:
+                print(f'Warning: Attribute {key} does not accept type {type(workout[key]).__name__ }')
+                print('Please check meta.json file.')
+                print()
+
         return workout
 
     def getVirginSet(self):
         set = {}
         for key in self.set:
             set[key] = matchAndMakeToken(str(self.set[key]['defaultValue']),-1,-1)
+            listOfDT = (self.set[key]['dataType']) if isinstance(self.set[key]['dataType'],list) else [self.set[key]['dataType']]
+            listOfDT.extend(['Nothing'])
+            # print(listOfDT)
+            # input()
+            if type(set[key]).__name__ not in listOfDT and key not in self.setWarningCache:
+                self.setWarningCache[key] = 69
+                print(f'Warning: Attribute {key} does not accept type {type(set[key]).__name__ }')
+                print('Check your exercises.json and/or set.json files.')
+
+                print()
 
         return set
 
@@ -389,6 +420,8 @@ class Parser:
                 else:
                     return TC.DotNotAllowedError(*currentToken.getAll())
 
+            
+
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
                
@@ -462,6 +495,7 @@ class Parser:
                         return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
 
         self.tree['sets'].append(listOfExercisesInOneSet)
+        
 
 
     def updateSetDict(self, setDict, exercise_name):
@@ -470,6 +504,15 @@ class Parser:
             for key in execiseDict:
                 if key in setDict:
                     setDict[key] = matchAndMakeToken(str(execiseDict[key]),-1,-1)
+                    listOfDT = (self.set[key]['dataType']) if isinstance(self.set[key]['dataType'],list) else [self.set[key]['dataType']]
+                    listOfDT.extend(['Nothing'])
+                    # print(listOfDT)
+                    # input()
+
+                    if type(setDict[key]).__name__ not in listOfDT:
+                        print(f'Warning: Attribute <{key}> does not accept type {type(setDict[key]).__name__}.')
+                        print('Check your exercises.json and/or set.json files.')
+                        print()
 
                 else:
                     print('Attribute does not exist in set')
@@ -515,8 +558,8 @@ class Parser:
             # currentToken = self.getNextToken()
 
 
-        # self.checkForBlankedAttribute()
-        # self.checkForBlankedAttribute('workout')
+        self.checkForBlankedAttribute()
+        self.checkForBlankedAttribute('workout')
         
         self.checkForBlankAttributesInSet()
         
@@ -531,7 +574,7 @@ if (r := l.tokenize2()):
     # print(r)
     p = Parser(r)
     print(f' ====> {p.parse()}')
-    # pprint(p.tree,sort_dicts=False)
+    pprint(p.tree,sort_dicts=False)
 
 else:
     print(r)
