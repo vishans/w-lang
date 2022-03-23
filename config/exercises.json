@@ -1,6 +1,9 @@
 {
     "bicep curl":{
         "type":"'Hypertrophy'",
-        "difficulty-index": 5
+        "exercise-execution":"'Normal'",      
+        "resistance-type": "'Barbel'" ,       
+        "percentage-execution":"100%",  
+        "rep-duration":"0s"
     }
 }

@@ -9,30 +9,30 @@
     },
     "exercise-execution":{
         "dataType":"String",
-        "defaultValue":null
-    },
-    "type":{
-        "dataType":"String",
-        "defaultValue":null
+        "defaultValue":"'Normal'"
     },
     "resistance-type":{
         "dataType":"String",
-        "defaultValue":null
+        "defaultValue":"'Barbel'"
+    },
+    "type":{
+        "dataType":"String",
+        "defaultValue":"'Hypertrophy'"
     },
     "external-resistance":{
         "dataType":"Kilogram",
-        "defaultValue":null
+        "defaultValue":"0kg"
     },
     "percentage-execution":{
         "dataType":"Percentage",
-        "defaultValue":null
+        "defaultValue":"100%"
     },
     "rep-duration":{
-        "dataType":["Second", "Minute", "MinuteSecond"],
-        "defaultValue":null
+        "dataType":["Second", "Minute", "MinuteSecond","NaN"],
+        "defaultValue":"NaN"
     },
     "difficulty-index":{
         "dataType":"Integer",
-        "defaultValue":null
+        "defaultValue":0
     }
 }
