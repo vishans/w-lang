@@ -58,6 +58,9 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
         return TC.Boolean(token, *others)
 
     # quantity
+    # NaN
+    if validate(token, TC.NaN.RegexPattern):
+        return TC.NaN(token, *others)
 
     # percentage
     if validate(token, TC.Percentage.RegexPattern):
@@ -92,6 +95,8 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
 
     
 
+    
+
 
 
 
@@ -105,5 +110,5 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     
 if __name__ == '__main__':
 
-    print(matchAndMakeToken(str(None), 1,1))
+    print(matchAndMakeToken(str("'hello"), 1,1))
     
