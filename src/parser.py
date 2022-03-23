@@ -38,6 +38,9 @@ class Parser:
         self.setCounter = 0
         self.workoutCounter = 0
 
+
+        self.strict = False
+
     def createDictWithTokens(self, dict):
         for key in dict:
             pass
@@ -356,9 +359,10 @@ class Parser:
                 if prevLine:
                     currentLine = deepcopy(prevLine)
                     self.removeFromDataTypeMap('exercise-name',dTypeMap,'set')
+                    continue
 
                 else:
-                    print('Dot is not allowed on the first line of a clause')
+                    return TC.DotNotAllowedError(*currentToken.getAll())
 
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
@@ -372,11 +376,11 @@ class Parser:
                             continue
                         
                     if 'Boolean' in self.set[var]['dataType']:      
-                        print(f"You are trying to re-assign attibute <{var}>")
+                        return TC.ReAssignmentError(*currentToken.getAll(),'true')
                     else:
-                        print(f'Attribute <{var}> is not a Boolean')
+                        TC.NotABoolean(*currentToken.getAll())
                 else:
-                    print(f'Attribute {var} does not exist in set')
+                    return TC.AttributeDoesNotExist(*currentToken.getAll())
 
                 continue
 
@@ -386,27 +390,26 @@ class Parser:
                 if className in dTypeMap:
                    
                     var = self.getFirstOccurenceOfVarFromDT(className, dTypeMap)
-                    print('---')
-                    print(var)
+                
                     if var in self.set:
                         value = currentToken
 
                         if var == 'exercise-name':
                             #check if execercise exists in exercise.json
                             currentLine[var] = value
-                            self.updateSetDict(currentLine,value.getValue())
+                            if not self.updateSetDict(currentLine,value.getValue()) and self.strict:
+                                return TC.ExerciseNotFound(*currentToken.getAll())
                         else:
                             currentLine[var] = value
 
                         self.removeFromDataTypeMap(var,dTypeMap,'set')
                    
                 else:
-                    value = currentToken.getLiteral()
                     
-                    print(f'No attribute accepts this value {value}')
-                    print(className)
                     if className in self.setDTypeMap:
                         print(f'All attributes of type <{className}> have been assigned')
+
+                    return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
             else:
                 
                 var, value = currentToken.lv , currentToken.rv
@@ -421,15 +424,17 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'set')
                     else:
                         if var in self.set:
-                            print(f"You're trying to re-assign the attribute <{var}>  with value <{value}>.")
+                            return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
-                            print(f'the attribute <{var}> does not exist')
+                            return TC.AttributeDoesNotExist(*currentToken.getAll())
                 else:
                         value = currentToken.getLiteral()
 
-                        print(f'No attribute accepts this value {value}')
+                        
                         if className in self.settDTypeMap:
                             print(f'All attributes of type <{className}> have been assigned')
+
+                        return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
 
         self.tree['sets'].append(listOfExercisesInOneSet)
 
@@ -446,7 +451,7 @@ class Parser:
 
             return True
         except:
-            print('Exercise not found')
+            
             return False
             
             
@@ -467,7 +472,8 @@ class Parser:
 
             if currentToken == TC.Workout:
                 self.workoutCounter += 1
-                self.parseWorkout()
+                if (r :=self.parseWorkout()) == TC.Error:
+                    return r
                 currentToken = self.getNextToken()
 
 
@@ -475,7 +481,8 @@ class Parser:
             if currentToken == TC.Set:
                 while currentToken != TC.EndofFile:
                     self.setCounter += 1
-                    self.parseSets()
+                    if (r :=self.parseSets()) == TC.Error:
+                        return r
                     currentToken = self.getNextToken()
 
 
@@ -494,9 +501,9 @@ from tokenizer import Lexer
 
 l = Lexer()
 if (r := l.tokenize2()):
-    print(r)
+    # print(r)
     p = Parser(r)
-    print(p.parse())
+    print(f' ====> {p.parse()}')
     pprint(p.tree,sort_dicts=False)
 
 else:

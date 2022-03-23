@@ -430,6 +430,18 @@ class DotNotAllowed(Error):
         return f'''Dot Not Allowed
            Illegal Dot on line {self.line} at position {self.start}'''
 
+
+class ExerciseNotFound(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Exercise Not Found
+           Exercise <{self.value}> on line {self.line} was not found'''
+
+
         
 
 
