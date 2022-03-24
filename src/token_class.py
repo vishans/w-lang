@@ -18,6 +18,9 @@ class Token:
     def getAll(self):
         return self.literal,self.line,self.start
 
+    def __str__(self) -> str:
+        return self.literal
+
     def __eq__(self, __o: object) -> bool:
         return isinstance(self,__o)
 
@@ -82,6 +85,10 @@ class String(Token):
     def __init__(self, token, line,start) -> None:
         super().__init__( token, line,start)
         self.value = self.literal[1:-1]
+
+
+    def __str__(self) -> str:
+        return self.value
 
     def __repr__(self) -> str:
         return f'String <{self.literal}> at line {self.line} at position {self.start}'
