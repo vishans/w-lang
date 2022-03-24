@@ -4,5 +4,10 @@
         "workout":"config\\workout.json",
         "set":"config\\set.json",
         "exercises":"config\\exercises.json"
+    },
+    "interpreter":{
+        "order":{
+            "meta":["date","day","debug"]
+        }
     }
 }
