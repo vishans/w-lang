@@ -1,6 +1,5 @@
 
 from tokenize import Token
-from regex_pattern import RegexPattern as RP
 import re
 import token_class as TC
 
