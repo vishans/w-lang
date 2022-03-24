@@ -33,6 +33,13 @@ class Rep(Token):
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+        self.begin, self.end = [int(i) for i in self.literal.split('-')]
+
+    def getStart(self):
+        return self.begin
+
+    def getEnd(self):
+        return self.end
 
     def __repr__(self) -> str:
         return f'Rep <{self.literal}> at line {self.line} at position {self.start}'
