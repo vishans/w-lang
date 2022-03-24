@@ -1,5 +1,4 @@
 import re
-from regex_pattern import RegexPattern
 import token_class as TC
 from pprint import pprint
 from matchmaking import matchAndMakeToken

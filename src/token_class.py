@@ -1,4 +1,3 @@
-from regex_pattern import RegexPattern
 from datetime import date, time, timedelta
 
 
