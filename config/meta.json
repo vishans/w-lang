@@ -34,6 +34,10 @@
     "strict":{
         "dataType":"Boolean",
         "defaultValue":"false"
+    },
+    "pass":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
     }
     
 }
