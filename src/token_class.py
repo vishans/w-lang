@@ -341,6 +341,9 @@ class Error(Token):
     def __repr__(self) -> str:
         return f'Error({self.literal}) at line {self.line} at position {self.start}'
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
 
 class UnknownToken(Error):
     def __init__(self, token, line, start) -> None:
