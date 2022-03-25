@@ -154,3 +154,5 @@ cython_debug/
 #
 src/test.py
 test.txt
+
+test/
