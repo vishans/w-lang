@@ -376,6 +376,7 @@ class Parser:
         workoutTokenList = []
         prevLine = None
         while currentToken != TC.EndofClause:
+            
             workoutTokenList.append(currentToken)
             currentToken = self.getNextToken()
 
@@ -535,26 +536,45 @@ class Parser:
                     return r
 
                 currentToken = self.getNextToken()
-
-
-
-            if currentToken == TC.Workout:
-                self.workoutCounter += 1
-                if (r :=self.parseWorkout()) == TC.Error:
-                    return r
-                currentToken = self.getNextToken()
-
-
-            
-            if currentToken == TC.Set:
-                while currentToken != TC.EndofFile:
-                    self.setCounter += 1
-                    if (r :=self.parseSets()) == TC.Error:
+                
+                if currentToken == TC.Workout:
+                    
+                    self.workoutCounter += 1
+                    if (r :=self.parseWorkout()) == TC.Error:
                         return r
                     currentToken = self.getNextToken()
 
+                    # if currentToken == TC.Set:
+                    while currentToken != TC.EndofFile:
+                        if currentToken == TC.Meta or currentToken == TC.Workout:
+                            print('Expected set clause')
+                            return
+
+                        self.setCounter += 1
+                        if (r :=self.parseSets()) == TC.Error:
+                            return r
+                        currentToken = self.getNextToken()
+                    # else:
+                    #     print('Expected a set clause')
+                    #     return
+
+                else:
+                    
+                    print('Expected a workout clause')
+                    return
 
 
+
+
+
+
+            else:
+                print('Expected a meta clause')
+                return
+
+
+
+           
             # currentToken = self.getNextToken()
 
 
@@ -574,7 +594,7 @@ if __name__ == "__main__":
         # print(r)
         p = Parser(r)
         print(f' ====> {p.parse()}')
-        pprint(p.tree,sort_dicts=False)
+        # pprint(p.tree,sort_dicts=False)
 
     else:
         print(r)
