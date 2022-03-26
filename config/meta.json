@@ -27,6 +27,10 @@
         "dataType":"String",
         "defaultValue":null
     },
+    "csv":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
+    },
     "print-output":{
         "dataType":"Boolean",
         "defaultValue":"false"

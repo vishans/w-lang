@@ -8,7 +8,9 @@
     "interpreter":{
         "order":{
             "meta":["date","day","debug"],
-            "sets":["exercise-name","external-resistance"]
+            "sets":["exercise-name","external-resistance"],
+            "workout":["id","body-weight-before"]
+
         }
     }
 }
