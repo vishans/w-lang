@@ -14,6 +14,12 @@ class Token:
     def getLiteral(self):
         return self.literal
 
+    def getLine(self):
+        return self.line
+
+    def getStart(self):
+        return self.start
+
     def getAll(self):
         return self.literal,self.line,self.start
 
