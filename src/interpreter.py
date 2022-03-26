@@ -1,5 +1,6 @@
 import json
 import token_class as TC
+import csv
 class Interpreter:
     def __init__(self,tree) -> None:
         if tree:
@@ -9,6 +10,15 @@ class Interpreter:
             # return
 
         self.config = json.load(open(Parser.CONFIG, 'r'))
+        self.outputDir = r'output/out.csv'
+        self.csv = csv.writer(open(self.outputDir,'w'))
+
+    def getPrint(self):
+        return self.tree['meta']['print-output'].getValue()
+
+    def getCSV(self):
+        return self.tree['meta']['csv'].getValue()
+
 
     @staticmethod
     def printRow(*attributes, sep = ' '*4, columnWidth = 14, padding=' ',alignment = '<',offset=''):
@@ -25,7 +35,8 @@ class Interpreter:
         orderToPrint = self.config['interpreter']['order']['meta']
 
         # print attributes name row
-        self.printRow(*orderToPrint,alignment='^')
+        if self.getPrint():
+            self.printRow(*orderToPrint,alignment='^')
 
         
         metaTree = self.tree['meta']
@@ -36,14 +47,43 @@ class Interpreter:
 
             else:
                 print(f'attribute <{attribute}> not found in meta')
+        
+        if self.getPrint():
+            self.printRow(*tempPrintList,alignment='^')
 
-        self.printRow(*tempPrintList,alignment='^')
+    def do_Workout(self):
+        orderToPrint = self.config['interpreter']['order']['workout']
+
+        # print attributes name row
+        if self.getPrint():
+            self.printRow(*orderToPrint,alignment='^')
+        
+
+        
+        metaTree = self.tree['workout']
+        tempPrintList = []
+        for attribute in orderToPrint:
+            if attribute in metaTree:
+                tempPrintList.append(self.tree['workout'][attribute])
+
+            else:
+                print(f'attribute <{attribute}> not found in workout')
+        
+        if self.getPrint():
+            self.printRow(*tempPrintList,alignment='^')
 
     def do_Sets(self):
         orderToPrint = self.config['interpreter']['order']['sets']
         
         # print attributes name row
-        self.printRow(* (['wID','setID','exID','repID','CumRep']+orderToPrint),alignment='^')
+        if self.getPrint():
+            self.printRow(* (['wID','setID','exID','repID','CumRep']+orderToPrint),alignment='^')
+
+        if self.getCSV():
+            self.csv.writerow(['wID','setID','exID','repID','CumRep']+orderToPrint)
+
+
+
         workoutID = 1
         setID = 1
         exerciseID = 0
@@ -95,7 +135,12 @@ class Interpreter:
 
 
                     for i in range(start, end+1):
-                        self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
+                        if self.getPrint():
+                            self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
+
+                        if self.getCSV():
+                            self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
+
                         repID+=1
                         CummulativeRep+=1
 
@@ -141,7 +186,12 @@ class Interpreter:
 
 
                     for i in range(start, end+1):
-                        self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
+                        if self.getPrint():
+                            self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
+
+                        if self.getCSV():
+                            self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
+
                         repID+=1
                         CummulativeRep+=1
 
@@ -149,18 +199,15 @@ class Interpreter:
 
             setID+=1
 
+    def interprete(self):
+        self.do_Meta()
+        print()
+        self.do_Workout()
+        print()
+        self.do_Sets()
+
                         
-                    
-                            
-
-
-        
-
-
-        
-
-                
-
+   
 
 from parser_ import Parser
 from tokenizer import Lexer
@@ -174,7 +221,9 @@ if (r := l.tokenize2()):
     p = Parser(r)
     print(f' ====> {p.parse()}')
     # pprint(p.tree,sort_dicts=False)
-    Interpreter(p.tree).do_Sets()
+    i = Interpreter(p.tree)
+    i.interprete()
 
+    
 else:
     print(r)
