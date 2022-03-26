@@ -231,7 +231,7 @@ class Parser:
                 if var in self.meta:
                     if 'Boolean' in dTypeMap:
                         if var in dTypeMap['Boolean']:
-                            self.tree['meta'][var] = True
+                            self.tree['meta'][var] = TC.Boolean('true',currentToken.getLine(),currentToken.getStart())
 
                             self.removeFromDataTypeMap(var,dTypeMap)
                             continue
@@ -312,7 +312,7 @@ class Parser:
                 if var in self.workout:
                     if 'Boolean' in dTypeMap:
                         if var in dTypeMap['Boolean']:
-                            self.tree['workout'][var] = True
+                            self.tree['workout'][var] = TC.Boolean('true',currentToken.getLine(),currentToken.getStart())
 
                             self.removeFromDataTypeMap(var,dTypeMap,'workout')
                             continue
@@ -429,7 +429,7 @@ class Parser:
                 if var in self.set:
                     if 'Boolean' in dTypeMap:
                         if var in dTypeMap['Boolean']:
-                            currentLine[var] = True
+                            currentLine[var] = TC.Boolean('true',currentToken.getLine(),currentToken.getStart())
 
                             self.removeFromDataTypeMap(var,dTypeMap,'set')
                             continue
@@ -579,9 +579,11 @@ class Parser:
 
 
         self.checkForBlankedAttribute()
+        print()
         self.checkForBlankedAttribute('workout')
-        
+        print()
         self.checkForBlankAttributesInSet()
+        print()
         
             
 
@@ -594,7 +596,7 @@ if __name__ == "__main__":
         # print(r)
         p = Parser(r)
         print(f' ====> {p.parse()}')
-        # pprint(p.tree,sort_dicts=False)
+        pprint(p.tree,sort_dicts=False)
 
     else:
         print(r)
