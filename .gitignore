@@ -156,3 +156,5 @@ src/test.py
 test.txt
 
 test/
+*.wo
+output/
