@@ -76,6 +76,11 @@ nav > .nav-item >.logo{
     gap:2rem;
 }
 
+.hero > a{
+    text-decoration: none;
+    color: inherit;
+}
+
 .card{
     /* border: 1px solid red; */
     width: 60vw;
