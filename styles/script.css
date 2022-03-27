@@ -1,0 +1,44 @@
+:root{
+    --script-padding:1.5rem 5rem;
+    --script-width:60vw;
+}
+
+
+.script{
+    box-sizing: border-box;
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    color: whitesmoke;
+    width: var(--script-width);
+   
+    padding: var(--script-padding);
+    font-size: 1.5rem;
+    /* overflow-x: scroll; */
+    
+}
+
+
+
+.script > pre{
+    overflow-x: scroll;
+
+}
+
+pre::-webkit-scrollbar{
+    background-color: transparent;
+}
+
+@media only screen and (max-width: 600px) {
+    
+    :root{
+        --script-padding: 1rem 2rem;
+        --script-width: 80vw;
+
+        
+    }
+
+    /* .script{
+        margin: 10vw 0;
+        box-sizing: content-box;
+    } */
+}

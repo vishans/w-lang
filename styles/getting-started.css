@@ -1,0 +1,63 @@
+:root{
+    --block-padding: 0 16rem;
+}
+
+
+ul{
+    padding: var(--card-body-padding);
+}
+
+li{
+    margin-top: .5rem;
+}
+
+code{
+    background-color: rgba(222,222,222,0.3);
+}
+
+.hero > .block {
+    font-size: 1.5rem;
+    padding: var(--block-padding);
+
+}
+
+.grey-out{
+    color: #676867;
+}
+
+.red{
+    color: red;
+}
+
+
+
+.next{
+    font-size: 4rem;
+}
+
+.next-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-family: 'Roboto Condensed', sans-serif;
+    
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    ul{
+        padding: 0rem 2.5rem;
+    }
+
+    :root{
+        --block-padding: 0rem 1.25rem;
+    }
+  }

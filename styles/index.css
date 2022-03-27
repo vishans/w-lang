@@ -59,6 +59,9 @@ nav > .nav-item{
 
 nav > .nav-item >.logo{
     font-size: var(--logo-font-size);
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 
@@ -67,9 +70,10 @@ nav > .nav-item >.logo{
     align-items: center;
     justify-content: center;
     padding: 5rem 2rem;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: 100%;
     flex-direction: column;
+    gap:2rem;
 }
 
 .card{
@@ -107,6 +111,9 @@ nav > .nav-item >.logo{
     justify-content: flex-end;
     padding: 1rem;
     align-items: flex-end;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
     
     
 }

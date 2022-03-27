@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started</title>
+    <link href = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel = "stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/getting-started.css">
+    <link rel="stylesheet" href="../styles/script.css">
+</head>
+<body>
+    <nav>
+
+        <div class="nav-item"><span class="material-icons-outlined logo">
+            fitness_center
+            </span>
+        </div>
+        
+        <div class="nav-item"> <span class="material-icons-outlined nav-font-size">article</span><div >Documentation</div>
+    </div>
+
+
+        <div class="nav-item"><span class="material-icons-outlined nav-font-size">info</span>About</div>
+    </nav>
+
+    <div class="hero">
+        <div class="block">
+            workout language has been designed as an efficient and simple language. Let's not forget,
+            the goal is fast and efficient journaling and storage of workouts.
+            <br>
+            <br>
+            A typical workout script consists of clauses. workout language has 3 legal clauses.
+            <br>
+            
+            <ul>
+                <li><code>meta:</code></li>
+                <li><code>workout:</code></li>
+                <li><code>set:</code></li>
+            </ul>
+
+            <br>
+
+            A script should have a <strong>single</strong> <code>meta:</code> clause and a <strong>single</strong> <code>workout:</code> clause.
+            <br>
+            It can have one to many <code>set:</code> clauses.
+            <br>
+            <br>
+            The clauses should also appear in that order. You always start with a <code>meta:</code> clause, <br>
+            followed by a <code>workout:</code> clause, <br>
+            and then followed by one or many <code>set:</code> clauses.
+            <br>
+            <br>
+            Everything that is indented inside a clause belongs to it.
+            If you're familiar with the Python Programming Language, the clause structure has been inspired from Python's class/function definition.
+            <br>
+            <br>
+            Essentially, that was the basic of the structures in workout language.
+            Before we finish here, below is an example of a workout script. Don't worry about everything 
+            in there; just look at the clauses and how the are laid out.
+        </div>
+
+        <div class="script">
+            
+<pre>    <span class="red">meta:</span>
+        <span class="grey-out">debug
+        csv</span>
+
+    <span class="red">workout:</span>
+    <span class="grey-out">    61kg 60.6kg 
+        18:00 
+        45min</span>
+
+    <span class="red">set:</span>
+    <span class="grey-out">    "squat" 1-15 25kg type="warm up"
+        . 10 30kg
+
+        "REST" 3min
+
+        . 0-25 50kg type="hypertrophy"
+        . 5 45kg
+
+        "REST" 3min45s</span>
+
+    <span class="red">set:</span>
+    <span class="grey-out">    "Running" type="cardio" 25min15s
+        "REST" 5min</span>
+
+</pre>
+
+   
+    </div>
+    <br>
+    <div class="block" style="align-self: flex-start;">
+        Alright! That's it for the basic structures. <br>
+    Next we're going to take an in-depth look at the <code>meta:</code> clause.
+    </div>
+
+      <div class="next-container">
+          Next
+        <span class="material-icons-outlined next">
+            navigate_next
+            </span>
+      </div>      
+    
+    </div>
+</body>
+</html>
