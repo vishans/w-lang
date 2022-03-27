@@ -140,6 +140,7 @@ nav > .nav-item >.logo{
     }
     nav {
         padding:.75rem .5rem;
+        height: 12vh;
     }
 
     .card{
