@@ -9,7 +9,7 @@
 }
 
 :root{
-    --nav-font-size:1.75rem;
+    --nav-font-size:2rem;
     --log-font-size:3rem;
     --nav-gap:1rem;
     --card-title-padding:1.25rem 2rem;
@@ -31,9 +31,10 @@ nav{
     gap:2rem;
     padding:  .75rem 3rem;
     width: 100%;
-    overflow-x:hidden;
+    overflow:hidden;
     box-sizing: border-box;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    height: 10vh;
 }
 
 nav > .nav-item{
@@ -130,8 +131,8 @@ nav > .nav-item >.logo{
 
 @media only screen and (max-width: 600px) {
     :root{
-        --nav-font-size:1.25rem;
-        --logo-font-size:1.5rem;
+        --nav-font-size:1.4rem;
+        --logo-font-size:2.5rem;
         --nav-gap:.25rem;
         --card-title-padding:1rem .75rem;
         --card-body-padding:1rem .75rem;

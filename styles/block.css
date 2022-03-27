@@ -52,12 +52,25 @@ code{
 
 
 
-@media only screen and (max-width: 600px) {
+
+@media only screen and (min-width: 601px) and (max-width: 1025px) {
     ul{
         padding: 0rem 2.5rem;
     }
 
     :root{
-        --block-padding: 0rem 1.25rem;
+        --block-padding: 0rem 1.5rem ;
     }
-  }
+
+    
+}
+
+@media only screen and (max-width: 600px) {
+ul{
+    padding: 0rem 2.5rem;
+}
+
+:root{
+    --block-padding: 0rem 1.25rem;
+}
+}
