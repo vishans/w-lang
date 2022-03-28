@@ -43,7 +43,7 @@ class Interpreter:
             existed = False
 
         if wID == TC.NaN:
-
+            print('in')
             if existed:
                 # check if there's smth in there
                 ls =  os.listdir(self.getOutputDir())
@@ -57,6 +57,8 @@ class Interpreter:
                 
                 else:
                     newID = 1
+            else:
+                newID = 1
         
         else: 
             newID = wID
@@ -292,6 +294,7 @@ if (r := l.tokenize2()):
     pprint(p.tree,sort_dicts=False)
     i = Interpreter(p.tree)
     i.interprete()
+    print('done')
     
 
 
