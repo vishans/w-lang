@@ -85,7 +85,8 @@ nav .logo{
 .card{
     /* border: 1px solid red; */
     width: 60vw;
-    height: 30vh;
+    min-height: 30vh;
+    max-height: fit-content;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     transition: box-shadow .5s;
     display: flex;
@@ -95,7 +96,7 @@ nav .logo{
 
 .special-card{
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
-    
+    /* max-height: fit-content; */
 }
 
 .special-card:hover{
@@ -167,7 +168,7 @@ a{
 
     .card{
         width: 85vw;
-        height: fit-content;
+        /* height: fit-content; */
 
     }
 
