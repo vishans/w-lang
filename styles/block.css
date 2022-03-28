@@ -21,6 +21,10 @@ code{
 
 }
 
+.hero > .block-title{
+    align-self: flex-start; font-size: 2.5rem; font-family: 'Roboto Condensed', sans-serif;
+}
+
 .grey-out{
     color: #676867;
 }
