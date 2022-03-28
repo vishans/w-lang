@@ -10,7 +10,7 @@
 
 :root{
     --nav-font-size:2rem;
-    --log-font-size:3rem;
+    --logo-font-size:3rem;
     --nav-gap:1rem;
     --card-title-padding:1.25rem 2rem;
     --card-body-padding: 1rem 2rem;
@@ -58,7 +58,7 @@ nav > .nav-item{
     font-size: var(--nav-font-size);
 }
 
-nav > .nav-item >.logo{
+nav .logo{
     font-size: var(--logo-font-size);
     user-select: none;
     -moz-user-select: none;
@@ -93,6 +93,16 @@ nav > .nav-item >.logo{
     
 }
 
+.special-card{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
+    
+}
+
+.special-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px !important;
+
+}
+
 .card:hover{
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
@@ -101,6 +111,8 @@ nav > .nav-item >.logo{
     font-size: var(--card-title-font-size);
     padding:var(--card-title-padding);
 }
+
+
 
 .card > .card-body{
     font-size: 1rem;
@@ -128,6 +140,16 @@ nav > .nav-item >.logo{
     font-size: var(--font-size-logo);
 }
 
+code{
+    background-color: rgba(222,222,222,0.3);
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+    /* font-size: var(--logo-font-size); */
+}
+
 
 @media only screen and (max-width: 600px) {
     :root{
@@ -145,5 +167,9 @@ nav > .nav-item >.logo{
 
     .card{
         width: 85vw;
+        height: fit-content;
+
     }
+
+    
   }

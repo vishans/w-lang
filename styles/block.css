@@ -18,6 +18,7 @@ code{
 .hero > .block {
     font-size: 1.5rem;
     padding: var(--block-padding);
+    align-self: flex-start;
 
 }
 
@@ -33,6 +34,28 @@ code{
     color: red;
 }
 
+.gold{
+    color: #C9A960;
+}
+
+.strgreen{
+    color: #73C97D;
+}
+
+.green-notice{
+    background-color: #98fb98;
+    border-radius: 6px;
+   
+
+}
+
+.equal-to{
+    color: #505050;
+}
+
+.hotpink{
+    color: hotpink;
+}
 
 
 .next{
@@ -46,6 +69,28 @@ code{
     font-size: 1.5rem;
     font-family: 'Roboto Condensed', sans-serif;
     
+}
+
+.next-preview-container{
+    display: flex;
+    font-size: 1rem;
+}
+
+.navigation-container{
+    display: flex;
+    
+    width: 100%;
+    padding: var(--block-padding);
+    box-sizing: border-box;
+    
+}
+
+.next-container > a{
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
