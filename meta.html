@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta:</title>
+    <link href = "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel = "stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/block.css">
+    <link rel="stylesheet" href="styles/script.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" >
+        <div class="nav-item"><span class="material-icons-outlined logo">
+            fitness_center
+            </span>
+        </div>
+    </a>
+        
+        <div class="nav-item"> <span class="material-icons-outlined nav-font-size">article</span><div >Documentation</div>
+    </div>
+
+
+        <div class="nav-item"><span class="material-icons-outlined nav-font-size">info</span>About</div>
+    </nav>
+
+    <div class="hero">
+   
+    <div class="block block-title" >
+            The <code>meta:</code> clause
+    </div>
+
+    <div class="block">
+        The <code>meta:</code> clause allows us to specify meta data. <br>
+        Yep. That's pretty much it. That's all it's for. <br>
+        Here's an example below.
+
+    </div>
+
+    <div class="script">
+        <pre>
+    <span class="red">meta:</span> 
+        <span class="gold">debug</span>
+        <span class="gold">save</span>
+        <span class="gold">strict</span>
+        </pre>
+    </div>
+
+    <div class="block" >
+        Now, most attributes in <code>meta:</code> clause are <span class="hotpink">Booleans</span>. <br>
+        In <code>workout-language</code> there's an easy way to set a Boolean to <code>True</code>.  
+        You just write the attribute as is. For instance, in the example above, just writing <code>debug</code> is equivalent to writing <code>debug=True</code>. <br>
+        If you want to set an attribute to <code>False</code> however, you need to explictly write the assignment. For instance if I were to set <code>strict</code> to <code>False</code>, I would have to write <code>strict=False</code>. There is no shortcut (yet).
+        <div class="green-notice" style="margin-top: .5rem;">
+            <code>!attribute</code> will come in a future update of the language. To avoid writing <code>attribute=False</code>.
+        </div>
+    </div>
+
+    <div class="block">
+        I said most of the attributes are <span class="hotpink">Booleans</span>. One of them is a <span class="strgreen">String</span>. That attribute is the <code>output-dir</code> attribute. 
+        To assign a value to <code>output-dir</code>, you could do, <br>
+        <code>output-dir="C:/User/MyFolder"</code>. This is a perfectly legal statement. <br>
+        But since it's the only <span class="strgreen">String</span> in <code>meta:</code>, you can just write <code>"C:/User/MyFolder"</code>. <br>
+        The interpreter is smart enough to figure out that the <span class="strgreen">String</span> belongs to <code>output-dir</code>. You don't have to explicitly state it.
+    </div>
+
+    <div class="block">
+        In <code>meta:</code> clause, you don't need to put each attribute in a new line. I just think it looks cleaner. If you want, you can use a one-liner! Or you can mix it: use one-liners and new lines. <br>
+        All the examples below are equivalent.
+    </div>
+
+    <div class="script">
+        <pre>
+    <span class="red">meta:</span> 
+        <span class="gold">debug</span> <span class="gold">save</span> <span class="gold">strict</span> <span class="strgreen">"C:/User/MyFolder"</span>
+        </pre>
+    </div>
+
+    <div class="script">
+        <pre>
+    <span class="red">meta:</span> 
+        <span class="gold">save</span> <span class="gold">debug</span> 
+        <span class="gold">strict</span> 
+        <span class="strgreen">"C:/User/MyFolder"</span>
+        </pre>
+    </div>
+
+    <div class="script">
+        <pre>
+    <span class="red">meta:</span> 
+        <span class="gold">save</span> <span class="gold">debug</span>
+        <span class="strgreen">"C:/User/MyFolder"</span> 
+        <span class="gold">strict</span><span class="equal-to">=</span><span class="hotpink">True</span> 
+        </pre>
+    </div>
+
+    <div class="block">
+        In <code>meta:</code> clause, the order in which the attributes appear is not important.
+        This might not be the case for other clauses; which brings me to the next section: how does the interpreter work? How does it figure out the order of the attributes? <br>
+        It's not actually complicated and you'll see that the interpreter proceeds in a logical manner.
+    </div>
+
+    <div class="block">
+        Before we go though, if you're asking if one needs to specify all the attributes, the answer is yes and no. You see, you can set <strong>default</strong> values for every attributes. If you've set a default value for a particular attribute, the latter will implicitly be assigned that default value unless of course you re-assign it. But if the attribute has no default value, then you would have to implicitly assign a value to it. <br>
+        We'll talk more about that in a bit. <br>
+        If you're curious, the list of all the default attibutes of the <code>meta:</code> clause is here. And yes, you can add your own attributes too if need be.
+    </div>
+
+    
+
+    <div class="block">
+        That's it for the <code>meta:</code> clause. Before taking a look at <code>workout:</code> and <code>set:</code> clauses, we need to take a glance at how the interpreter works.
+    </div>
+
+    
+    <div class="navigation-container" >
+        <div class="next-container"style="flex-grow: 1; justify-content:flex-start;">
+           <a href="getting-started.html">
+            <span class="material-icons-outlined next">
+            chevron_left
+            </span>
+
+            <div>Previous</div>
+        </a>
+        </div>  
+
+        <div class="next-container">
+            <!-- <a href=""> -->
+            Next
+            <span class="material-icons-outlined next">
+              navigate_next
+            <!-- </span> -->
+        </a>
+        </div>  
+    </div>
+   
+    
+
+
+       
+  
+    
+    </div>
+</body>
+</html>
