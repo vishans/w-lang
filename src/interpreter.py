@@ -1,6 +1,8 @@
 import json
 import token_class as TC
 import csv
+import os
+import shutil
 class Interpreter:
     def __init__(self,tree) -> None:
         if tree:
@@ -9,15 +11,73 @@ class Interpreter:
             print('Error')
             # return
 
+        self.wID = self.getWID()
         self.config = json.load(open(Parser.CONFIG, 'r'))
-        self.outputDir = r'output/out.csv'
-        self.csv = csv.writer(open(self.outputDir,'w'))
+        if self.getSave():
+            self.outputDir = self.createWorkoutFile(self.wID)# here output dir is the workout dir
+            self.file = open(os.path.join(self.outputDir, 'data.csv'),'w',newline='')
+            self.csv = csv.writer(self.file)
+
+            self.workout_file = open(os.path.join(self.outputDir, 'workout.csv'),'w',newline='')
+            self.csv_workout = csv.writer(self.workout_file)
+
 
     def getPrint(self):
         return self.tree['meta']['print-output'].getValue()
 
-    def getCSV(self):
-        return self.tree['meta']['csv'].getValue()
+    def getSave(self):
+        return self.tree['meta']['save'].getValue()
+
+    def getOutputDir(self):
+        return self.tree['meta']['output-dir'].getValue()
+
+
+    def getWID(self):
+        
+        wID = self.tree['workout']['id']
+        # check if dir exists
+        existed = True
+        if not os.path.isdir(self.getOutputDir()):
+            # create it 
+            os.makedirs(self.getOutputDir())
+            existed = False
+
+        if wID == TC.NaN:
+
+            if existed:
+                # check if there's smth in there
+                ls =  os.listdir(self.getOutputDir())
+                if ls:
+                
+                    # dir is not empty
+                    # 
+                    # sort content in descending order and pick the next id    
+                   
+                    newID = int(sorted(ls)[-1]) + 1
+                
+                else:
+                    newID = 1
+        
+        else: 
+            newID = wID
+
+                
+        return newID
+
+    
+    def createWorkoutFile(self, id):
+        # print(os.path.join( self.getOutputDir() ,str(id)))
+        if  (os.path.isdir(p := os.path.join( self.getOutputDir() ,str(id)))):
+            print(f'Warning. The workout folder with ID {id} already exists.\nIt will be overwritten.')
+            shutil.rmtree(p)
+
+
+        # create the folder
+        os.mkdir(p)
+       
+        return p
+
+        
 
 
     @staticmethod
@@ -57,6 +117,9 @@ class Interpreter:
         # print attributes name row
         if self.getPrint():
             self.printRow(*orderToPrint,alignment='^')
+
+        if self.getSave():
+            self.csv_workout.writerow(orderToPrint)
         
 
         
@@ -72,6 +135,9 @@ class Interpreter:
         if self.getPrint():
             self.printRow(*tempPrintList,alignment='^')
 
+        if self.getSave():
+            self.csv_workout.writerow(tempPrintList)
+
     def do_Sets(self):
         orderToPrint = self.config['interpreter']['order']['sets']
         
@@ -79,12 +145,12 @@ class Interpreter:
         if self.getPrint():
             self.printRow(* (['wID','setID','exID','repID','CumRep']+orderToPrint),alignment='^')
 
-        if self.getCSV():
+        if self.getSave():
             self.csv.writerow(['wID','setID','exID','repID','CumRep']+orderToPrint)
 
 
 
-        workoutID = 1
+        workoutID = self.wID
         setID = 1
         exerciseID = 0
         repID = 1
@@ -138,7 +204,7 @@ class Interpreter:
                         if self.getPrint():
                             self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
 
-                        if self.getCSV():
+                        if self.getSave():
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         repID+=1
@@ -189,7 +255,7 @@ class Interpreter:
                         if self.getPrint():
                             self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
 
-                        if self.getCSV():
+                        if self.getSave():
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         repID+=1
@@ -206,6 +272,9 @@ class Interpreter:
         print()
         self.do_Sets()
 
+        if self.getSave():
+            self.file.close()
+
                         
    
 
@@ -220,9 +289,11 @@ if (r := l.tokenize2()):
     # print(r)
     p = Parser(r)
     print(f' ====> {p.parse()}')
-    # pprint(p.tree,sort_dicts=False)
+    pprint(p.tree,sort_dicts=False)
     i = Interpreter(p.tree)
     i.interprete()
+    
+
 
     
 else:

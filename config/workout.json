@@ -1,7 +1,7 @@
 {
     "id":{
-        "dataType":["Integer","String"],
-        "defaultValue":null
+        "dataType":["Integer","NaN"],
+        "defaultValue":"NaN"
     },
     "body-weight-before":{
         "dataType":["Kilogram"],

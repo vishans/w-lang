@@ -9,7 +9,7 @@
         "order":{
             "meta":["date","day","debug"],
             "sets":["exercise-name","external-resistance"],
-            "workout":["id","body-weight-before"]
+            "workout":["id","body-weight-before","body-weight-after"]
 
         }
     }

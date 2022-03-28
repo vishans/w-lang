@@ -15,19 +15,11 @@
         "dataType":"Boolean",
         "defaultValue":"false"
     },
-    "master-set-sheet":{
-        "dataType":"String",
-        "defaultValue":null
-    },
-    "master-workout-sheet":{
-        "dataType":"String",
-        "defaultValue":null
-    },
     "output-dir":{
         "dataType":"String",
         "defaultValue":null
     },
-    "csv":{
+    "save":{
         "dataType":"Boolean",
         "defaultValue":"false"
     },

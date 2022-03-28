@@ -9,7 +9,7 @@ class Lexer:
     '''Responsible for lexical analysis'''
 
     def __init__(self) -> None:
-        self.filePath = 'test.wo'
+        self.filePath = r'example/one.wo'
 
         # if needed adds an newline at the end of the file
         # the lexer needs it
