@@ -1,4 +1,4 @@
-from datetime import date, time, timedelta
+from datetime import date, datetime, timedelta
 
 
 class Token:
@@ -68,6 +68,9 @@ class Nothing(Token):
 
     def __repr__(self) -> str:
         return f'Nothing Token at line {self.line} at position {self.start}'
+
+    def __bool__(self):
+        return False
 
 class Variable(Token):
     RegexPattern = r'^[A-Za-z][A-Za-z\-]*[A-Za-z]$'  
@@ -183,10 +186,10 @@ class Second(Quantity):
             self.value = int(token[1:])
 
     def getTimeDeltaObj(self):
-        return timedelta(minutes=self.value)
+        return timedelta(seconds=self.value)
 
-    def getTimeObj(self):
-        return time(minute=self.value)
+    def getDateTimeObj(self):
+        return datetime(second=self.value, year=1, month=1,day=1)
 
 
     def __repr__(self) -> str:
@@ -204,8 +207,8 @@ class Minute(Token):
     def getTimeDeltaObj(self):
         return timedelta(minutes=self.value)
 
-    def getTimeObj(self):
-        return time(minute=self.value)
+    def getDateTimeObj(self):
+        return datetime(minute=self.value, year=1, month=1,day=1)
 
     def __repr__(self) -> str:
         return f'Minute <{self.value}> at line {self.line} at position {self.start}'
@@ -242,8 +245,8 @@ class MinuteSecond(Token):
     def getTimeDeltaObj(self):
         return timedelta(minutes=self.minute,seconds=self.second)
 
-    def getTimeObj(self):
-        return time(minute=self.minute, second=self.second)
+    def getDateTimeObj(self):
+        return datetime(minute=self.minute, second=self.second, year=1, month=1,day=1)
 
     def __repr__(self) -> str:
         return f'MinuteSecond <{self.minute, self.second}> at line {self.line} at position {self.start}'
@@ -277,8 +280,8 @@ class HourMinute(Token):
     def getTimeDeltaObj(self):
         return timedelta(hours=self.hour,minutes=self.minute)
 
-    def getTimeObj(self):
-        return time(hour=self.hour, minute=self.minute)
+    def getDateTimeObj(self):
+        return datetime(hour=self.hour, minute=self.minute, year=1, month=1,day=1)
 
     def __repr__(self) -> str:
         return f'HourMinute <{self.hour, self.minute}> at line {self.line} at position {self.start}'
@@ -325,8 +328,8 @@ class Time(Token):
     def getTimeDeltaObj(self):
         return timedelta(hours=self.h,minutes=self.min,seconds=self.s)
 
-    def getTimeObj(self):
-        return time(hour=self.h,minute=self.min,second=self.s)
+    def getDateTimeObj(self):
+        return datetime(hour=self.h,minute=self.min,second=self.s, year=1, month=1,day=1)
 
     def __repr__(self) -> str:
         return f'Time <{self.literal}> at line {self.line} at position {self.start} '
