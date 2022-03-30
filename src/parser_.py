@@ -9,11 +9,19 @@ class Parser:
     CONFIG = r'config\config.json'
 
     def __init__(self, tokens = None) -> None:
-        config = json.load(open(Parser.CONFIG, 'r'))
-        self.meta = json.load(open(config['paths']['meta'], 'r'))
-        self.workout = json.load(open(config['paths']['workout'], 'r'))
-        self.set = json.load(open(config['paths']['set'], 'r'))
-        self.exercises = json.load(open(config['paths']['exercises'], 'r'))
+        self.configFile = open(Parser.CONFIG, 'r')
+        self.config = json.load(self.configFile)
+
+        self.metaFile=open(self.config['paths']['meta'], 'r')
+        self.workoutFile=open(self.config['paths']['workout'], 'r')
+        self.setFile=open(self.config['paths']['set'], 'r')
+        self.exerciceFile=open(self.config['paths']['exercises'], 'r')
+
+        
+        self.meta = json.load(self.metaFile)
+        self.workout = json.load(self.workoutFile)
+        self.set = json.load(self.setFile)
+        self.exercises = json.load(self.exerciceFile)
 
         self.metaDTypeMap = self.makeDataTypeMap()
         self.workoutDTypeMap = self.makeDataTypeMap('workout')
@@ -43,6 +51,16 @@ class Parser:
 
         # set warning cache
         self.setWarningCache = {}
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self):
+        self.configFile.close()
+        self.metaFile.close()
+        self.workoutFile.close()
+        self.setFile.close()
+        self.exerciceFile.close()
 
     def createDictWithTokens(self, dict):
         for key in dict:
@@ -171,9 +189,15 @@ class Parser:
         return next(self.tokenStreamIterator)
 
     def checkForBlankedAttribute(self, clause='meta'):
-        print(f'The following attributes in {clause} are required:')
+        headerPrinted = False
         for key in self.tree[clause]:
-            if self.tree[clause][key] == TC.Nothing:
+            if self.tree[clause][key] == TC.Nothing and key in self.config['interpreter']['order'][clause]:
+                if headerPrinted and not headerPrinted:
+                    print(f'The following attributes in {clause} are required:')
+                    headerPrinted = True
+
+                if clause == 'workout' and key in ['start-time','end-time','duration']:
+                    continue
                 print('\t'+key)
 
     def checkForBlankAttributesInSet(self):
@@ -185,10 +209,10 @@ class Parser:
                 exercisePrinted = False
                 for  key in exercise:
                     token = exercise[key]
-                    if token == TC.Nothing:
+                    if token == TC.Nothing and key in self.config['interpreter']['order']['sets']:
                         valid = False
                         if not headerPrinted:
-                            print(f'In set {i+1}, these attributes are required')
+                            print(f'In set {i+1}, these attributes are required:')
                             headerPrinted = True
 
                         if not exercisePrinted:

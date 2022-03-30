@@ -109,5 +109,9 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     
 if __name__ == '__main__':
 
-    print(matchAndMakeToken(str("'hello"), 1,1))
-    
+    print(type(matchAndMakeToken('13:12', 1,1)))
+
+    from datetime import date, time , datetime,timedelta
+
+    print(datetime(2010,1,2) + timedelta(2010,1,1))
+    print(type(datetime.now()))

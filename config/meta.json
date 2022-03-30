@@ -34,6 +34,11 @@
     "pass":{
         "dataType":"Boolean",
         "defaultValue":"false"
+    },
+    "pd-print":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
     }
+    
     
 }

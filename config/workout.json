@@ -12,15 +12,15 @@
         "defaultValue":null
     },
     "start-time":{
-        "dataType":["Time","Minute", "MinuteSecond"],
-        "defaultValue":null
-    },
-    "end-time":{
-        "dataType":["Time","Minute", "MinuteSecond"],
+        "dataType":["Time","Minute", "MinuteSecond", "HourMinute","Second"],
         "defaultValue":null
     },
     "duration":{
-        "dataType":["Time", "Min"],
+        "dataType":["MinuteSecond", "Minute", "HourMinute","Second"],
+        "defaultValue":null
+    },
+    "end-time":{
+        "dataType":["Time","Minute", "MinuteSecond", "HourMinute","Second"],
         "defaultValue":null
     },
     "session":{

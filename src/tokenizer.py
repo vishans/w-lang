@@ -33,6 +33,12 @@ class Lexer:
 
         self.lineStart = False
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self):
+        self.fileStream.close()
+
         
 
     
