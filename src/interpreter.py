@@ -31,6 +31,7 @@ class Interpreter:
             return
 
         self.wID = self.getWID()
+        self.tree['workout']['id'] = self.wID
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
         if self.getSave():
@@ -99,6 +100,21 @@ class Interpreter:
     def getPDPrint(self):
         
         return self.tree['meta']['pd-print'].getValue()
+
+    def getDate(self):
+        return self.tree['workout']['date']
+
+    def updateDateInWorkout(self):
+        if self.getDate():
+            self.tree['workout']['date'] = self.getDate().getDateTimeObj()
+
+        else:
+            self.tree['workout']['date'] = datetime.today()
+
+        #update day
+        self.tree['workout']['day'] = self.tree['workout']['date'].strftime("%A")
+        self.tree['workout']['date'] = self.tree['workout']['date'].strftime("%d-%m-%y")
+
         
 
     def createWorkoutFile(self, id):
@@ -222,6 +238,8 @@ class Interpreter:
     def do_Workout(self):
 
         self.timeCalc()
+
+        self.updateDateInWorkout()
 
 
         orderToPrint = self.config['interpreter']['order']['workout']

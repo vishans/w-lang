@@ -119,6 +119,9 @@ class Integer(Token):
     def __repr__(self) -> str:
         return f'Integer <{self.literal}> at line {self.line} at position {self.start}'
 
+    def __str__(self) -> str:
+        return str(self.value)
+
 
 class Float(Token):
     RegexPattern = r'^((-)?(0|([1-9][0-9]*))(\.[0-9]+)?)$'#r'^([+-]?([0-9]+([.][0-9]*)?|[.][0-9]+))$' #r'^(-?[1-9]?\.\d+|-?[1-9]\d+\.\d+|-?0\.\d*[1-9])$'
@@ -289,7 +292,12 @@ class HourMinute(Token):
 # time
 class Date(Token):
     RegexPattern = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
-
+    '''
+    [D]D-MM-YY[YY]
+    [D]D.MM.YY[YY]
+    [D]D.MM.YY[YY]
+    
+    '''
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
 
@@ -306,8 +314,8 @@ class Date(Token):
         if self.y < 100:
             self.y+=2000
            
-    def getDateObj(self):
-        return date(self.y,self.m,self.d)
+    def getDateTimeObj(self):
+        return datetime(self.y,self.m,self.d)
         
 
     

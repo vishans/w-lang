@@ -1,12 +1,5 @@
 {
-    "date":{
-        "dataType":["String", "Date"],
-        "defaultValue":"'today'"
-    },
-    "day":{
-        "dataType":"String",
-        "defaultValue":"'auto'"
-    },
+   
     "include-qty-info":{
         "dataType":"Boolean",
         "defaultValue":"false"
@@ -17,7 +10,7 @@
     },
     "output-dir":{
         "dataType":"String",
-        "defaultValue":null
+        "defaultValue":"'My workouts'"
     },
     "save":{
         "dataType":"Boolean",

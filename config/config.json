@@ -7,9 +7,9 @@
     },
     "interpreter":{
         "order":{
-            "meta":["date","day","debug"],
-            "sets":["exercise-name","external-resistance"],
-            "workout":["id","body-weight-before","body-weight-after","start-time","duration", "end-time"]
+            "meta":["debug"],
+            "sets":["exercise-name","external-resistance", "rep-duration"],
+            "workout":["date","day","id","body-weight-before","body-weight-after","start-time","duration", "end-time"]
 
         }
     }

@@ -1,4 +1,8 @@
 {
+    "date":{
+        "dataType":["Date"],
+        "defaultValue":null
+    },
     "id":{
         "dataType":["Integer","NaN"],
         "defaultValue":"NaN"
