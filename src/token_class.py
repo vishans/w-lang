@@ -275,10 +275,12 @@ class HourMinute(Token):
         self.hour, self.minute = self.literal.split('h')
         
         if self.minute:
-            self.minute = self.minute[:2]
+            self.minute = int(self.minute[:2])
+        else:
+            self.minute = 0
 
         
-        self.hour, self.minute = int(self.hour), int(self.minute)
+        self.hour= int(self.hour)
 
     def getTimeDeltaObj(self):
         return timedelta(hours=self.hour,minutes=self.minute)

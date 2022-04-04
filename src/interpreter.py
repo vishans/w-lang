@@ -167,11 +167,14 @@ class Interpreter:
     def timeCalc(self):
         # time calculations
         start, end, duration = self.tree['workout']['start-time'], self.tree['workout']['end-time'], self.tree['workout']['duration']
+
+        print(f'start = {start}')
        
         if all([start,end,duration]):
 
             if not (start == TC.Time and end == TC.Time):
                 print('Error11')
+                return
 
             calc_duration = end.getDateTimeObj() - start.getDateTimeObj() 
 
@@ -181,12 +184,28 @@ class Interpreter:
             #else:
 
                 # self.tree['workout']['start-time'] = start.getDateTimeObj().strftime("%H:%M:%S")
-                # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
+            self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
                 # self.tree['workout']['end-time'] = end.getDateTimeObj().strftime("%H:%M:%S")
 
-        elif all([start,duration]):
+        elif all([start,end]):
+            if not (start == TC.Time and end == TC.Time):
+                print('Error112')
+                return
+
+            start =  start.getDateTimeObj()
+            end =  end.getDateTimeObj()
+
+
+            duration = end - start
+            self.tree['workout']['duration'] = strfdelta(duration,'%H:%M:%S')
+
+
             
-            if start == TC.HourMinute or start == TC.MinuteSecond or start == TC.Minute or TC.Second:
+
+        
+        
+        elif all([start,duration]):
+            if start == TC.HourMinute or start == TC.MinuteSecond or start == TC.Minute or start == TC.Second:
                 start = datetime.now() - start.getTimeDeltaObj()
             else: 
                 # tc.time
@@ -196,12 +215,12 @@ class Interpreter:
 
             end = start + duration.getTimeDeltaObj()
             # self.tree['workout']['start-time'] = start.strftime("%H:%M:%S")
-            # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
+            self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
             # self.tree['workout']['end-time'] = end.strftime("%H:%M:%S")
 
         elif all([end,duration]):
             
-            if end == TC.HourMinute or end == TC.MinuteSecond or end == TC.Minute or TC.Second:
+            if end == TC.HourMinute or end == TC.MinuteSecond or end == TC.Minute or start == TC.Second:
                 end = datetime.now() - end.getTimeDeltaObj()
             else: 
                 # tc.time
@@ -211,7 +230,7 @@ class Interpreter:
 
             start = end - duration.getTimeDeltaObj()
             # self.tree['workout']['start-time'] = start.strftime("%H:%M:%S")
-            # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
+            self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
             # self.tree['workout']['end-time'] = end.strftime("%H:%M:%S")
 
         else: 
@@ -226,7 +245,7 @@ class Interpreter:
             return
 
         self.tree['workout']['start-time'] = start.strftime("%H:%M:%S")
-        self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
+        # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
         self.tree['workout']['end-time'] = end.strftime("%H:%M:%S")
 
 
@@ -448,7 +467,7 @@ if (r := l.tokenize2()):
     # print(r)
     p = Parser(r)
     print(f' ====> {p.parse()}')
-    pprint(p.tree,sort_dicts=False)
+    # pprint(p.tree,sort_dicts=False)
     i = Interpreter(p.tree)
     i.interprete()
     # import pandas as pd

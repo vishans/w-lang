@@ -192,12 +192,15 @@ class Parser:
         headerPrinted = False
         for key in self.tree[clause]:
             if self.tree[clause][key] == TC.Nothing and key in self.config['interpreter']['order'][clause]:
-                if headerPrinted and not headerPrinted:
+                
+                if clause == 'workout' and key in ['start-time','end-time','duration','date']:
+                    continue
+
+                if not headerPrinted:
                     print(f'The following attributes in {clause} are required:')
                     headerPrinted = True
 
-                if clause == 'workout' and key in ['start-time','end-time','duration']:
-                    continue
+                
                 print('\t'+key)
 
     def checkForBlankAttributesInSet(self):
