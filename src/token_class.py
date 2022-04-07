@@ -489,7 +489,93 @@ class ExerciseNotFound(Error):
            Exercise <{self.value}> on line {self.line} was not found'''
 
 
+class ExpectedTimeDataType(Error):
+    # token to be used in lexer
+    def __init__(self, line, pos, line2, pos2) -> None:
+        super().__init__(0,0,0)
+        self.line = line
+        self.line2 = line2
+
+        self.pos = pos
+        self.pos2 = pos2
         
+       
+
+    def __repr__(self) -> str:
+        return f'''Expected Time Data Type
+           <start-time> on line {self.line} at position {self.pos} and
+           <end-time> on line {self.line2} at position {self.pos2} are expected to be of Time Data Type. 
+           Providing both start-time and end-time requires both of thereof to be of Time Data Type.'''
+
+class DurationArithmeticError(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Duration Arithmetic Error
+            Duration <{self.value}> on line {self.line} at position {self.start} does not seem to be correct'''
+
+
+class RepError(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start, msg) -> None:
+        super().__init__(token, line, start)
+        self.msg = msg
+       
+
+    def __repr__(self) -> str:
+        return f'''Rep Error <{self.value}>
+           On line {self.line} at position {self.start}
+           {self.msg}'''
+
+
+
+class ExpectedASetClause(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Expected A Set Clause
+           On line {self.line} at position {self.start}, a set: clause was expected but
+           <{self.value}> was given'''
+
+
+class ExpectedAMetaClause(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Expected A Meta Clause
+           On line {self.line} at position {self.start}, a meta: clause was expected but
+           <{self.value}> was given'''
+
+
+class ExpectedAWorkoutClause(Error):
+    # token to be used in lexer
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Expected A Workout Clause
+           On line {self.line} at position {self.start}, a workout: clause was expected but
+           <{self.value}> was given'''    
+
+
+class MissingAttributesError(Error):
+    
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''Missing Attribute Error'''
 
 
 class Newline(Token):

@@ -189,13 +189,16 @@ class Parser:
         return next(self.tokenStreamIterator)
 
     def checkForBlankedAttribute(self, clause='meta'):
+        
         headerPrinted = False
+        valid = True
         for key in self.tree[clause]:
             if self.tree[clause][key] == TC.Nothing and key in self.config['interpreter']['order'][clause]:
                 
                 if clause == 'workout' and key in ['start-time','end-time','duration','date']:
                     continue
 
+                valid = False
                 if not headerPrinted:
                     print(f'The following attributes in {clause} are required:')
                     headerPrinted = True
@@ -203,7 +206,15 @@ class Parser:
                 
                 print('\t'+key)
 
+        if headerPrinted:
+            print()
+
+        return valid
+
+        
+
     def checkForBlankAttributesInSet(self):
+       
         for i, set_ in enumerate(self.tree['sets']):
            
             headerPrinted = False
@@ -224,7 +235,8 @@ class Parser:
 
 
                         print(f'\t\t{key}')
-
+        if headerPrinted:
+            print()
         
         return valid
 
@@ -574,8 +586,8 @@ class Parser:
                     # if currentToken == TC.Set:
                     while currentToken != TC.EndofFile:
                         if currentToken == TC.Meta or currentToken == TC.Workout:
-                            print('Expected set clause')
-                            return
+                            return TC.ExpectedASetClause(*currentToken.getAll())
+
 
                         self.setCounter += 1
                         if (r :=self.parseSets()) == TC.Error:
@@ -587,8 +599,7 @@ class Parser:
 
                 else:
                     
-                    print('Expected a workout clause')
-                    return
+                    return TC.ExpectedAWorkoutClause(*currentToken.getAll())
 
 
 
@@ -596,8 +607,9 @@ class Parser:
 
 
             else:
-                print('Expected a meta clause')
-                return
+                
+                return TC.ExpectedAMetaClause(*currentToken.getAll())
+
 
 
 
@@ -605,12 +617,14 @@ class Parser:
             # currentToken = self.getNextToken()
 
 
-        self.checkForBlankedAttribute()
-        print()
-        self.checkForBlankedAttribute('workout')
-        print()
-        self.checkForBlankAttributesInSet()
-        print()
+        m = self.checkForBlankedAttribute()
+        w = self.checkForBlankedAttribute('workout')
+        s = self.checkForBlankAttributesInSet()
+
+        if not any([s,m,w]):
+            return TC.MissingAttributesError(-1,-1,-1)
+        else:
+            return self.tree
         
             
 

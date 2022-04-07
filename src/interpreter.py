@@ -3,8 +3,10 @@ import token_class as TC
 import csv
 import os
 import shutil
-from datetime import date, time, datetime
+from datetime import datetime
 from string import Template
+from parser_ import Parser
+from pprint import pprint
 
 class DeltaTemplate(Template):
     delimiter = "%"
@@ -48,7 +50,8 @@ class Interpreter:
 
     def __exit__(self):
         self.workout_file.close()
-        self.file.close()
+        if self.getSave():
+            self.file.close()
         self.configFile.close()
 
 
@@ -60,6 +63,9 @@ class Interpreter:
 
     def getOutputDir(self):
         return self.tree['meta']['output-dir'].getValue()
+
+    def getDebug(self):
+        return self.tree['meta']['debug'].getValue()
 
 
     def getWID(self):
@@ -74,7 +80,7 @@ class Interpreter:
             existed = False
 
         if wID == TC.NaN:
-            print('in')
+
             if existed:
                 # check if there's smth in there
                 ls =  os.listdir(self.getOutputDir())
@@ -164,23 +170,25 @@ class Interpreter:
         if self.getPrint():
             self.printRow(*tempPrintList,alignment='^')
 
+        return True
+
     def timeCalc(self):
         # time calculations
         start, end, duration = self.tree['workout']['start-time'], self.tree['workout']['end-time'], self.tree['workout']['duration']
 
-        print(f'start = {start}')
-       
         if all([start,end,duration]):
 
             if not (start == TC.Time and end == TC.Time):
-                print('Error11')
-                return
+                
+                return TC.ExpectedTimeDataType(start.line,start.start,end.line,end.start)
+               
 
             calc_duration = end.getDateTimeObj() - start.getDateTimeObj() 
 
             if duration.getTimeDeltaObj() != calc_duration:
-                print('Error10')
-                return
+                
+                return TC.DurationArithmeticError(*duration.getAll())
+                
             #else:
 
                 # self.tree['workout']['start-time'] = start.getDateTimeObj().strftime("%H:%M:%S")
@@ -189,8 +197,10 @@ class Interpreter:
 
         elif all([start,end]):
             if not (start == TC.Time and end == TC.Time):
-                print('Error112')
-                return
+               
+                return TC.ExpectedTimeDataType(start.line,start.start,end.line,end.start)
+
+                
 
             start =  start.getDateTimeObj()
             end =  end.getDateTimeObj()
@@ -248,6 +258,8 @@ class Interpreter:
         # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
         self.tree['workout']['end-time'] = end.strftime("%H:%M:%S")
 
+        return True
+
 
 
 
@@ -256,7 +268,9 @@ class Interpreter:
 
     def do_Workout(self):
 
-        self.timeCalc()
+        timeCalc_result = self.timeCalc()
+        if not timeCalc_result:
+            return timeCalc_result
 
         self.updateDateInWorkout()
 
@@ -293,6 +307,8 @@ class Interpreter:
             df = pd.DataFrame({k:v for k,v in zip(orderToPrint,tempPrintList)}, index=[0])
             print('workout')
             print(df)
+
+        return True
 
     def do_Sets(self):
         orderToPrint = self.config['interpreter']['order']['sets']
@@ -345,14 +361,15 @@ class Interpreter:
                         #Integer
                         start =  1
                         end = rep.getValue()
-
                         if end <= 0:
-                            print('error 4')
-                            return
+                            
+                            return TC.RepError(*rep.getAll(),'Rep cannot end with 0')
 
                     if start != 1:
-                        print('Error1')
-                        return
+                        
+                        return TC.RepError(*rep.getAll(),'For a new exercise, Rep should start with a 1')
+
+                        # add zero too and prevent that in strict mode (TO-DO)
 
                     prevEnd = end
 
@@ -396,7 +413,8 @@ class Interpreter:
                             CummulativeRep = 1
 
                         else:
-                            print('error2')
+                            return TC.RepError(*rep.getAll(),'Invalid rep. Either Rep starts with 0 or 1 or the end of the previous Rep')
+
 
 
 
@@ -407,8 +425,8 @@ class Interpreter:
                         end = prevEnd + rep.getValue()
 
                         if end <= 0:
-                            print('error 5')
-                            return
+                            return TC.RepError(*rep.getAll(),'Rep cannot end with 0')
+                            
 
                     prevEnd = end
 
@@ -441,42 +459,52 @@ class Interpreter:
             print(pd.DataFrame(setsDict))
             print()
 
+        return True
+
     def interprete(self):
-        self.do_Meta()
-        print()
-        self.do_Workout()
-        print()
-        self.do_Sets()
+        if self.getDebug():
+           
+            pprint(self.tree, sort_dicts=False)
+        
+        if not (m := self.do_Meta()):
+            return m
+        
+        
+        if not (w := self.do_Workout()):
+            return w
+
+        
+        if not (s := self.do_Sets()):
+            return s
 
         if self.getSave():
             self.file.close()
 
+        return True
+
         
 
                         
-   
+if __name__ == '__main__':  
 
-from parser_ import Parser
-from tokenizer import Lexer
-from pprint import pprint
+    from parser_ import Parser
+    from tokenizer import Lexer
+    from pprint import pprint
 
-# Interpreter.printRow(*list('abcedf'))
+    # Interpreter.printRow(*list('abcedf'))
 
-l = Lexer()
-if (r := l.tokenize2()):
-    # print(r)
-    p = Parser(r)
-    print(f' ====> {p.parse()}')
-    # pprint(p.tree,sort_dicts=False)
-    i = Interpreter(p.tree)
-    i.interprete()
-    # import pandas as pd
-    # df = pd.DataFrame(i.tree['workout'], index=[0])
-    # print(df)
-    print('done')
+    l = Lexer()
+    if (r := l.tokenize2()):
+        # print(r)
+        p = Parser(r)
+        print(f' ====> {p.parse()}')
+        # pprint(p.tree,sort_dicts=False)
+        i = Interpreter(p.tree)
+        i.interprete()
+        # import pandas as pd
+        # df = pd.DataFrame(i.tree['workout'], index=[0])
+        # print(df)
+        print('done')
     
-
-
-    
-else:
-    print(r)
+    else:
+        print(r)

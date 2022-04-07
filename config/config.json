@@ -8,7 +8,7 @@
     "interpreter":{
         "order":{
             "meta":["debug"],
-            "sets":["exercise-name","external-resistance", "rep-duration"],
+            "sets":["exercise-name","external-resistance"],
             "workout":["date","day","id","body-weight-before","body-weight-after","start-time","duration", "end-time"]
 
         }
