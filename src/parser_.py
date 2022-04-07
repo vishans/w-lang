@@ -3,7 +3,7 @@ from matchmaking import matchAndMakeToken
 import json
 from pprint import pprint
 import token_class as TC
-from sys import exit
+
 
 class Parser:
     CONFIG = r'config\config.json'
@@ -55,7 +55,7 @@ class Parser:
     def __enter__(self):
         return self
 
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_value, tb):
         self.configFile.close()
         self.metaFile.close()
         self.workoutFile.close()

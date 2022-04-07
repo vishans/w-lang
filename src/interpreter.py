@@ -48,10 +48,11 @@ class Interpreter:
         return self
 
 
-    def __exit__(self):
-        self.workout_file.close()
+    def __exit__(self, exc_type, exc_value, tb):
         if self.getSave():
+            self.workout_file.close()
             self.file.close()
+            
         self.configFile.close()
 
 
