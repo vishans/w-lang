@@ -72,6 +72,7 @@ class Interpreter:
     def getWID(self):
         
         wID = self.tree['workout']['id']
+        
         # check if dir exists
         existed = True
         if not os.path.isdir(self.getOutputDir()):
@@ -81,7 +82,7 @@ class Interpreter:
             existed = False
 
         if wID == TC.NaN:
-
+            
             if existed:
                 # check if there's smth in there
                 ls =  os.listdir(self.getOutputDir())
@@ -90,8 +91,9 @@ class Interpreter:
                     # dir is not empty
                     # 
                     # sort content in descending order and pick the next id    
-                   
+                    ls = list(map(int, ls))
                     newID = int(sorted(ls)[-1]) + 1
+                   
                 
                 else:
                     newID = 1
