@@ -12,7 +12,7 @@
         "dataType":"String",
         "defaultValue":"'My workouts'"
     },
-    "save":{
+    "csv":{
         "dataType":"Boolean",
         "defaultValue":"false"
     },
@@ -32,6 +32,5 @@
         "dataType":"Boolean",
         "defaultValue":"false"
     }
-    
-    
+   
 }

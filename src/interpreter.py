@@ -36,7 +36,7 @@ class Interpreter:
         self.tree['workout']['id'] = self.wID
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
-        if self.getSave():
+        if self.getCSV():
             self.outputDir = self.createWorkoutFile(self.wID)# here output dir is the workout dir
             self.file = open(os.path.join(self.outputDir, 'data.csv'),'w',newline='')
             self.csv = csv.writer(self.file)
@@ -49,7 +49,7 @@ class Interpreter:
 
 
     def __exit__(self, exc_type, exc_value, tb):
-        if self.getSave():
+        if self.getCSV():
             self.workout_file.close()
             self.file.close()
             
@@ -59,8 +59,8 @@ class Interpreter:
     def getPrint(self):
         return self.tree['meta']['print-output'].getValue()
 
-    def getSave(self):
-        return self.tree['meta']['save'].getValue()
+    def getCSV(self):
+        return self.tree['meta']['csv'].getValue()
 
     def getOutputDir(self):
         return self.tree['meta']['output-dir'].getValue()
@@ -77,7 +77,7 @@ class Interpreter:
         existed = True
         if not os.path.isdir(self.getOutputDir()):
             # create it 
-            if self.getSave():
+            if self.getCSV():
                 os.makedirs(self.getOutputDir())
             existed = False
 
@@ -283,7 +283,7 @@ class Interpreter:
         if self.getPrint():
             self.printRow(*orderToPrint,alignment='^')
 
-        if self.getSave():
+        if self.getCSV():
             self.csv_workout.writerow(orderToPrint)
         
 
@@ -300,7 +300,7 @@ class Interpreter:
         if self.getPrint():
             self.printRow(*tempPrintList,alignment='^')
 
-        if self.getSave():
+        if self.getCSV():
             self.csv_workout.writerow(tempPrintList)
 
         if self.getPDPrint():
@@ -320,7 +320,7 @@ class Interpreter:
         if self.getPrint():
             self.printRow(* (['wID','setID','exID','repID','CumRep']+orderToPrint),alignment='^')
 
-        if self.getSave():
+        if self.getCSV():
             self.csv.writerow(['wID','setID','exID','repID','CumRep']+orderToPrint)
 
         if self.getPDPrint():
@@ -385,7 +385,7 @@ class Interpreter:
                         if self.getPrint():
                             self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
 
-                        if self.getSave():
+                        if self.getCSV():
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         if self.getPDPrint():
@@ -442,7 +442,7 @@ class Interpreter:
                         if self.getPrint():
                             self.printRow(*([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList))
 
-                        if self.getSave():
+                        if self.getCSV():
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         if self.getPDPrint():
@@ -480,7 +480,7 @@ class Interpreter:
         if not (s := self.do_Sets()):
             return s
 
-        if self.getSave():
+        if self.getCSV():
             self.file.close()
 
         return True

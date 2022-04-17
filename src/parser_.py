@@ -94,7 +94,7 @@ class Parser:
                         dataTypeMap[d].append(key)
                     else:
                         dataTypeMap[d] = [key]
-        
+      
         return dataTypeMap
 
     def removeFromDataTypeMap(self,var,dataTypeMap, pour='meta'):
@@ -143,6 +143,9 @@ class Parser:
                 print('Please check meta.json file.')
                 print()
 
+            listOfDT.remove('Nothing')
+            
+
         return meta
 
     def getVirginWorkout(self):
@@ -156,8 +159,11 @@ class Parser:
             # input()
             if type(workout[key]).__name__ not in listOfDT:
                 print(f'Warning: Attribute {key} does not accept type {type(workout[key]).__name__ }')
-                print('Please check meta.json file.')
+                print('Please check workout.json file.')
                 print()
+
+            listOfDT.remove('Nothing')
+            
 
         return workout
 
@@ -175,6 +181,9 @@ class Parser:
                 print('Check your exercises.json and/or set.json files.')
 
                 print()
+
+            listOfDT.remove('Nothing')
+            
 
         return set
 
@@ -300,7 +309,7 @@ class Parser:
                     if className in self.metaDTypeMap:
                         print(f'All attributes of type <{className}> have been assigned')
                         
-                    return TC.NoAttributeAcceptThisValue(*currentToken.getLiteral())
+                    return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
             else:
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
@@ -314,6 +323,10 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap)
                     else:
                         if var in self.meta:
+                            if var not in dTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.meta[var]['dataType'])
+
+                                
                             return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
@@ -337,7 +350,7 @@ class Parser:
         workoutTokenList = sorted(workoutTokenList, key = lambda token: -1 if token == TC.Assignment else 1)
 
     
-        
+        # print(workoutTokenList)
         for currentToken in workoutTokenList:
             if currentToken == TC.EndofLine:
                 continue
@@ -347,7 +360,6 @@ class Parser:
 
             if currentToken == TC.Variable:
                 var = currentToken.getLiteral()
-               
                 if var in self.workout:
                     if 'Boolean' in dTypeMap:
                         if var in dTypeMap['Boolean']:
@@ -361,7 +373,7 @@ class Parser:
                     else:
                         TC.NotABoolean(*currentToken.getAll())
                 else:
-                    TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
 
                 continue
 
@@ -374,6 +386,9 @@ class Parser:
                     self.removeFromDataTypeMap(var,dTypeMap,'workout')
                     value = currentToken
                     self.tree['workout'][var] = value
+
+                    if className == 'Nothing':
+                        print(f'Nothing = {var}')
                 else:
                     value = currentToken.getLiteral()
                     
@@ -395,9 +410,12 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'workout')
                     else:
                         if var in self.workout:
+                            if var not in dTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.workout[var]['dataType'])
+                                
                             return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
-                            TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
+                            return TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
                 else:
                         value = currentToken.getLiteral()
 
@@ -408,7 +426,7 @@ class Parser:
                         return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
 
 
-    def parseSets(self):
+    def parseSets(self): # parse one set at a time
         currentLine = self.getVirginSet()
         dTypeMap = self.makeDataTypeMap('set')
         currentToken = self.getNextToken()
@@ -478,7 +496,7 @@ class Parser:
                     else:
                         TC.NotABoolean(*currentToken.getAll())
                 else:
-                    return TC.AttributeDoesNotExist(*currentToken.getAll())
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(), 'set')
 
                 continue
 
@@ -522,9 +540,13 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'set')
                     else:
                         if var in self.set:
+                            if var not in dTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
+
+
                             return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
-                            return TC.AttributeDoesNotExist(*currentToken.getAll())
+                            return TC.AttributeDoesNotExist(*currentToken.getAll(),'set')
                 else:
                         value = currentToken.getLiteral()
 
@@ -620,8 +642,9 @@ class Parser:
         m = self.checkForBlankedAttribute()
         w = self.checkForBlankedAttribute('workout')
         s = self.checkForBlankAttributesInSet()
-
-        if not any([s,m,w]):
+        
+        if not all([s,m,w]):
+            
             return TC.MissingAttributesError(-1,-1,-1)
         else:
             return self.tree

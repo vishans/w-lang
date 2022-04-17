@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+from msilib import type_binary
 
 
 class Token:
@@ -507,8 +508,20 @@ class ExpectedTimeDataType(Error):
            <end-time> on line {self.line2} at position {self.pos2} are expected to be of Time Data Type. 
            Providing both start-time and end-time requires both of thereof to be of Time Data Type.'''
 
+class TypeError(Error):
+    
+    def __init__(self,  token, line, start,attribute, type_, reqtype) -> None:
+        super().__init__(token, line, start)
+        self.attribute = attribute
+        self.type = type_
+        self.requiredType = reqtype
+
+    def __repr__(self) -> str:
+        return f'''Type Error
+           The attribute {self.attribute} line {self.line} at position {self.start} does not accept {self.value} of type {self.type}.
+           The attribute accepts a value of type {self.requiredType}'''
 class DurationArithmeticError(Error):
-    # token to be used in lexer
+    
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
        
