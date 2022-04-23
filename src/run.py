@@ -20,7 +20,7 @@ if (lexer_result):
     parser = Parser(lexer_result)
     parser_result = parser.parse() # return a treeish dict
                                    # else returns an Error Token if something goes wrong
-    pprint(parser.tree)
+    
 
     if parser_result:
 
@@ -37,4 +37,3 @@ else:
     # print error of lexer
     print(lexer_result)
 
-pprint(parser.tree)

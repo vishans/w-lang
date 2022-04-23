@@ -68,6 +68,9 @@ class Interpreter:
     def getDebug(self):
         return self.tree['meta']['debug'].getValue()
 
+    def getExcludeUnit(self):
+        return self.tree['meta']['exclude-unit'].getValue()
+
 
     def getWID(self):
         
@@ -165,7 +168,10 @@ class Interpreter:
         tempPrintList = []
         for attribute in orderToPrint:
             if attribute in metaTree:
-                tempPrintList.append(self.tree['meta'][attribute])
+                if self.getExcludeUnit():
+                    if metaTree[attribute] == TC.Token:
+                        metaTree[attribute].setExcludeUnit(True)
+                tempPrintList.append(metaTree[attribute])
 
             else:
                 print(f'attribute <{attribute}> not found in meta')
@@ -288,11 +294,14 @@ class Interpreter:
         
 
         
-        metaTree = self.tree['workout']
+        workoutTree = self.tree['workout']
         tempPrintList = []
         for attribute in orderToPrint:
-            if attribute in metaTree:
-                tempPrintList.append(self.tree['workout'][attribute])
+            if attribute in workoutTree:
+                if self.getExcludeUnit():
+                    if workoutTree[attribute] == TC.Token:
+                        workoutTree[attribute].setExcludeUnit(True)
+                tempPrintList.append(workoutTree[attribute])
 
             else:
                 print(f'attribute <{attribute}> not found in workout')
@@ -378,8 +387,10 @@ class Interpreter:
 
                     tempPrintList = []
                     for attribute in orderToPrint:
+                        if self.getExcludeUnit():
+                            line[attribute].setExcludeUnit(True)
                         tempPrintList.append(line[attribute])
-
+                    
 
                     for i in range(start, end+1):
                         if self.getPrint():
@@ -435,6 +446,8 @@ class Interpreter:
 
                     tempPrintList = []
                     for attribute in orderToPrint:
+                        if self.getExcludeUnit():
+                            line[attribute].setExcludeUnit(True)
                         tempPrintList.append(line[attribute])
 
 

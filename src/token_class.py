@@ -8,6 +8,10 @@ class Token:
         self.line = line
         self.start = start
         self.value = self.literal
+        self.excludeUnit = False
+
+    def setExcludeUnit(self, val):
+        self.excludeUnit = val
 
     def getValue(self):
         return self.value
@@ -25,7 +29,10 @@ class Token:
         return self.literal,self.line,self.start
 
     def __str__(self) -> str:
-        return self.literal
+        if not self.excludeUnit:
+            return self.literal
+       
+        return self.value
 
     def __eq__(self, __o: object) -> bool:
         return isinstance(self,__o)
@@ -72,6 +79,9 @@ class Nothing(Token):
 
     def __bool__(self):
         return False
+
+    def __str__(self) -> str:
+        return 'None'
 
 class Variable(Token):
     RegexPattern = r'^[A-Za-z][A-Za-z\-]*[A-Za-z]$'  
