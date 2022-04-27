@@ -1,0 +1,46 @@
+include ../template/nav 
+- navItems = ['Get Started', 'About']
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="css/index.css")
+        title WO Language
+    body
+        .main
+            +nav(navItems)
+
+            .hero 
+                .card 
+                    .card-title Why W?
+                    .card-content. 
+                        Why was W born and how will it make your workouts easier?
+                
+                
+                .card 
+                    .card-title A quick run-down
+                    .card-content. 
+                        A small aperçu of W.
+                    
+
+                .card 
+                    .card-title Get W on your computer
+                    .card-content. 
+                        A quick guide on how to get the W Interpreter up and running on your computer.
+
+            .footer
+                .logo-footer
+                    div W
+
+                .footer-content 
+                    div The W Language
+                    
+                
+
+                //-     &copy; 2022
+
+               
+                
+                

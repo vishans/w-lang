@@ -1,0 +1,16 @@
+- 
+    var defaultItems = ['Docs',
+                    'Futur updates']
+    
+    function getPath(item){
+        item = item.split(' ');
+        item = item.map((word) => word.toLowerCase());
+        return item.join('');
+    }
+
+mixin nav(itemsInNav=defaultItems) 
+    nav
+        a(href="http://")
+            .logo W
+        each item in itemsInNav
+            a(href=getPath(item)+'.html')= item 

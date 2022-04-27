@@ -1,0 +1,153 @@
+@import "./util";
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+:root{
+    --nav-left-padding: .5rem;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+nav{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 2rem;
+    gap: 1.5rem;
+    padding-left: var(--nav-left-padding);
+
+    a:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+    
+    a:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+}
+.main{
+    background-color: white;
+}
+
+.logo{
+    width: 2rem;
+    aspect-ratio: 1/1;
+    background-color: black;
+    @include flex-and-center;
+    box-sizing: content-box;
+    padding: .2rem;
+    color: white;
+    margin: 0 1rem;
+    user-select: none;
+    
+}
+
+.hero{
+    @include flex-and-center;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2.5rem;
+    height: auto;
+    padding-bottom: 29vh;
+    
+    
+
+    .card{
+        width: 80vw;
+        min-height: 29vh;
+        // border: 1px solid red;
+        display: grid;
+        grid-template-rows: 1fr 25vh;
+        grid-template-areas: "title"
+                            "content";
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+        transition: box-shadow .5s ease;
+
+        &:hover{
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+
+    }
+}
+
+.card-title{
+    grid-area: title;
+    //background-color: tan;
+    font-size: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: .5rem 2rem;
+    // padding-top: 1rem;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.12);
+}
+
+.card-content{
+    grid-area: content;
+    font-size: 1.3rem;
+    padding: 1rem;
+}
+
+.footer{
+    display: grid;
+    grid-template-columns: 3fr 5fr;
+    // grid-template-rows: 8fr 2fr;
+    height: 20vh;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    user-select: none;
+    
+    
+}
+
+.logo-footer{
+    grid-column-start: 1;
+    @include flex-and-center;
+    background-color: black;
+    font-size: 3rem;
+    border-right: 3px solid white;
+
+    > div{
+        border: 3px solid white;
+        width: 4rem;
+        aspect-ratio: 1/1;
+        @include flex-and-center;
+        color: white;
+    }
+    
+}
+
+.footer-content{
+    grid-column-start: 2;
+    background-color: black;//gray;
+    @include flex-and-center;
+    font-size: 1.75rem;
+    color: white;
+    padding: 1rem;
+
+
+}
+
+
+
+@media only screen and (min-width: 992px) {
+    :root{
+        --nav-left-padding:3rem;
+    }
+}
