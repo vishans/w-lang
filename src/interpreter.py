@@ -25,24 +25,25 @@ def strfdelta(tdelta, fmt):
 
 
 class Interpreter:
-    def __init__(self,tree) -> None:
+    def __init__(self,tree,script) -> None:
         if tree:
             self.tree = tree
         else:
             print('Error')
             return
-
+        self.script = script
         self.wID = self.getWID()
         self.tree['workout']['id'] = self.wID
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
-        if self.getCSV():
+        if self.getCSV() or self.getScript():
             self.outputDir = self.createWorkoutFile(self.wID)# here output dir is the workout dir
-            self.file = open(os.path.join(self.outputDir, 'data.csv'),'w',newline='')
-            self.csv = csv.writer(self.file)
+            if self.getCSV():
+                self.file = open(os.path.join(self.outputDir, 'data.csv'),'w',newline='')
+                self.csv = csv.writer(self.file)
 
-            self.workout_file = open(os.path.join(self.outputDir, 'workout.csv'),'w',newline='')
-            self.csv_workout = csv.writer(self.workout_file)
+                self.workout_file = open(os.path.join(self.outputDir, 'workout.csv'),'w',newline='')
+                self.csv_workout = csv.writer(self.workout_file)
 
     def __enter__(self):
         return self
@@ -70,6 +71,10 @@ class Interpreter:
 
     def getExcludeUnit(self):
         return self.tree['meta']['exclude-unit'].getValue()
+
+    def getScript(self):
+        return self.tree['meta']['script'].getValue()
+
 
 
     def getWID(self):
@@ -475,6 +480,11 @@ class Interpreter:
             print(pd.DataFrame(setsDict))
             print()
 
+        if self.getScript():
+            with open(os.path.join(self.outputDir, 'script.wo'), 'w') as script:
+                script.writelines(self.script)
+
+
         return True
 
     def interprete(self):
@@ -495,6 +505,8 @@ class Interpreter:
 
         if self.getCSV():
             self.file.close()
+            self.workout_file.close()
+            self.configFile.close()
 
         return True
 

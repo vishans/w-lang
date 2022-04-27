@@ -17,14 +17,14 @@ lexer_result = lexer.tokenize2() # returns a list of tokens
 
 if (lexer_result):
     
-    parser = Parser(lexer_result)
+    parser = Parser(**lexer_result)
     parser_result = parser.parse() # return a treeish dict
                                    # else returns an Error Token if something goes wrong
     
 
     if parser_result:
-
-        interpreter = Interpreter(parser_result)
+        
+        interpreter = Interpreter(**parser_result)
         interpreter_result = interpreter.interprete() 
         if not interpreter_result:
             print(interpreter_result)

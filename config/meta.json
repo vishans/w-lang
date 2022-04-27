@@ -35,6 +35,10 @@
     "exclude-unit":{
         "dataType":"Boolean",
         "defaultValue":"false"
+    },
+    "script":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
     }
    
 }

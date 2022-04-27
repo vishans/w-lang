@@ -8,7 +8,8 @@ import token_class as TC
 class Parser:
     CONFIG = r'config\config.json'
 
-    def __init__(self, tokens = None) -> None:
+    def __init__(self, tokens = None,script='') -> None:
+        self.script = script 
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
 
@@ -264,7 +265,6 @@ class Parser:
         # re-order the list so that Assignment Tokens are at the begining
         metaTokenList = sorted(metaTokenList, key = lambda token: -1 if token == TC.Assignment else 1)
 
-      
         
         for currentToken in metaTokenList:
             if currentToken == TC.EndofLine:
@@ -647,7 +647,7 @@ class Parser:
             
             return TC.MissingAttributesError(-1,-1,-1)
         else:
-            return self.tree
+            return {'tree': self.tree, 'script': self.script}
         
             
 

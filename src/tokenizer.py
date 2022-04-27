@@ -11,6 +11,11 @@ class Lexer:
     def __init__(self,filePath=r'example/one.wo') -> None:
         self.filePath = filePath
 
+        with open(self.filePath,'r') as f:
+            self.script = ''.join(f.readlines())
+            
+            
+
         # if needed adds an newline at the end of the file
         # the lexer needs it
         # else the line number information will be all messed up near the end
@@ -327,7 +332,7 @@ class Lexer:
 
 
                 tokens.append(TC.EndofFile(token,line,start))
-                return tokens
+                return {'tokens': tokens, 'script': self.script}
 
             
             tokens.append(TC.EndofLine(*prevToken))
@@ -425,7 +430,7 @@ class Lexer:
 
                     tokens.append(TC.EndofFile(token,line,start))
                     
-                    return tokens
+                    return {'tokens': tokens, 'script': self.script}
 
                 if start -1 == masterrIndent:
                    
