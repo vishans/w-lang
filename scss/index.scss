@@ -9,6 +9,7 @@
 
 :root{
     --nav-left-padding: .5rem;
+    --logo-width:2rem;
 }
 
 body{
@@ -43,7 +44,7 @@ nav{
 }
 
 .logo{
-    width: 2rem;
+    width: var(--logo-width);
     aspect-ratio: 1/1;
     background-color: black;
     @include flex-and-center;
@@ -70,7 +71,7 @@ nav{
         min-height: 29vh;
         // border: 1px solid red;
         display: grid;
-        grid-template-rows: 1fr 25vh;
+        grid-template-rows: .5fr auto 20%;
         grid-template-areas: "title"
                             "content";
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -90,7 +91,7 @@ nav{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: .5rem 2rem;
+    padding: 0rem 2rem;
     // padding-top: 1rem;
     border-bottom: 3px solid rgba(0, 0, 0, 0.12);
 }
@@ -99,6 +100,14 @@ nav{
     grid-area: content;
     font-size: 1.3rem;
     padding: 1rem;
+}
+
+.card-arrow{
+    // background-color: red;
+    grid-row-start: 3;
+    @include flex-and-center;
+    justify-content: flex-end;
+    padding: 0rem 1.5rem;
 }
 
 .footer{
@@ -149,5 +158,10 @@ nav{
 @media only screen and (min-width: 992px) {
     :root{
         --nav-left-padding:3rem;
+        --logo-width:3rem;
+    }
+
+    .card-arrow > span{
+        font-size: 2rem;
     }
 }
