@@ -518,6 +518,16 @@ class ExpectedTimeDataType(Error):
            <end-time> on line {self.line2} at position {self.pos2} are expected to be of Time Data Type. 
            Providing both start-time and end-time requires both of thereof to be of Time Data Type.'''
 
+class TimeAutoCalculationFailed(Error):
+    # token to be used in lexer
+    def __init__(self) -> None:
+        super().__init__(-1,-1,-1)
+       
+
+    def __repr__(self) -> str:
+        return f''''''
+
+
 class TypeError(Error):
     
     def __init__(self,  token, line, start,attribute, type_, reqtype) -> None:

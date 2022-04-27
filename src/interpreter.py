@@ -266,7 +266,7 @@ class Interpreter:
 
             print(f'Time Auto Calculation Failed.\nProvide at least {c-1} of the time attribute(s) above.')
 
-            return
+            return TC.TimeAutoCalculationFailed()
 
         self.tree['workout']['start-time'] = start.strftime("%H:%M:%S")
         # self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
@@ -286,7 +286,7 @@ class Interpreter:
         if not timeCalc_result:
             return timeCalc_result
 
-        self.updateDateInWorkout()
+        self.updateDateInWorkout() 
 
 
         orderToPrint = self.config['interpreter']['order']['workout']
@@ -324,7 +324,6 @@ class Interpreter:
             df = pd.DataFrame({k:v for k,v in zip(orderToPrint,tempPrintList)}, index=[0])
             print('workout')
             print(df)
-
         return True
 
     def do_Sets(self):
