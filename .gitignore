@@ -159,4 +159,4 @@ test/
 *.wo
 output/
 My workouts/
-node-modules/
+node_modules/
