@@ -13,4 +13,4 @@ mixin nav(itemsInNav=defaultItems)
         a(href="http://")
             .logo W
         each item in itemsInNav
-            a(href=getPath(item)+'.html')= item 
+            a(href=getPath(item)+'.html', class="nav-item")= item 

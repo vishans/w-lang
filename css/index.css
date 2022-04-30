@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,11 +10,11 @@
 
 :root {
   --nav-left-padding: .5rem;
-  --logo-width:2rem;
+  --logo-width:2.5rem;
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 nav {
@@ -24,6 +28,9 @@ nav {
   gap: 1.5rem;
   padding-left: var(--nav-left-padding);
 }
+nav .nav-item {
+  font-size: 1.5rem;
+}
 nav a:link {
   text-decoration: inherit;
   color: inherit;
@@ -33,10 +40,6 @@ nav a:visited {
   text-decoration: inherit;
   color: inherit;
   cursor: auto;
-}
-
-.main {
-  background-color: white;
 }
 
 .logo {
@@ -62,13 +65,24 @@ nav a:visited {
   padding: 2.5rem;
   height: auto;
   padding-bottom: 29vh;
+  width: 100vw;
+}
+.hero a:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+.hero a:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
 }
 .hero .card {
-  width: 80vw;
-  min-height: 29vh;
+  width: 70vw;
+  min-height: 35vh;
   display: grid;
   grid-template-rows: 0.5fr auto 20%;
-  grid-template-areas: "title" "content";
+  grid-template-areas: "title" "content" "arrow";
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   transition: box-shadow 0.5s ease;
 }
@@ -109,7 +123,7 @@ nav a:visited {
   left: 0;
   bottom: 0;
   height: 100px;
-  width: 100%;
+  width: 100vw;
   user-select: none;
 }
 
@@ -151,5 +165,9 @@ nav a:visited {
 
   .card-arrow > span {
     font-size: 2rem;
+  }
+
+  .footer-content {
+    font-size: 1.75rem;
   }
 }

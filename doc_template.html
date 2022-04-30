@@ -5,31 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="./css/doc_template.css">
+    <link rel="stylesheet" href="css/doc_template.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Document</title>
   </head>
   <body>
     <nav><a href="http://">
-        <div class="logo">W</div></a><a href="about.html">About</a>
+        <div class="logo">W</div></a><a class="nav-item" href="about.html">About</a>
     </nav>
     <div class="main">
       <div class="mobile-button">
-        <span class="material-icons">
+        <span class="material-icons" id="side-bar-button">
            list
           </span>
-        <span class="material-icons">
+        <span class="material-icons" id="top-of-page-button">
         arrow_upward
         </span>
       </div>
-      <div class="text-box">
-        <div class="text-box-title">The begining</div>
-        <div class="text-box-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum quo, aspernatur, mollitia veritatis sapiente laboriosam amet quibusdam labore pariatur at sit?
+      <div class="hero-grid">
+        <div class="text-box">
+          <div class="text-box-title">The begining</div>
+          <div class="text-box-content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.
+            
+          </div>
+        </div>
+        <div class="side-bar" id="side-bar">
+          hello world
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet in magnam dignissimos ratione ut a, pariatur facere ducimus? Eveniet nihil adipisci corporis e
           
         </div>
       </div>
-    </div>
-    <div class="footer"> 
+      <div class="footer"> 
+        <div class="footer-logo"> 
+          <div>W</div>
+        </div>
+        <div class="footer-semantic"> <a>source code </a><a>report an issue</a></div>
+      </div>
     </div>
   </body>
+  <script src="script/doc_button.js"> </script>
 </html>

@@ -1,5 +1,9 @@
 @import "./util";
 
+html{
+    overflow-x: hidden;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -9,11 +13,12 @@
 
 :root{
     --nav-left-padding: .5rem;
-    --logo-width:2rem;
+    --logo-width:2.5rem;
 }
 
 body{
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    
     
 }
 
@@ -28,6 +33,10 @@ nav{
     gap: 1.5rem;
     padding-left: var(--nav-left-padding);
 
+    .nav-item{
+        font-size: 1.5rem;
+    }
+
     a:link {
         text-decoration: inherit;
         color: inherit;
@@ -40,9 +49,12 @@ nav{
         cursor: auto;
     }
 }
-.main{
-    background-color: white;
-}
+// .main{
+//     background-color: white;
+//     margin:0;
+//     padding: 0;
+//     height: 100vh;
+// }
 
 .logo{
     width: var(--logo-width);
@@ -64,17 +76,33 @@ nav{
     padding: 2.5rem;
     height: auto;
     padding-bottom: 29vh;
+    width: 100vw;
+    
+    a:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+    
+    a:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
     
     
 
     .card{
-        width: 80vw;
-        min-height: 29vh;
+        width: 70vw;
+        min-height: 35vh;
+        
+        // min-height: max-content;
         // border: 1px solid red;
         display: grid;
         grid-template-rows: .5fr auto 20%;
         grid-template-areas: "title"
-                            "content";
+                            "content"
+                            "arrow";
         box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
         transition: box-shadow .5s ease;
 
@@ -106,9 +134,11 @@ nav{
 .card-arrow{
     // background-color: red;
     grid-row-start: 3;
+    // grid-area: arrow;
     @include flex-and-center;
     justify-content: flex-end;
     padding: 0rem 1.5rem;
+    // border: 1px solid blue;
 }
 
 .footer{
@@ -120,7 +150,7 @@ nav{
     left: 0;
     bottom: 0;
     height: 100px;
-    width: 100%;
+    width: 100vw;
     user-select: none;
     
     
@@ -165,4 +195,10 @@ nav{
     .card-arrow > span{
         font-size: 2rem;
     }
+
+    .footer-content{
+        font-size: 1.75rem;
+    }
+
+    
 }
