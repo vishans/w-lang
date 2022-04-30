@@ -48,7 +48,6 @@ nav a:visited {
   flex-direction: column;
   min-height: 90vh;
   align-items: center;
-  border: 1px solid red;
   width: 100vw;
   position: relative;
 }
@@ -71,6 +70,7 @@ nav a:visited {
   z-index: 10000;
   align-self: flex-start;
   padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   background-color: rgba(60, 64, 67, 0.3);
   justify-content: center;
   position: sticky;
@@ -81,10 +81,16 @@ nav a:visited {
   height: 5vh;
   align-items: center;
   top: 13px;
+  margin-top: 15px;
 }
 .mobile-button > span {
   font-size: 2rem;
   color: whitesmoke;
+}
+
+.hyphen {
+  hyphens: auto;
+  -ms-hyphens: auto;
 }
 
 .side-bar {
@@ -93,7 +99,7 @@ nav a:visited {
   border: 1px solid orange;
   padding: 2rem 1rem;
   word-break: break-all;
-  display: none;
+  display: absolute;
 }
 
 .mobile-side-bar {
@@ -123,7 +129,6 @@ nav a:visited {
   height: minmax(70vh, max-content);
   grid-template-columns: 25vw 70vw;
   grid-template-rows: 1fr;
-  border: 1px solid green;
   box-sizing: border-box;
   padding: 2rem 0.5rem;
 }
@@ -132,7 +137,6 @@ nav a:visited {
   grid-column-start: 1;
   grid-column-end: 3;
   box-sizing: border-box;
-  border: 1px solid pink;
   font-size: var(--text-box-font-size);
 }
 .text-box .text-box-title {
@@ -176,9 +180,10 @@ nav a:visited {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
   flex-wrap: wrap;
   background-color: black;
+  align-content: center;
 }
 
 @media only screen and (min-width: 769px) {
@@ -205,5 +210,18 @@ nav a:visited {
 
   .footer-semantic {
     gap: 2.5rem;
+  }
+}
+@media only screen and (max-height: 400px) {
+  nav {
+    height: 20vh;
+  }
+
+  .footer {
+    height: 30vh;
+  }
+
+  .mobile-button {
+    height: 10vh;
   }
 }

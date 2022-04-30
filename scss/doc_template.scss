@@ -57,7 +57,7 @@ nav{
     flex-direction: column;
     min-height: 90vh;
     align-items: center;
-    border: 1px solid red;
+    // border: 1px solid red;
     width: 100vw;
     position: relative;
 }
@@ -80,6 +80,8 @@ nav{
     z-index: 10000;
     align-self: flex-start;
     padding-top: .5rem;
+    padding-bottom: .5rem;
+
     background-color: rgba(60, 64, 67, 0.3);
     justify-content: center;
     position: sticky;
@@ -92,6 +94,7 @@ nav{
     align-items: center;
     top:13px;
     // background-color: transparent;
+    margin-top: 15px;
 
     
     > span{
@@ -104,13 +107,19 @@ nav{
     }
 }
 
+.hyphen{
+    hyphens:auto;
+    -ms-hyphens:auto;
+
+}
+
 .side-bar{
     grid-column-start: 1;
     grid-row-start: 1;
     border: 1px solid orange;
     padding: 2rem 1rem;
     word-break: break-all;
-    display: none;
+    display: absolute;
     
 }
 
@@ -145,7 +154,7 @@ nav{
     height: minmax(70vh, max-content);
     grid-template-columns: 25vw 70vw;
     grid-template-rows: 1fr;
-    border: 1px solid green;
+    // border: 1px solid green;
     box-sizing: border-box;
     padding: 2rem .5rem;
 }
@@ -156,7 +165,7 @@ nav{
     // padding: var(--text-box-padding);
     // width: 90vw;
     box-sizing: border-box;
-    border: 1px solid pink;
+    // border: 1px solid pink;
     // background-color: red;
     font-size: var(--text-box-font-size);
 
@@ -204,11 +213,12 @@ nav{
     // grid-column-end: 3;
     color: white;
     @include flex-and-center;
-    gap: 1rem;
+    gap: .5rem 1rem;
     flex-wrap: wrap;
     // border: 1px solid white;
     
     background-color: black;
+    align-content: center;
     
 }
 
@@ -239,4 +249,19 @@ nav{
     .footer-semantic{
         gap: 2.5rem;
     }
+}
+
+@media only screen and (max-height: 400px) { 
+ nav{
+     height: 20vh;
+ }
+
+ .footer{
+    height: 30vh;
+ }
+
+ .mobile-button{
+     height: 10vh;
+ }
+
 }
