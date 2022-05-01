@@ -3,39 +3,53 @@ scrollTopButton = $('#top-of-page-button');
 sideBar = $('#side-bar');
 
 if($(window).innerWidth() < 769){
-sideBar.removeClass('side-bar');
-sideBar.addClass('mobile-side-bar');}
+    sideBar.removeClass('side-bar');
+    sideBar.addClass('mobile-side-bar');
+    sideBar.addClass('hide');
+    var t = ($(window).innerHeight() - sideBar.innerHeight())/2;
+    var l = ($(window).innerWidth() - sideBar.innerWidth())/2;
+    sideBar.css({'top':t + 'px','left':l +'px'});
+}
 
 
-let t = ($(window).innerHeight() - sideBar.innerHeight())/2;
-let l = ($(window).innerWidth() - sideBar.innerWidth())/2;
-sideBar.css({'top':t + 'px','left':l +'px'});
 
 var sideButtonActive = false;
 
 sideBarButton.on('click', function(){
+    
     if(!sideButtonActive){
+        
+        sideBar.css({'top':t  + 'px','left':l +'px'});
+        // sideBar.css({'top':0 + 'px','left':0 +'px'});
+
         $('body').css({'overflow-y' : ' hidden'})
         $('.text-box').css({'color': 'transparent',
             'text-shadow': '0 0 5px rgba(0,0,0,0.5)'})
 
+        
+        //sideBar.css({'display': 'block'})
         sideBarButton.text('close');
-        sideBar.fadeIn();
-        sideBar.css("display","absolute");
+        sideBar.removeClass('hide');
+        sideBar.addClass('show');
         sideButtonActive = true;
         return
+        
     }
 
-        sideBar.fadeOut();
-        $('body').css({'overflow-y' : ' scroll'})
-        $('.text-box').css({'color': 'black',
-            'text-shadow': 'none'})
+    // sideBar.fadeOut();
+    $('body').css({'overflow-y' : ' scroll'})
+    $('.text-box').css({'color': 'black',
+        'text-shadow': 'none'})
+
+    sideBar.removeClass('show');
+    sideBar.addClass('hide');
+    
 
 
-        sideBarButton.text('list');
+    sideBarButton.text('list');
 
-        sideButtonActive = false;
-        return
+    sideButtonActive = false;
+    
 })
 
 
@@ -45,7 +59,9 @@ scrollTopButton.on('click', function(){
 
 $('.text-box').on('click', function (){
     if(sideButtonActive){
-        sideBar.fadeOut();
+        sideBar.removeClass('show')
+        sideBar.addClass('hide');
+
         $('body').css({'overflow-y' : ' scroll'})
         $('.text-box').css({'color': 'black',
             'text-shadow': 'none'})
@@ -63,12 +79,18 @@ $('.text-box').on('click', function (){
 $(window).resize(function(){
     if($(window).innerWidth() < 769){
 
+        var t = ($(window).innerHeight() - sideBar.innerHeight())/2;
+    var l = ($(window).innerWidth() - sideBar.innerWidth())/2;
+    sideBar.css({'top':t  + 'px','left':l +'px'});
+
         sideBar.removeClass('side-bar');
         sideBar.addClass('mobile-side-bar');
-        $('#side-bar').css({'display': 'none'})
+        sideBar.removeClass('show');
+        sideBar.addClass('hide');
+
 
         if(sideButtonActive){
-            sideBar.fadeOut();
+            //sideBar.fadeOut();
             $('body').css({'overflow-y' : ' scroll'})
             $('.text-box').css({'color': 'black',
                 'text-shadow': 'none'})
@@ -83,10 +105,13 @@ $(window).resize(function(){
 
     }
     else{
-        console.log('heee')
+        
         sideBar.removeClass('mobile-side-bar');
+        sideBar.removeClass('hide');
+
         sideBar.addClass('side-bar');
-        $('#side-bar').css({'display': 'block'});
+        sideBar.css({'top':'1rem','left':'0'});
+        
         $('.text-box').css({'color': 'black',
         'text-shadow': 'none'});
 
