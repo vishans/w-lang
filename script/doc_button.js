@@ -79,8 +79,8 @@ $('.text-box').on('click', function (){
 $(window).resize(function(){
     if($(window).innerWidth() < 769){
 
-        var t = ($(window).innerHeight() - sideBar.innerHeight())/2;
-    var l = ($(window).innerWidth() - sideBar.innerWidth())/2;
+        t = ($(window).innerHeight() - sideBar.innerHeight())/2;
+    l = ($(window).innerWidth() - sideBar.innerWidth())/2;
     sideBar.css({'top':t  + 'px','left':l +'px'});
 
         sideBar.removeClass('side-bar');
