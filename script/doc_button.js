@@ -18,6 +18,8 @@ var sideButtonActive = false;
 sideBarButton.on('click', function(){
     
     if(!sideButtonActive){
+        t = ($(window).innerHeight() - sideBar.innerHeight())/2;
+        l = ($(window).innerWidth() - sideBar.innerWidth())/2;
         
         sideBar.css({'top':t  + 'px','left':l +'px'});
         // sideBar.css({'top':0 + 'px','left':0 +'px'});
@@ -80,8 +82,8 @@ $(window).resize(function(){
     if($(window).innerWidth() < 769){
 
         t = ($(window).innerHeight() - sideBar.innerHeight())/2;
-    l = ($(window).innerWidth() - sideBar.innerWidth())/2;
-    sideBar.css({'top':t  + 'px','left':l +'px'});
+        l = ($(window).innerWidth() - sideBar.innerWidth())/2;
+        sideBar.css({'top':t  + 'px','left':l +'px'});
 
         sideBar.removeClass('side-bar');
         sideBar.addClass('mobile-side-bar');

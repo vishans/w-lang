@@ -1,4 +1,6 @@
 include ../template/nav
+include ../utils/listChapter
+
 doctype html
 - var itemInNav = ['About']
 html(lang="en")
@@ -24,63 +26,52 @@ html(lang="en")
 
                 .hero-grid
                     .text-box
-                        .text-box-title The begining
-                        .text-box-content.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.
+                        section 
+                            .text-box-title The begining
+                            .text-box-content.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quae consequatur aliquid quia repellendus quasi facere nemo animi, tempora quidem ut ipsam cumque. Neque voluptate voluptatem eaque ea! Minima, natus.lore 
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat asperiores accusantium, quaerat vero non distinctio deserunt voluptas nam necessitatibus nemo maiores odio perferendis aliquid mollitia ipsum. Quae doloremque quia eaque.Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus molestiae omnis quia quaerat nulla similique recusandae provident earum 
+                                
+                        br
+                        section
+                            .text-box-title Another One 
+                            .text-box-content.  
+                                hellow Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, quidem. Fuga, assumenda! Maiores quaerat natus harum qui odit, maxime architecto necessitatibus unde quod esse aliquid quisquam, explicabo nam obcaecati voluptas.
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias totam nam quisquam aut delectus commodi nulla, nemo assumenda officiis? Illum atque corporis quo voluptate fugiat quidem, ducimus ipsum praesentium nemo?
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam facilis libero a reiciendis provident error debitis nemo possimus iusto eius! Ratione, a nam! Nihil ab beatae enim quisquam repellendus saepe. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, veritatis. Reprehenderit quis accusamus dicta esse, rem ab cum veritatis ducimus minus vitae, reiciendis, incidunt quam id suscipit assumenda asperiores placeat. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus officiis, similique consequatur quis dignissimos veniam esse accusantium quo tenetur cupiditate consectetur eius aspernatur perferendis, deleniti laudantium quaerat asperiores. Odit, aliquam? Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nihil ratione amet provident distinctio quia recusandae voluptas numquam voluptate omnis sunt eligendi dolorum, fugiat eum harum laudantium magni saepe adipisci.
+
+                        section
+                            .text-box-title 3rd 
+                            .text-box-content.  
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ducimus accusamus, assumenda veniam fugit possimus a ea qui aperiam amet nulla maiores adipisci, neque quae mollitia repudiandae architecto at! Iusto!
+
+
+                        section
+                            .text-box-title Last section 
+                            .text-box-content.  
+                                its a me mario
+
+                        section
+                            .text-box-title heghe
+                            .text-box-content.  
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ducimus accusamus, assumenda veniam fugit possimus a ea qui aperiam amet nulla maiores adipisci, neque quae mollitia repudiandae architecto at! Iusto!
+
+                        section
+                            .text-box-title dfgkdaghg
+                            .text-box-content.  
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ducimus accusamus, assumenda veniam fugit possimus a ea qui aperiam amet nulla maiores adipisci, neque quae mollitia repudiandae architecto at! Iusto!
+
+                        section
+                            .text-box-title sdfdfr
+                            .text-box-content.  
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque ducimus accusamus, assumenda veniam fugit possimus a ea qui aperiam amet nulla maiores adipisci, neque quae mollitia repudiandae architecto at! Iusto!
 
                     .side-bar.hyphen#side-bar(lang="en")
                         .list-container
-                            ul 
-                                li hello world 
-                                li in the beningin 
-                                li others
-                                li hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li others
-                                i othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li othersli hello world 
-                                li in the beningin 
-                                li others
-
-                    //- .test
-                    //-     .stik 5
+                            +listChapters('Clauses')
+                            
+                    
             .footer 
                 .footer-logo 
                     div W
@@ -93,3 +84,4 @@ html(lang="en")
 
 
     script(src="script/doc_button.js") 
+    script(src="script/putSectionInChapters.js") 

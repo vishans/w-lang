@@ -111,6 +111,9 @@ nav a:visited {
   height: 50vh;
   position: sticky;
 }
+.list-container li[current] {
+  color: red;
+}
 
 .side-bar {
   grid-column: 1/2;
@@ -180,6 +183,31 @@ nav a:visited {
 }
 .text-box .text-box-content {
   padding: var(--text-box-content-padding);
+}
+
+section {
+  border: 1px solid lightblue;
+}
+
+#sub-list {
+  color: orange;
+  padding: 0.5rem 0 0.5rem 1.5rem;
+}
+#sub-list a {
+  display: block;
+}
+#sub-list a:link {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+#sub-list a:visited {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+}
+#sub-list a:hover {
+  text-decoration: underline;
 }
 
 .footer {
@@ -256,9 +284,10 @@ nav a:visited {
   .footer-semantic {
     gap: 2.5rem;
     font-size: 1.5rem;
+    padding: 0.5rem;
   }
 }
-@media only screen and (max-height: 400px) {
+@media only screen and (max-height: 450px) {
   nav {
     height: 20vh;
   }

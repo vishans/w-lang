@@ -138,6 +138,10 @@ nav{
 
     //align-self: flex-start;
     position: sticky;
+
+    li[current]{
+        color: red;
+    }
    
     
 
@@ -245,6 +249,37 @@ nav{
     }
 }
 
+section{
+    border: 1px solid lightblue;
+}
+
+#sub-list{
+    color: orange;
+    padding: .5rem 0  .5rem 1.5rem ;
+
+    a{
+        display: block;
+    }
+    
+
+    a:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+    
+    a:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+
+    a:hover{
+        text-decoration: underline;
+    }
+    
+}
+
 .footer{
     background-color: black;
     height: 20vh;
@@ -322,10 +357,11 @@ nav{
     .footer-semantic{
         gap: 2.5rem;
         font-size: 1.5rem;
+        padding: .5rem;
     }
 }
 
-@media only screen and (max-height: 400px) { 
+@media only screen and (max-height: 450px) { 
  nav{
      height: 20vh;
  }
