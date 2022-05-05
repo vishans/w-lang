@@ -2,7 +2,12 @@ sideBarButton = $('#side-bar-button');
 scrollTopButton = $('#top-of-page-button');
 sideBar = $('#side-bar');
 
-if($(window).innerWidth() < 769){
+function isMobileWidth() {
+    return $('.mobile-button').is(':visible');
+}
+
+if(isMobileWidth()/*$(window).innerWidth()< 769*/){
+    
     sideBar.removeClass('side-bar');
     sideBar.addClass('mobile-side-bar');
     sideBar.addClass('hide');
@@ -79,7 +84,7 @@ $('.text-box').on('click', function (){
 
 
 $(window).resize(function(){
-    if($(window).innerWidth() < 769){
+    if(isMobileWidth()/*$(window).innerWidth()< 769*/){
 
         t = ($(window).innerHeight() - sideBar.innerHeight())/2;
         l = ($(window).innerWidth() - sideBar.innerWidth())/2;

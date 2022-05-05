@@ -108,7 +108,7 @@ nav a:visited {
 
 .list-container {
   overflow: auto;
-  height: 50vh;
+  height: 70vh;
   position: sticky;
 }
 .list-container li[current] {
@@ -189,6 +189,15 @@ section {
   border: 1px solid lightblue;
 }
 
+pre.code-box {
+  overflow: auto;
+  background-color: #1e1e1e;
+  padding: var(--text-box-content-padding);
+  margin: var(--text-box-content-padding);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
 #sub-list {
   color: orange;
   padding: 0.5rem 0 0.5rem 1.5rem;
@@ -267,7 +276,7 @@ section {
   }
 
   .mobile-button {
-    visibility: hidden;
+    display: none;
   }
 
   .side-bar {

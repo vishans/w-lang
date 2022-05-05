@@ -1,5 +1,7 @@
 include ../template/nav
 include ../utils/listChapter
+include ../utils/codeBlock
+
 
 doctype html
 - var itemInNav = ['About']
@@ -40,7 +42,15 @@ html(lang="en")
                                 hellow Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, quidem. Fuga, assumenda! Maiores quaerat natus harum qui odit, maxime architecto necessitatibus unde quod esse aliquid quisquam, explicabo nam obcaecati voluptas.
                                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias totam nam quisquam aut delectus commodi nulla, nemo assumenda officiis? Illum atque corporis quo voluptate fugiat quidem, ducimus ipsum praesentium nemo?
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam facilis libero a reiciendis provident error debitis nemo possimus iusto eius! Ratione, a nam! Nihil ab beatae enim quisquam repellendus saepe. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, veritatis. Reprehenderit quis accusamus dicta esse, rem ab cum veritatis ducimus minus vitae, reiciendis, incidunt quam id suscipit assumenda asperiores placeat. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus officiis, similique consequatur quis dignissimos veniam esse accusantium quo tenetur cupiditate consectetur eius aspernatur perferendis, deleniti laudantium quaerat asperiores. Odit, aliquam? Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi nihil ratione amet provident distinctio quia recusandae voluptas numquam voluptate omnis sunt eligendi dolorum, fugiat eum harum laudantium magni saepe adipisci.
+                            - 
+                                var pieceOfCode = 
+                                `set: 
+                                    pd-print 
+                                    
+                                workout: 
+                                    1-10 "bicep curl" 10kg`
 
+                            +codeBlock(pieceOfCode, reToTypeMap)
                         section
                             .text-box-title 3rd 
                             .text-box-content.  
