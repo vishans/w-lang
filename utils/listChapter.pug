@@ -1,0 +1,12 @@
+-
+    var chaptersList = ['The begining', 'Clauses', 'Variables'];
+
+
+mixin listChapters (chapterInQuestion)
+    ul 
+        for chapter of chaptersList 
+            if chapter == chapterInQuestion
+                li(current)= chapter
+                #sub-list
+            else
+                li= chapter
