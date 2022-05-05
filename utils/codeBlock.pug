@@ -1,0 +1,92 @@
+-
+
+
+
+    let reToTypeMap ={"^[^=]+=[^=]+$": "color: rgb(31,119,180);" /*Assignment*/ ,
+    "^(true|false)$": "color: purple;" /*Boolean*/ ,
+    "^(set:|meta:|workout:)$": "color: red;" /*Clause*/ ,
+    "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$": "color: rgb(255,127,14);" /*Date*/ ,
+    "^\\.$": "color: white;" /*Dot*/ ,
+    "^((-)?(0|([1-9][0-9]*))(\\.[0-9]+)?)$": "color: rgb(44,160,44);" /*Float*/ ,
+    "^((([1-9]\\d*h)([0-5][0-9]min)?))$": "color: rgb(152,223,138);" /*HourMinute*/ ,
+    "^(-?[1-9][0-9]*|0)$": "color: rgb(214,39,40);" /*Integer*/ ,
+    "^([1-9]*\\d|\\.\\d+|[1-9]\\d*\\.\\d+|0\\.\\d+)kg$": "color: rgb(255,152,150);" /*Kilogram*/ ,
+    "^([1-9]\\d*min|0min)$": "color: rgb(197,176,213);" /*Minute*/ ,
+    "^((([1-9][0-9]*min)|(0min))([0-5][0-9]s)?)$": "color: rgb(140,86,75);" /*MinuteSecond*/ ,
+    "^NaN$": "color: rgb(196,156,148);" /*NaN*/ ,
+    "^None$": "color: rgb(227,119,194);" /*Nothing*/ ,
+    "^([1-9]?\\d%|100%)$": "color: rgb(247,182,210);" /*Percentage*/ ,
+    "^\\d+-\\d+$": "color: rgb(127,127,127);" /*Rep*/ ,
+    "^(([1-9][0-9]*s)|(0s)|(:[0-5][0-9]))$": "color: green;" /*Second*/ ,
+    
+    "^(([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?)$": "color: rgb(23,190,207);" /*Time*/ ,
+    "^[A-Za-z][A-Za-z\\-]*[A-Za-z]$": "color: orange;", /*Variable*/
+    "^'[A-Za-z0-9 \.\-]*'$": "color: #9AA835;",
+    '^"[A-Za-z0-9 \.\-]*"$': "color: #9AA835;"} /*String*/;
+
+    function getBlockOfCode(myStr, reToTypeMap){
+
+        result = [];
+        temp = '';
+        let Type = undefined;
+        for(let index = 0; index < myStr.length; index++){
+            s = myStr[index];
+            temp+= s;
+
+            if(s == "'" || s=='"'){
+                index++;
+                s = myStr[index];
+                while(s != "'" && s != '"'){
+                    temp+= s;
+                    index++;
+                    s = myStr[index];
+                }
+                temp+= s;
+            
+             }
+            
+            if(([' ', '\n'].includes(s))){
+                for(k in reToTypeMap){
+                    regex = new RegExp(k);
+                    if(regex.exec(temp.slice(0,-1).trim())){
+                        Type = reToTypeMap[k];
+                        break;
+                    }
+
+                }
+                result.push({"literal": temp, "type": Type});
+                temp = '';
+                Type = undefined;
+                
+            }
+
+            if(index == myStr.length - 1){
+                for(k in reToTypeMap){
+                    regex = new RegExp(k);
+                    if(regex.exec(temp)){
+                        Type = reToTypeMap[k];
+                        break;
+                    }
+
+                }
+                result.push({"literal": temp, "type": Type});
+                temp = '';
+                Type = undefined;
+
+            }
+        }
+        
+        return result
+
+    }
+
+mixin  codeBlock(myStr, reToTypeMap)
+    - var block = getBlockOfCode(myStr, reToTypeMap);
+    pre.code-box
+        each entry in block
+            if entry.literal == ' ' || entry.literal == '\n' || entry.type == undefined
+                |#{entry.literal}
+            else
+                -
+
+                span(style=entry.type) #{entry.literal}
