@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-from msilib import type_binary
+
 
 
 class Token:
@@ -687,3 +687,34 @@ class EndofFile(End):
         
 
 
+if __name__ == '__main__':
+    from matplotlib import cm
+    import numpy as np
+    cmap = cm.get_cmap('tab20',22)(np.linspace(0,1,22))
+    import json 
+    import sys, inspect
+    from pprint import pprint
+    def print_classes():
+        count = -1
+        mapping = {}
+        nameList = []
+        for name,obj in inspect.getmembers(sys.modules[__name__]):
+            
+            # name, obj = name_obj
+            if inspect.isclass(obj):
+                r,exp = inspect.getmembers(obj, lambda a:not(inspect.isroutine(a)))[0]
+                if r == 'RegexPattern':
+                    count+=1
+                    print(name)
+                    nameList.append(name)
+                    # print(obj)
+                    print(f'    {exp}')
+                    r,g,b = (np.ceil((cmap[count])[:3] * 255)).astype('uint8').tolist()
+                    mapping[exp] = f'color: rgb({r},{g},{b});'
+                    print()
+
+        print(count)
+        [print(i+f' /*{nm}*/ ' +',') for i, nm in zip(json.dumps(mapping).split(', '), nameList)]
+
+    print_classes()
+    # print(cmap[0][:3])
