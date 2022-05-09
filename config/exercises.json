@@ -8,5 +8,13 @@
     },
     "REST":{
         "rep": 1
+    },
+    "squat":{
+        "type":"'Hypertrophy'",
+        "exercise-execution":"'Normal'",      
+        "resistance-type": "'T-Bar'" ,       
+        "percentage-execution":"100%",  
+        "rep-duration":"0s",
+        "external-resistance": "69kg"
     }
 }

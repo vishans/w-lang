@@ -204,7 +204,7 @@ class Percentage(Quantity):
 
 
 class Kilogram(Quantity):
-    RegexPattern = r'^([1-9]*\d|\.\d+|[1-9]\d*\.\d+|0\.\d+)kg$'
+    RegexPattern = r'^([1-9]\d*|\.\d+|[1-9]\d*\.\d+|0(\.\d+)?)kg$'
     SQLDataType = 'FLOAT'
     
     def __init__(self, token, line, start) -> None:
@@ -235,6 +235,13 @@ class Second(Quantity):
     def getDateTimeObj(self):
         return datetime(second=self.value, year=1, month=1,day=1)
 
+    def __str__(self) -> str:
+        return self.getDateTimeObj().strftime('%H:%M:%S')
+
+    def getSQLString(self):
+        return f"'{self.getDateTimeObj().strftime('%H:%M:%S')}'"
+
+
 
     def __repr__(self) -> str:
         return f'Second <{self.value}> at line {self.line} at position {self.start}'
@@ -249,6 +256,8 @@ class Minute(Token):
 
         self.value = int(token[:-3])
         
+    def getSQLString(self):
+        return f''' '{self.getDateTimeObj().strftime('%H:%M:%S')}' '''
 
     def getTimeDeltaObj(self):
         return timedelta(minutes=self.value)
@@ -290,6 +299,9 @@ class MinuteSecond(Token):
         
         self.minute, self.second = int(self.minute), int(self.second)
 
+    def getSQLString(self):
+        return f''' '{self.getDateTimeObj().strftime('%H:%M:%S')}' '''
+
     def getTimeDeltaObj(self):
         return timedelta(minutes=self.minute,seconds=self.second)
 
@@ -327,6 +339,9 @@ class HourMinute(Token):
 
         
         self.hour= int(self.hour)
+
+    def getSQLString(self):
+        return f''' '{self.getDateTimeObj().strftime('%H:%M:%S')}' '''
 
     def getTimeDeltaObj(self):
         return timedelta(hours=self.hour,minutes=self.minute)

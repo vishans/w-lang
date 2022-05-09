@@ -605,8 +605,11 @@ class Parser:
                         return r
                     currentToken = self.getNextToken()
 
-                    # if currentToken == TC.Set:
+                    if currentToken == TC.EndofFile:
+                        return TC.ExpectedASetClause(*currentToken.getAll())
+                
                     while currentToken != TC.EndofFile:
+                        
                         if currentToken == TC.Meta or currentToken == TC.Workout:
                             return TC.ExpectedASetClause(*currentToken.getAll())
 
@@ -615,9 +618,9 @@ class Parser:
                         if (r :=self.parseSets()) == TC.Error:
                             return r
                         currentToken = self.getNextToken()
-                    # else:
-                    #     print('Expected a set clause')
-                    #     return
+                    
+                        
+
 
                 else:
                     

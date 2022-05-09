@@ -1,6 +1,9 @@
+from copy import deepcopy
 from functools import partialmethod
 import json
 from tokenize import Token
+
+from pandas import wide_to_long
 import token_class as TC
 import csv
 import os
@@ -39,7 +42,7 @@ class Interpreter:
             return
         self.script = script
         self.wID = self.getWID()
-        self.tree['workout']['id'] = self.wID
+        # self.tree['workout']['id'] = self.wID
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
 
@@ -48,7 +51,9 @@ class Interpreter:
 
         self.setFile = open(self.config['paths']['set'])
         self.set = json.load(self.setFile)
-
+        self.set.pop('rep')
+        
+        
         self.workoutFile = open(self.config['paths']['workout'])
         self.workout = json.load(self.workoutFile)
         if self.getCSV() or self.getScript():
@@ -126,7 +131,7 @@ class Interpreter:
                             typeInDict = self.workout[item]['dataType']
                             sqlType =  typeInDict if not isinstance(typeInDict, list) else typeInDict[0]
 
-                            partial += 'ADD COLUMN ' + item + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
+                            partial += 'ADD COLUMN ' +f'"{item}"' + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
 
 
                         print('The table will be alterd and the column(s) will be added.')
@@ -156,7 +161,7 @@ class Interpreter:
 
             if setTableExists:
                 
-                self.set = json.load(open(self.config['paths']['set']))
+                # self.set = json.load(open(self.config['paths']['set']))
                 self.cur.execute(f"Select * FROM {self.DB['setTable']} LIMIT 0")
                 colFromDB = set([desc[0] for desc in self.cur.description])
                 colFromScript = set([item.replace('-','_') for item in self.set])
@@ -182,7 +187,7 @@ class Interpreter:
                             typeInDict = self.set[item]['dataType']
                             sqlType =  typeInDict if not isinstance(typeInDict, list) else typeInDict[0]
 
-                            partial += 'ADD COLUMN ' + item + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
+                            partial += 'ADD COLUMN ' + f'"{item}"' + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
 
 
                         print('The table will be alterd and the column(s) will be added.')
@@ -205,7 +210,7 @@ class Interpreter:
                     "ex_id" INT,
                     "rep_id" INT,
                     "cum_rep" INT,
-                    {partial},\nPRIMARY KEY("self.workoutid", "set_id", "ex_id", "rep_id")
+                    {partial},\nPRIMARY KEY("w_id", "set_id", "ex_id", "rep_id")
                                 )'''
                 # self.cur.execute(f"CREATE TABLE {self.DB['workoutTable']}")
                 # self.conn.commit()
@@ -213,13 +218,47 @@ class Interpreter:
                 self.cur.execute(fullDefinition)
                 print(f"{self.DB['setTable']} successfully created.")
                 self.conn.commit()
-                input()
+            
+            #get db prev wid
+            wID = self.tree['workout']['id']
+            
+            if wID == TC.NaN:
+                query = f'''SELECT id FROM {self.DB['workoutTable']} ORDER BY id DESC LIMIT 1'''
+                self.cur.execute(query)
+                result = self.cur.fetchone()
+                # gottenID = 0 if self.cur.fetchone()  == None else self.cur.fetchone()[0]
+                if result == None: 
+                    gottenID = 0
+                else:
+                    
+                    gottenID = result[0]
+                
+                self.DB_W_id = int(gottenID) + 1 
+                
 
+            else:
+                query = f'''SELECT id FROM {self.DB['workoutTable']} WHERE id = {wID}'''
+                self.cur.execute(query)
+                if self.cur.rowcount > 0:
+                    print(f'Warning. The id {wID} already exists in the database. All corresponding records with this id will be overwritten')
+                    command = f'''DELETE FROM {self.DB['workoutTable']} WHERE id = {wID} '''
+                    self.cur.execute(command)
+                    self.conn.commit()
+
+                
+                
+                self.DB_W_id = wID
+                
 
     def getSQLTableDefinition(self, pour):
         
-        f = open(self.config['paths'][pour])
-        d = json.load(f)
+        
+        if pour == 'set':
+            d = self.set
+        elif pour == 'workout':
+            d = self.workout
+        elif pour =='meta': 
+            d = self.meta
         partialDefinition = ''
         for attribute in d:
             typeInDict = d[attribute]['dataType']
@@ -265,7 +304,6 @@ class Interpreter:
         return self.tree['meta']['script'].getValue()
 
     def getDB(self):
-        return True
         return self.tree['meta']['db'].getValue()
 
     def checkIfTablesExist(self):
@@ -286,8 +324,7 @@ class Interpreter:
         if wID == TC.NaN:
             
             if existed:
-                if not self.getCSV():
-                    return -1
+                
                 # check if there's smth in there
                 ls =  os.listdir(self.getOutputDir())
                 if ls:
@@ -511,9 +548,12 @@ class Interpreter:
                 print(f'attribute <{attribute}> not found in workout')
 
         if self.getDB():
-            print(tempPrintList)
+            index = list(self.workout).index('id')
+            DBTempPrintList = deepcopy(tempPrintList)
+            DBTempPrintList[index] = self.DB_W_id
+            
             SQLValues = []
-            for item in tempPrintList:
+            for item in DBTempPrintList:
                 if isinstance(item, str):
                     SQLValues.append(f"'{item}'")
                     continue
@@ -522,33 +562,41 @@ class Interpreter:
                     SQLValues.append(item.getSQLString())
                     continue
 
+                
+
+
                 SQLValues.append(str(item))
 
-            insert = f'''INSERT INTO {self.DB['workoutTable']}({','.join([item.replace('-','_') for item in self.workout])})
+            insert = f'''INSERT INTO {self.DB['workoutTable']}({','.join(['"' +item.replace('-','_') +  '"' for item in self.workout])})
             VALUES({','.join([item for item in SQLValues])})'''
-            print(insert)
             self.cur.execute(insert)
             self.conn.commit()
-            print('success')
-            input()
+            # print('success')
+            # input()
         
         if self.getPrint():
             self.printRow(*tempPrintList,alignment='^')
 
         if self.getCSV():
-            self.csv_workout.writerow(tempPrintList)
+            index = list(self.workout).index('id')
+            CSVTempPrintList = deepcopy(tempPrintList)
+            CSVTempPrintList[index] = self.wID
+            self.csv_workout.writerow(CSVTempPrintList)
 
         if self.getPDPrint():
             import pandas as pd
             print()
            
             df = pd.DataFrame({k:v for k,v in zip(orderToPrint,tempPrintList)}, index=[0])
+            df['id'] = -1 if  self.tree['workout']['id'] == TC.NaN else self.tree['workout']['id']
+
             print('workout')
             print(df)
         return True
 
     def do_Sets(self):
         orderToPrint = [attribute for attribute in self.set] #self.config['interpreter']['order']['sets']
+        
         
         # print attributes name row
         if self.getPrint():
@@ -625,9 +673,32 @@ class Interpreter:
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         if self.getPDPrint():
-                            for k, v in zip(['wID','setID','exID','repID','CumRep']+orderToPrint,[workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList):
+                            for k, v in zip(['wID','setID','exID','repID','CumRep']+orderToPrint,[-1 if  self.tree['workout']['id'] == TC.NaN else self.tree['workout']['id'],setID,exerciseID,repID,CummulativeRep]+tempPrintList):
                                 setsDict[k].append(v)
 
+                        if self.getDB():
+                            # index = list(self.set).index('rep')
+                            DBTempPrintList = deepcopy(tempPrintList)
+                            # DBTempPrintList[index] = self.DB_W_id
+                            # print(type(self.DB_W_id))
+                            SQLValues = []
+                            DBTempPrintList = [self.DB_W_id,setID, exerciseID,repID,CummulativeRep]+DBTempPrintList
+                            for item in DBTempPrintList:
+                                if isinstance(item, str):
+                                    SQLValues.append(f"'{item}'")
+                                    continue
+                                    
+                                if isinstance(item, TC.Token):
+                                    SQLValues.append(item.getSQLString())
+                                    continue
+
+                                
+                                SQLValues.append(str(item))
+                            
+                            insert = f'''INSERT INTO {self.DB['setTable']}({','.join(['w_id','set_id','ex_id','rep_id','cum_rep']+['"' +item.replace('-','_') +  '"' for item in self.set])})
+                            VALUES({','.join([item for item in SQLValues])})'''
+                            self.cur.execute(insert)
+                            self.conn.commit()
 
                         repID+=1
                         CummulativeRep+=1
@@ -684,8 +755,32 @@ class Interpreter:
                             self.csv.writerow([workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList)
 
                         if self.getPDPrint():
-                            for k, v in zip(['wID','setID','exID','repID','CumRep']+orderToPrint,[workoutID,setID,exerciseID,repID,CummulativeRep]+tempPrintList):
+                            for k, v in zip(['wID','setID','exID','repID','CumRep']+orderToPrint,[-1 if  self.tree['workout']['id'] == TC.NaN else self.tree['workout']['id'],setID,exerciseID,repID,CummulativeRep]+tempPrintList):
                                 setsDict[k].append(v)
+
+                        if self.getDB():
+                            # index = list(self.set).index('id')
+                            DBTempPrintList = deepcopy(tempPrintList)
+                            # DBTempPrintList[index] = self.DB_W_id
+                            # print(type(self.DB_W_id))
+                            SQLValues = []
+                            DBTempPrintList = [self.DB_W_id,setID, exerciseID,repID,CummulativeRep]+DBTempPrintList
+                            for item in DBTempPrintList:
+                                if isinstance(item, str):
+                                    SQLValues.append(f"'{item}'")
+                                    continue
+                                    
+                                if isinstance(item, TC.Token):
+                                    SQLValues.append(item.getSQLString())
+                                    continue
+
+                                
+                                SQLValues.append(str(item))
+                            
+                            insert = f'''INSERT INTO {self.DB['setTable']}({','.join(['w_id','set_id','ex_id','rep_id','cum_rep']+[item.replace('-','_') for item in self.set])})
+                            VALUES({','.join([item for item in SQLValues])})'''
+                            self.cur.execute(insert)
+                            self.conn.commit()
 
                         repID+=1
                         CummulativeRep+=1
@@ -739,4 +834,4 @@ if __name__ == '__main__':
     
     p = Parser(**l).parse()
    
-    i = Interpreter(**p)
+    i = Interpreter(**p).interprete()
