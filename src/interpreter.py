@@ -281,6 +281,13 @@ class Interpreter:
         if self.getCSV():
             self.workout_file.close()
             self.file.close()
+
+        if self.getDB():
+            self.conn.close()
+
+        self.workoutFile.close()
+        self.setFile.close()        
+        self.metaFile.close() 
             
         self.configFile.close()
 
@@ -822,6 +829,14 @@ class Interpreter:
             self.file.close()
             self.workout_file.close()
             self.configFile.close()
+
+        if self.getDB():
+            self.conn.close()
+
+        self.workoutFile.close()
+        self.setFile.close()        
+        self.metaFile.close()        
+
 
         return True
 
