@@ -1,0 +1,9 @@
+{
+    "host": "localhost",
+    "database":"w",
+    "user": "postgres",
+    "password": "rootadmin",
+
+    "workoutTable": "workout",
+    "setTable": "set_"
+}

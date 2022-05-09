@@ -203,7 +203,7 @@ class Parser:
         headerPrinted = False
         valid = True
         for key in self.tree[clause]:
-            if self.tree[clause][key] == TC.Nothing and key in self.config['interpreter']['order'][clause]:
+            if self.tree[clause][key] == TC.Nothing: # and key in self.config['interpreter']['order'][clause]:
                 
                 if clause == 'workout' and key in ['start-time','end-time','duration','date']:
                     continue
@@ -233,7 +233,7 @@ class Parser:
                 exercisePrinted = False
                 for  key in exercise:
                     token = exercise[key]
-                    if token == TC.Nothing and key in self.config['interpreter']['order']['sets']:
+                    if token == TC.Nothing: # and key in self.config['interpreter']['order']['sets']:
                         valid = False
                         if not headerPrinted:
                             print(f'In set {i+1}, these attributes are required:')

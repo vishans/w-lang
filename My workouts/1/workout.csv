@@ -1,2 +1,2 @@
-id,body-weight-before,body-weight-after,start-time,duration,end-time
-1,62kg,63kg,04:16:36,01:20:00,05:36:36
+date,id,body-weight-before,body-weight-after,start-time,duration,end-time,session,mood,last-meal,last-bowel-movement
+08-05-22,1,59kg,60kg,19:50:55,00:00:03,19:50:58,NaN,NaN,NaN,NaN

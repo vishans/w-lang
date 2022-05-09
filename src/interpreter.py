@@ -1,4 +1,6 @@
+from functools import partialmethod
 import json
+from tokenize import Token
 import token_class as TC
 import csv
 import os
@@ -6,7 +8,11 @@ import shutil
 from datetime import datetime
 from string import Template
 from parser_ import Parser
+import token_class
+import importlib
 from pprint import pprint
+
+from tokenizer import Lexer
 
 class DeltaTemplate(Template):
     delimiter = "%"
@@ -36,6 +42,15 @@ class Interpreter:
         self.tree['workout']['id'] = self.wID
         self.configFile = open(Parser.CONFIG, 'r')
         self.config = json.load(self.configFile)
+
+        self.metaFile = open(self.config['paths']['meta'])
+        self.meta = json.load(self.metaFile)
+
+        self.setFile = open(self.config['paths']['set'])
+        self.set = json.load(self.setFile)
+
+        self.workoutFile = open(self.config['paths']['workout'])
+        self.workout = json.load(self.workoutFile)
         if self.getCSV() or self.getScript():
             self.outputDir = self.createWorkoutFile(self.wID)# here output dir is the workout dir
             if self.getCSV():
@@ -44,6 +59,180 @@ class Interpreter:
 
                 self.workout_file = open(os.path.join(self.outputDir, 'workout.csv'),'w',newline='')
                 self.csv_workout = csv.writer(self.workout_file)
+
+        if self.getDB():
+            
+            self.DBFile = open(self.config['paths']['database'])
+            self.DB = json.load(self.DBFile)
+            import psycopg2
+            try:
+                self.conn = psycopg2.connect(host=self.DB['host'],
+                                        database=self.DB['database'],
+                                        user=self.DB['user'],
+                                        password=self.DB['password'])
+            except:
+                print('Database does not exist')
+                print(f"Creating Database {self.DB['database']}")
+                self.conn = psycopg2.connect(host=self.DB['host'],
+                                        database='postgres',
+                                        user=self.DB['user'],
+                                        password=self.DB['password'])
+                
+                self.cur = self.conn.cursor()
+                self.conn.autocommit = True
+                self.cur.execute(f"CREATE DATABASE {self.DB['database']}")
+                self.conn.commit()
+                self.conn.close()
+
+                print('Database successfully created.')
+
+                self.conn = psycopg2.connect(host=self.DB['host'],
+                                            database=self.DB['database'],
+                                            user=self.DB['user'],
+                                            password=self.DB['password'])
+                self.conn.autocommit = True
+
+            self.cur = self.conn.cursor()
+            self.cur.execute("select * from information_schema.tables where table_name=%s", (self.DB['workoutTable'],))
+            workoutTableExists = bool(self.cur.rowcount)
+            
+            self.cur.execute("select * from information_schema.tables where table_name=%s", (self.DB['setTable'],))
+            setTableExists = bool(self.cur.rowcount)
+
+            if workoutTableExists:
+                
+                # self.workout = json.load(open(self.config['paths']['workout']))
+                self.cur.execute(f"Select * FROM {self.DB['workoutTable']} LIMIT 0")
+                colFromDB = set([desc[0] for desc in self.cur.description])
+                colFromScript = set([item.replace('-','_') for item in self.workout])
+                
+                if not colFromScript == colFromDB:
+                    removedColumns = colFromDB - colFromScript
+                    if removedColumns:
+                        print(f'The following column(s) has/have been removed from TABLE {self.DB["workoutTable"]}: ')
+                        for item in removedColumns:
+                            print('\t' + item)
+                        print('''\nThe column(s) will not be dropped as it/they might still hold\ndata from previous workouts. If you want to remove it/them, you will need to do so manually.''')
+                        print()
+                    addedColumns = colFromScript - colFromDB
+
+                    if addedColumns:
+                        print(f'The following colums(s) has/have been added to TABLE {self.DB["workoutTable"]}: : ')
+                        
+                        partial = ''
+                        for item in addedColumns:
+                            print('\t' + item)
+                            # dictToAlter[item] = self.workout[item]
+                            typeInDict = self.workout[item]['dataType']
+                            sqlType =  typeInDict if not isinstance(typeInDict, list) else typeInDict[0]
+
+                            partial += 'ADD COLUMN ' + item + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
+
+
+                        print('The table will be alterd and the column(s) will be added.')
+
+                        partial = partial[:-2]
+                        full = f'''ALTER TABLE {self.DB['workoutTable']} 
+                                {partial}'''
+
+                        self.cur.execute(full)
+                        self.conn.commit()
+                        print('New columns committed.')
+                        
+                    
+                
+            else:
+                print(f"Creating {self.DB['workoutTable']}")
+                partial = self.getSQLTableDefinition('workout')
+                fullDefinition = f'''CREATE TABLE {self.DB['workoutTable']}(\n{partial},\nPRIMARY KEY(id)
+                                )'''
+                # self.cur.execute(f"CREATE TABLE {self.DB['workoutTable']}")
+                # self.conn.commit()
+                # print(fullDefinition)
+                self.cur.execute(fullDefinition)
+                print(f"{self.DB['workoutTable']} successfully created.")
+                self.conn.commit()
+                
+
+            if setTableExists:
+                
+                self.set = json.load(open(self.config['paths']['set']))
+                self.cur.execute(f"Select * FROM {self.DB['setTable']} LIMIT 0")
+                colFromDB = set([desc[0] for desc in self.cur.description])
+                colFromScript = set([item.replace('-','_') for item in self.set])
+                
+                if not colFromScript == colFromDB:
+                    removedColumns = colFromDB - colFromScript
+                    removedColumns-= {'rep_id','cum_rep', 'w_id', 'set_id', 'ex_id' }
+                    if removedColumns:
+                        print(f'The following column(s) has/have been removed from TABLE {self.DB["setTable"]}: : ')
+                        for item in removedColumns:
+                            print('\t' + item)
+                        print('''The column(s) will not be dropped as it/they might still hold\ndata from previous sets. If you want to remove it/them, you will need to do so manually.''')
+                        print()
+                    addedColumns = colFromScript - colFromDB
+
+                    if addedColumns:
+                        print(f'The following colums(s) has/have been added to TABLE {self.DB["setTable"]}: : ')
+                        
+                        partial = ''
+                        for item in addedColumns:
+                            print(item)
+                            # dictToAlter[item] = self.workout[item]
+                            typeInDict = self.set[item]['dataType']
+                            sqlType =  typeInDict if not isinstance(typeInDict, list) else typeInDict[0]
+
+                            partial += 'ADD COLUMN ' + item + ' ' +  getattr(importlib.import_module('token_class'),sqlType).SQLDataType + ', '
+
+
+                        print('The table will be alterd and the column(s) will be added.')
+
+                        partial = partial[:-2]
+                        full = f'''ALTER TABLE {self.DB['setTable']} 
+                                {partial}'''
+
+                        self.cur.execute(full)
+                        self.conn.commit()
+                        print('New columns committed.')
+                        
+            else:
+    
+                print(f"Creating {self.DB['setTable']}")
+                partial = self.getSQLTableDefinition('set')
+                fullDefinition = f'''CREATE TABLE {self.DB['setTable']}(
+                    "w_id" INT REFERENCES workout(id) ON DELETE CASCADE ,
+                    "set_id" INT,
+                    "ex_id" INT,
+                    "rep_id" INT,
+                    "cum_rep" INT,
+                    {partial},\nPRIMARY KEY("self.workoutid", "set_id", "ex_id", "rep_id")
+                                )'''
+                # self.cur.execute(f"CREATE TABLE {self.DB['workoutTable']}")
+                # self.conn.commit()
+                # print(fullDefinition)
+                self.cur.execute(fullDefinition)
+                print(f"{self.DB['setTable']} successfully created.")
+                self.conn.commit()
+                input()
+
+
+    def getSQLTableDefinition(self, pour):
+        
+        f = open(self.config['paths'][pour])
+        d = json.load(f)
+        partialDefinition = ''
+        for attribute in d:
+            typeInDict = d[attribute]['dataType']
+            sqlType =  typeInDict if not isinstance(typeInDict, list) else typeInDict[0]
+            partialDefinition += attribute.replace('-','_') + ' '
+            partialDefinition += getattr(importlib.import_module('token_class'),sqlType).SQLDataType+ ',\n'
+        
+        return partialDefinition[:-2]
+
+
+
+    
+
 
     def __enter__(self):
         return self
@@ -75,7 +264,12 @@ class Interpreter:
     def getScript(self):
         return self.tree['meta']['script'].getValue()
 
+    def getDB(self):
+        return True
+        return self.tree['meta']['db'].getValue()
 
+    def checkIfTablesExist(self):
+        pass
 
     def getWID(self):
         
@@ -92,6 +286,8 @@ class Interpreter:
         if wID == TC.NaN:
             
             if existed:
+                if not self.getCSV():
+                    return -1
                 # check if there's smth in there
                 ls =  os.listdir(self.getOutputDir())
                 if ls:
@@ -162,7 +358,7 @@ class Interpreter:
             
 
     def do_Meta(self):
-        orderToPrint = self.config['interpreter']['order']['meta']
+        orderToPrint = [attribute for attribute in self.meta] #self.config['interpreter']['order']['meta']
 
         # print attributes name row
         if self.getPrint():
@@ -191,22 +387,25 @@ class Interpreter:
         start, end, duration = self.tree['workout']['start-time'], self.tree['workout']['end-time'], self.tree['workout']['duration']
 
         if all([start,end,duration]):
-
+        
             if not (start == TC.Time and end == TC.Time):
                 
                 return TC.ExpectedTimeDataType(start.line,start.start,end.line,end.start)
                
 
-            calc_duration = end.getDateTimeObj() - start.getDateTimeObj() 
+            calc_duration = (end:= end.getDateTimeObj()) - (start := start.getDateTimeObj()) 
 
-            if duration.getTimeDeltaObj() != calc_duration:
-                
-                return TC.DurationArithmeticError(*duration.getAll())
+            if (duration := duration.getTimeDeltaObj()) != calc_duration:
+                try:
+                    return TC.DurationArithmeticError(*duration.getAll())
+                except:
+                    return TC.DurationArithmeticError(*self.tree['workout']['duration'].getAll())
+
                 
             #else:
 
                 # self.tree['workout']['start-time'] = start.getDateTimeObj().strftime("%H:%M:%S")
-            self.tree['workout']['duration'] = strfdelta(duration.getTimeDeltaObj(),'%H:%M:%S')
+            self.tree['workout']['duration'] = strfdelta(duration,'%H:%M:%S')
                 # self.tree['workout']['end-time'] = end.getDateTimeObj().strftime("%H:%M:%S")
 
         elif all([start,end]):
@@ -289,7 +488,7 @@ class Interpreter:
         self.updateDateInWorkout() 
 
 
-        orderToPrint = self.config['interpreter']['order']['workout']
+        orderToPrint = [attribute for attribute in self.workout] #self.config['interpreter']['order']['workout']
         # print attributes name row
         if self.getPrint():
             self.printRow(*orderToPrint,alignment='^')
@@ -303,13 +502,35 @@ class Interpreter:
         tempPrintList = []
         for attribute in orderToPrint:
             if attribute in workoutTree:
-                if self.getExcludeUnit():
+                if self.getExcludeUnit() or self.getDB():
                     if workoutTree[attribute] == TC.Token:
                         workoutTree[attribute].setExcludeUnit(True)
                 tempPrintList.append(workoutTree[attribute])
 
             else:
                 print(f'attribute <{attribute}> not found in workout')
+
+        if self.getDB():
+            print(tempPrintList)
+            SQLValues = []
+            for item in tempPrintList:
+                if isinstance(item, str):
+                    SQLValues.append(f"'{item}'")
+                    continue
+                    
+                if isinstance(item, TC.Token):
+                    SQLValues.append(item.getSQLString())
+                    continue
+
+                SQLValues.append(str(item))
+
+            insert = f'''INSERT INTO {self.DB['workoutTable']}({','.join([item.replace('-','_') for item in self.workout])})
+            VALUES({','.join([item for item in SQLValues])})'''
+            print(insert)
+            self.cur.execute(insert)
+            self.conn.commit()
+            print('success')
+            input()
         
         if self.getPrint():
             self.printRow(*tempPrintList,alignment='^')
@@ -327,7 +548,7 @@ class Interpreter:
         return True
 
     def do_Sets(self):
-        orderToPrint = self.config['interpreter']['order']['sets']
+        orderToPrint = [attribute for attribute in self.set] #self.config['interpreter']['order']['sets']
         
         # print attributes name row
         if self.getPrint():
@@ -513,25 +734,9 @@ class Interpreter:
 
                         
 if __name__ == '__main__':  
-
-    from parser_ import Parser
-    from tokenizer import Lexer
-    from pprint import pprint
-
-    # Interpreter.printRow(*list('abcedf'))
-
-    l = Lexer()
-    if (r := l.tokenize2()):
-        # print(r)
-        p = Parser(r)
-        print(f' ====> {p.parse()}')
-        # pprint(p.tree,sort_dicts=False)
-        i = Interpreter(p.tree)
-        i.interprete()
-        # import pandas as pd
-        # df = pd.DataFrame(i.tree['workout'], index=[0])
-        # print(df)
-        print('done')
     
-    else:
-        print(r)
+    l = Lexer(r'test.wo').tokenize2()
+    
+    p = Parser(**l).parse()
+   
+    i = Interpreter(**p)

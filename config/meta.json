@@ -39,6 +39,10 @@
     "script":{
         "dataType":"Boolean",
         "defaultValue":"false"
+    },
+    "db":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
     }
    
 }

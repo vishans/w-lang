@@ -3,12 +3,20 @@ from datetime import date, datetime, timedelta
 
 
 class Token:
+    SQLDataType = 'VARCHAR(256)'
     def __init__(self,token, line, start) -> None:
         self.literal = token
         self.line = line
         self.start = start
         self.value = self.literal
         self.excludeUnit = False
+
+    
+    def getSQLDataType(self):
+        return self.SQLDataType
+
+    def getSQLString(self):
+        return str(self.value)
 
     def setExcludeUnit(self, val):
         self.excludeUnit = val
@@ -43,9 +51,11 @@ class Token:
 
 class Rep(Token):
     RegexPattern = r'^\d+-\d+$'
+    SQLDataType = 'INT'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.begin, self.end = [int(i) for i in self.literal.split('-')]
 
     def getStart(self):
@@ -98,6 +108,9 @@ class NaN(Token):
 
     def __init__(self, token, line,start) -> None:
         super().__init__( token, line,start)
+
+    def getSQLString(self):
+        return 'NULL'
         
 
     def __repr__(self) -> str:
@@ -107,10 +120,15 @@ class NaN(Token):
 
 class String(Token):
     RegexPattern = r'''^("[A-Za-z0-9 \.\-]*"|'[A-Za-z0-9 \.\-]*')$'''
+    SQLDataType = 'VARCHAR(300)'
 
     def __init__(self, token, line,start) -> None:
         super().__init__( token, line,start)
+
         self.value = self.literal[1:-1]
+
+    def getSQLString(self):
+        return f"'{str(self.value)}'"
 
 
     def __str__(self) -> str:
@@ -122,9 +140,11 @@ class String(Token):
 
 class Integer(Token):
     RegexPattern = r'^(-?[1-9][0-9]*|0)$'
+    SQLDataType = 'INT'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.value = int(self.literal)
 
     def __repr__(self) -> str:
@@ -136,9 +156,11 @@ class Integer(Token):
 
 class Float(Token):
     RegexPattern = r'^((-)?(0|([1-9][0-9]*))(\.[0-9]+)?)$'#r'^([+-]?([0-9]+([.][0-9]*)?|[.][0-9]+))$' #r'^(-?[1-9]?\.\d+|-?[1-9]\d+\.\d+|-?0\.\d*[1-9])$'
+    SQLDataType = 'FLOAT'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
 
     def __repr__(self) -> str:
         return f'Float <{self.literal}> at line {self.line} at position {self.start}'
@@ -146,9 +168,11 @@ class Float(Token):
 
 class Boolean(Token):
     RegexPattern = r'^(true|false)$'
+    SQLDataType = 'BOOLEAN'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.value = True if self.literal == 'true' else False
 
     def __repr__(self) -> str:
@@ -167,9 +191,11 @@ class Quantity(Token):
 
 class Percentage(Quantity):
     RegexPattern = r'^([1-9]?\d%|100%)$'
+    SQLDataType = 'FLOAT'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.value = token[:-1]
        
 
@@ -179,9 +205,11 @@ class Percentage(Quantity):
 
 class Kilogram(Quantity):
     RegexPattern = r'^([1-9]*\d|\.\d+|[1-9]\d*\.\d+|0\.\d+)kg$'
+    SQLDataType = 'FLOAT'
     
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.value = token[:-2]
         
     
@@ -191,9 +219,11 @@ class Kilogram(Quantity):
 
 class Second(Quantity):
     RegexPattern = r'^(([1-9][0-9]*s)|(0s)|(:[0-5][0-9]))$'
+    SQLDataType = 'TIME'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         if ':' not in self.literal:
             self.value = int(token[:-1])
         else:
@@ -212,9 +242,11 @@ class Second(Quantity):
 
 class Minute(Token):
     RegexPattern = r'^([1-9]\d*min|0min)$'
+    SQLDataType = 'TIME'
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         self.value = int(token[:-3])
         
 
@@ -230,6 +262,7 @@ class Minute(Token):
 
 class MinuteSecond(Token):
     RegexPattern = r'^((([1-9][0-9]*min)|(0min))([0-5][0-9]s)?)$'
+    SQLDataType = 'TIME'
 
     '''Accepted syntax:
     0min45s
@@ -244,6 +277,7 @@ class MinuteSecond(Token):
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
 
         if ':' in self.literal:
             self.minute, self.second = self.literal.split(':')
@@ -267,6 +301,7 @@ class MinuteSecond(Token):
 
 class HourMinute(Token):
     RegexPattern = r'^((([1-9]\d*h)([0-5][0-9]min)?))$'
+    SQLDataType = 'TIME'
 
     '''Accepted syntax:
     0h45min
@@ -305,10 +340,11 @@ class HourMinute(Token):
 # time
 class Date(Token):
     RegexPattern = r'^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$'
+    SQLDataType = 'DATE'
     '''
     [D]D-MM-YY[YY]
     [D]D.MM.YY[YY]
-    [D]D.MM.YY[YY]
+    [D]D/MM/YY[YY]
     
     '''
     def __init__(self, token, line, start) -> None:
@@ -338,8 +374,10 @@ class Date(Token):
 
 class Time(Token):
     RegexPattern = r'^(([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?)$'
+    SQLDataType = 'TIME'
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
+
         split = self.literal.split(':')
         if len(split) == 3:
             self.h,self.min,self.s = [int(i) for i in split]
@@ -687,34 +725,25 @@ class EndofFile(End):
         
 
 
-if __name__ == '__main__':
-    from matplotlib import cm
-    import numpy as np
-    cmap = cm.get_cmap('tab20',22)(np.linspace(0,1,22))
-    import json 
-    import sys, inspect
-    from pprint import pprint
-    def print_classes():
-        count = -1
-        mapping = {}
-        nameList = []
-        for name,obj in inspect.getmembers(sys.modules[__name__]):
+# if __name__ == '__main__':
+    
+#     import sys, inspect
+#     from pprint import pprint
+#     def print_classes():
+       
+#         for name,obj in inspect.getmembers(sys.modules[__name__]):
             
-            # name, obj = name_obj
-            if inspect.isclass(obj):
-                r,exp = inspect.getmembers(obj, lambda a:not(inspect.isroutine(a)))[0]
-                if r == 'RegexPattern':
-                    count+=1
-                    print(name)
-                    nameList.append(name)
-                    # print(obj)
-                    print(f'    {exp}')
-                    r,g,b = (np.ceil((cmap[count])[:3] * 255)).astype('uint8').tolist()
-                    mapping[exp] = f'color: rgb({r},{g},{b});'
-                    print()
+#             # name, obj = name_obj
+#             if inspect.isclass(obj):
+#                 exp = inspect.getmembers(obj, lambda a:not(inspect.isroutine(a)))
+#                 # l = [a for a in exp if not(a[0].startswith('__') and a[0].endswith('__'))]
 
-        print(count)
-        [print(i+f' /*{nm}*/ ' +',') for i, nm in zip(json.dumps(mapping).split(', '), nameList)]
+#                 print(name)
+#                 pprint(exp)
+#                 print()
+#                 input()
+                
 
-    print_classes()
+       
+#     print_classes()
     # print(cmap[0][:3])

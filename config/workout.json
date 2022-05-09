@@ -1,11 +1,11 @@
 {
-    "date":{
-        "dataType":["Date"],
-        "defaultValue":null
-    },
     "id":{
         "dataType":["Integer","NaN"],
         "defaultValue":"NaN"
+    },
+    "date":{
+        "dataType":["Date"],
+        "defaultValue":null
     },
     "body-weight-before":{
         "dataType":["Kilogram"],
@@ -28,19 +28,19 @@
         "defaultValue":null
     },
     "session":{
-        "dataType":"String",
-        "defaultValue":null
+        "dataType":["String","NaN"],
+        "defaultValue":"NaN"
     },
     "mood":{
-        "dataType":"String",
-        "defaultValue":null
+        "dataType":["String", "NaN"],
+        "defaultValue":"NaN"
     },
     "last-meal":{
-        "dataType":["Time","Date","Minute", "MinuteSecond"],
-        "defaultValue":null
+        "dataType":["Time","Date","Minute", "MinuteSecond","NaN"],
+        "defaultValue":"NaN"
     },
     "last-bowel-movement":{
-        "dataType":["Time","Date","Minute", "MinuteSecond"],
-        "defaultValue":null
+        "dataType":["Time","Date","Minute", "MinuteSecond","NaN"],
+        "defaultValue":"NaN"
     }
 }
