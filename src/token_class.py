@@ -265,6 +265,9 @@ class Minute(Token):
     def getDateTimeObj(self):
         return datetime(minute=self.value, year=1, month=1,day=1)
 
+    def __str__(self) -> str:
+        return self.getDateTimeObj().strftime('%H:%M:%S')
+
     def __repr__(self) -> str:
         return f'Minute <{self.value}> at line {self.line} at position {self.start}'
     
@@ -308,6 +311,9 @@ class MinuteSecond(Token):
     def getDateTimeObj(self):
         return datetime(minute=self.minute, second=self.second, year=1, month=1,day=1)
 
+    def __str__(self) -> str:
+        return self.getDateTimeObj().strftime('%H:%M:%S')
+
     def __repr__(self) -> str:
         return f'MinuteSecond <{self.minute, self.second}> at line {self.line} at position {self.start}'
 
@@ -348,6 +354,9 @@ class HourMinute(Token):
 
     def getDateTimeObj(self):
         return datetime(hour=self.hour, minute=self.minute, year=1, month=1,day=1)
+
+    def __str__(self) -> str:
+        return self.getDateTimeObj().strftime('%H:%M:%S')
 
     def __repr__(self) -> str:
         return f'HourMinute <{self.hour, self.minute}> at line {self.line} at position {self.start}'

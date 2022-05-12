@@ -224,11 +224,11 @@ class Parser:
         
 
     def checkForBlankAttributesInSet(self):
+        valid = True
        
         for i, set_ in enumerate(self.tree['sets']):
            
             headerPrinted = False
-            valid = True
             for j, exercise in enumerate(set_):
                 exercisePrinted = False
                 for  key in exercise:
@@ -645,7 +645,6 @@ class Parser:
         m = self.checkForBlankedAttribute()
         w = self.checkForBlankedAttribute('workout')
         s = self.checkForBlankAttributesInSet()
-        
         if not all([s,m,w]):
             
             return TC.MissingAttributesError(-1,-1,-1)
