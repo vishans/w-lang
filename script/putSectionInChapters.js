@@ -3,6 +3,10 @@ function getValidID(id){
     return id.join('_');
 }
 
+function isMobileWidth() {
+    return $('.mobile-button').is(':visible');
+}
+
 function isElementInViewport (el) {
 
     // Special bonus for those using jQuery
@@ -60,11 +64,13 @@ sections.each(function(){
     } )
     })
     let newA = document.createElement('a');
-    newA.innerText = id;
     newA.href = '#' + getValidID(id);
     $(newA).attr('id',getValidID(id) + '_listed')
+    
+
+    newA.innerHTML = '&#8226; ' + id;
     newA.onclick = function(){
-        if($(window).innerWidth() < 769){
+        if(/*$(window).innerWidth() < 769*/ isMobileWidth()){
             
             $('body').css({'overflow-y' : ' scroll'})
             $('.text-box').css({'color': 'black',

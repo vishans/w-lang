@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/doc_template.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>An overview</title>
+  </head>
+  <body>
+    <nav><a href="index.html">
+        <div class="logo">W</div></a><a class="nav-item" href="about.html">About</a>
+    </nav>
+    <div class="main">
+      <div class="mobile-button">
+        <span class="material-icons" id="side-bar-button">
+           list
+          </span>
+        <span class="material-icons" id="top-of-page-button">
+        arrow_upward
+        </span>
+      </div>
+      <div class="hero-grid">
+        <div class="text-box">
+          <div class="text-box-title"> An overview</div>
+          <div class="text-box-content">The <span class="inline-w">W</span> Languge was designed to be simple yet efficient. The main goal of the language is to make journaling and storing of workouts of any kind, easy and quick. Ultimately, <span class="inline-w">W</span> acts as a computational stepping stone for data analytics of one's workouts.
+            
+            <br>
+            Let's take a look at the typical layout of a <span class="inline-w">W</span> script. 
+            
+          </div>
+          <section>
+            <div class="text-box-title">The clauses </div>
+            <div class="text-box-content"><span class="inline-w">W</span> has <strong>3 legal clauses</strong>.
+              
+                  
+              <li><code>meta:</code></li> 
+                  
+              <li><code>workout:</code></li> 
+                  
+              <li><code>set:</code></li>
+              
+              <br> 
+              A workout script has to have <strong>only 1</strong> <code>meta:</code> clause, <strong>only 1</strong> <code>workout:</code> clause and 
+              <strong>1 to many</strong> <code>set:</code> clauses.
+              <br>
+              The clauses should also appear in that order.
+              You always <strong>start with a</strong> <code>meta:</code> clause,
+              <strong>followed by a</strong> <code>workout:</code> clause,
+              and <strong>then followed</strong> by one or many <code>set:</code> clauses.
+              
+              <br> 
+              Everything that is indented inside a clause, belongs to it. <br>
+              A clause <strong>cannot be empty</strong>.
+              
+              <br>
+              <br>
+              
+              Essentially, that was the basic of the structures in <span class="inline-w">W</span>. Before we finish here, below is an example of a workout script. Don't worry about everything in there; just look at the clauses and how the are laid out.
+              
+            </div>
+            <pre class="code-box"><span style="color: red;">meta:
+</span>    <span style="color: orange;">db
+</span>    <span style="color: orange;">csv
+</span>
+<span style="color: red;">workout:
+</span>    <span style="color: rgb(255,152,150);">61kg </span><span style="color: rgb(255,152,150);">60.6kg </span>
+    <span style="color: rgb(23,190,207);">18:00 </span>
+    <span style="color: rgb(197,176,213);">45min
+</span>
+<span style="color: red;">set:
+</span>    <span style="color: #9AA835;">&quot;squat&quot; </span><span style="color: rgb(127,127,127);">1-15 </span><span style="color: rgb(255,152,150);">25kg </span><span style="color: rgb(31,119,180);">type=&quot;warm up&quot;
+</span>    <span style="color: white;">. </span><span style="color: rgb(44,160,44);">10 </span><span style="color: rgb(255,152,150);">30kg
+</span>
+    <span style="color: #9AA835;">&quot;REST&quot; </span><span style="color: rgb(197,176,213);">3min
+</span>
+    <span style="color: #9AA835;">&quot;squat&quot; </span><span style="color: rgb(127,127,127);">0-25 </span><span style="color: rgb(255,152,150);">50kg </span>
+    <span style="color: white;">. </span><span style="color: rgb(44,160,44);">5 </span><span style="color: rgb(255,152,150);">45kg
+</span>
+    <span style="color: #9AA835;">&quot;REST&quot; </span><span style="color: rgb(197,176,213);">3min45s
+</span>
+<span style="color: red;">set:
+</span>    <span style="color: #9AA835;">&quot;running&quot; </span><span style="color: rgb(31,119,180);">type=&quot;cardio&quot; </span><span style="color: rgb(197,176,213);">25min15s
+</span>    <span style="color: #9AA835;">&quot;REST&quot; </span><span style="color: rgb(197,176,213);">5min</span></pre>
+            <div class="text-box-content"><br>
+              Alright! That's it for the basic structures. <br> 
+              Next we're going to take an in-depth look at the <code>meta:</code> clause.     
+              
+              
+            </div>
+          </section>
+        </div>
+        <div class="side-bar hyphen" id="side-bar" lang="en">
+          <div class="list-container">
+            <ul>
+              <li current="current">An overview</li>
+              <div id="sub-list"></div>
+              <li>Clauses</li>
+              <li>Variables</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer"> 
+        <div class="footer-logo"> 
+          <div>W</div>
+        </div>
+        <div class="footer-semantic"> <a>W's source code </a><a>Documentation's source code</a><a>Report an issue</a></div>
+      </div>
+    </div>
+  </body>
+  <script src="script/doc_button.js"> </script>
+  <script src="script/putSectionInChapters.js"> </script>
+</html>

@@ -1,9 +1,9 @@
 -
-    var chaptersList = ['The begining', 'Clauses', 'Variables'];
+    var chaptersList = ['An overview', 'Clauses', 'Variables'];
 
 
 mixin listChapters (chapterInQuestion)
-    ul 
+    ul
         for chapter of chaptersList 
             if chapter == chapterInQuestion
                 li(current)= chapter

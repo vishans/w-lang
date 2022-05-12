@@ -93,8 +93,11 @@ nav{
     
 
     .card{
+        cursor: pointer;
         width: 70vw;
         min-height: 35vh;
+
+        user-select: none;
         
         // min-height: max-content;
         // border: 1px solid red;
@@ -123,12 +126,14 @@ nav{
     padding: 0rem 2rem;
     // padding-top: 1rem;
     border-bottom: 3px solid rgba(0, 0, 0, 0.12);
+    user-select: none;
 }
 
 .card-content{
     grid-area: content;
     font-size: 1.3rem;
     padding: 1rem;
+    user-select: none;
 }
 
 .card-arrow{

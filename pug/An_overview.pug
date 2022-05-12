@@ -1,0 +1,76 @@
+extends doc_template
+
+block t 
+    
+    .text-box-title  An overview
+    .text-box-content. 
+        The #[span.inline-w W] Languge was designed to be simple yet efficient. The main goal of the language is to make journaling and storing of workouts of any kind, easy and quick. Ultimately, #[span.inline-w W] acts as a computational stepping stone for data analytics of one's workouts.
+
+        #[br]
+        Let's take a look at the typical layout of a #[span.inline-w W] script. 
+
+    section
+        .text-box-title. 
+            The clauses 
+        .text-box-content.
+            #[span.inline-w W] has #[strong 3 legal clauses].
+            
+                #[li #[code meta:]] 
+                #[li #[code workout:]] 
+                #[li #[code set:]]
+
+            #[br] 
+            A workout script has to have #[strong only 1] #[code meta:] clause, #[strong only 1] #[code workout:] clause and 
+            #[strong 1 to many] #[code set:] clauses.
+            #[br]
+            The clauses should also appear in that order.
+            You always #[strong start with a] #[code meta:] clause,
+            #[strong followed by a] #[code workout:] clause,
+            and #[strong then followed] by one or many #[code set:] clauses.
+
+            #[br] 
+            Everything that is indented inside a clause, belongs to it. #[br]
+            A clause #[strong cannot be empty].
+
+            #[br]
+            #[br]
+            
+            Essentially, that was the basic of the structures in #[span.inline-w W]. Before we finish here, below is an example of a workout script. Don't worry about everything in there; just look at the clauses and how the are laid out.
+
+        -
+            var myCode = `meta:
+                db
+                csv
+
+            workout:
+                61kg 60.6kg 
+                18:00 
+                45min
+
+            set:
+                "squat" 1-15 25kg type="warm up"
+                . 10 30kg
+
+                "REST" 3min
+
+                "squat" 0-25 50kg 
+                . 5 45kg
+
+                "REST" 3min45s
+
+            set:
+                "running" type="cardio" 25min15s
+                "REST" 5min`;
+        +codeBlock(myCode, reToTypeMap) 
+
+        .text-box-content. 
+            #[br]
+            Alright! That's it for the basic structures. #[br] 
+            Next we're going to take an in-depth look at the #[code meta:] clause.     
+
+          
+block list_chapeters
+    +listChapters('An overview')
+
+
+        
