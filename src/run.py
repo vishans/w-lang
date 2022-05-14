@@ -13,7 +13,7 @@ except:
 
 lexer = Lexer(filePath)
 lexer_result = lexer.tokenize2() # returns a list of tokens 
-                                 # else returns an Error token which evaluates to False
+pprint(lexer_result)                                # else returns an Error token which evaluates to False
 
 if (lexer_result):
     

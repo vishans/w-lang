@@ -210,7 +210,7 @@ class Parser:
 
                 valid = False
                 if not headerPrinted:
-                    print(f'The following attributes in {clause} are required:')
+                    print(f'The following attribute(s) in {clause} is/are required:')
                     headerPrinted = True
 
                 

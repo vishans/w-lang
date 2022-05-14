@@ -118,6 +118,16 @@ class Lexer:
                 self.nextChar = self.__getNextChar()
                 
 
+            if self.nextChar == '#':
+                self.characterPointer+=1
+                self.nextChar = self.__getNextChar()
+                
+                while self.nextChar != '\n' and self.nextChar != '':
+                    self.characterPointer+=1
+                    self.nextChar = self.__getNextChar()
+
+
+
 
             if self.nextChar == '':
                 #end of file
@@ -447,6 +457,8 @@ class Lexer:
                 else:
                     
                     return TC.IndentationError(token,line,start)
+
+        
                     
 
         
