@@ -829,9 +829,11 @@ class Interpreter:
             self.file.close()
             self.workout_file.close()
             self.configFile.close()
+            print('CSV OK')
 
         if self.getDB():
             self.conn.close()
+            print('DB OK')
 
         self.workoutFile.close()
         self.setFile.close()        
