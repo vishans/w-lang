@@ -1,6 +1,8 @@
 include ../template/nav
 include ../utils/listChapter
 include ../utils/codeBlock
+include ../template/pages
+
 
 
 doctype html
@@ -82,7 +84,17 @@ html(lang="en")
                     .list-container
                         block list_chapeters
                             +listChapters('Clauses')
-                            
+                block pages
+                    .pages 
+                        .next. 
+                            <span class="material-icons">
+                            arrow_back
+                            </span>  
+                        .prev.     
+                            <span class="material-icons">
+                            arrow_forward
+                            </span>     
+
             block footer          
                 .footer 
                     .footer-logo 

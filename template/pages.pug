@@ -1,0 +1,16 @@
+mixin pages(previous, next)
+    .pages 
+        .next 
+            if previous
+                |<span class="material-icons one-point-five-rem-fs">
+                |arrow_back
+                |</span>
+                |#{previous} 
+        .prev  
+            if next 
+                |#{next}  
+                |<span class="material-icons one-point-five-rem-fs">
+                |arrow_forward
+                |</span>
+
+

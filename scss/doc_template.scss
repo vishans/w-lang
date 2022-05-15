@@ -225,10 +225,37 @@ nav{
     display: grid;
     height: minmax(70vh, max-content);
     grid-template-columns: 25vw 70vw;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 9vh;
     // border: 1px solid green;
     box-sizing: border-box;
     padding: 2rem .5rem;
+}
+
+.pages{
+    grid-row-start: 2;
+    grid-column-start: 2;
+    //background-color: red;
+    
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+
+    .next, .prev{
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+    }
+
+    .prev{
+       justify-content: flex-end;
+    }
+}
+
+.one-point-five-rem-fs{
+    font-size: 2rem;
+    
+    
 }
 
 .text-box{
@@ -269,6 +296,7 @@ section{
 pre.code-box{
     overflow: auto;
     background-color: #1e1e1e;
+    color : grey; 
     padding: var(--text-box-content-padding);
     margin: var(--text-box-content-padding);
     padding-top: 3rem;
