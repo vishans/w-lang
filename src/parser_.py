@@ -291,7 +291,23 @@ class Parser:
                 else:
                     return TC.AttributeDoesNotExist(*currentToken.getAll(), 'meta')
 
-                continue
+            if currentToken == TC.FalseBoolean:
+                var = currentToken.getLiteral()[1:]
+               
+                if var in self.meta:
+                    if 'Boolean' in dTypeMap:
+                        if var in dTypeMap['Boolean']:
+                            self.tree['meta'][var] = TC.Boolean('false',currentToken.getLine(),currentToken.getStart())
+
+                            self.removeFromDataTypeMap(var,dTypeMap)
+                            continue
+                        
+                    if 'Boolean' in self.meta[var]['dataType']:      
+                        return TC.ReAssignmentError(*currentToken.getAll(),'false')
+                    else:
+                        return TC.NotABoolean(*currentToken.getAll())
+                else:
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(), 'meta')
 
 
             # print(currentToken)
@@ -313,6 +329,8 @@ class Parser:
             else:
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
+                if className == 'Variable' or className == 'FalseBoolean':
+                    return TC.AssigningAttributeToAttribute(*currentToken.getAll())
                 # check if var is present in dtype map
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
@@ -323,7 +341,7 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap)
                     else:
                         if var in self.meta:
-                            if var not in dTypeMap[className]:
+                            if var not in self.metaDTypeMap[className]:
                                 return TC.TypeError(*currentToken.getAll(),var,className,self.meta[var]['dataType'])
 
                                 
@@ -331,11 +349,13 @@ class Parser:
                         else:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
                 else:
-                    # value = currentToken.getLiteral()
-                    if className in self.metaDTypeMap:
-                        print(f'All attributes of type <{className}> have been assigned')
-
-                    return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
+                    if var in self.meta:
+                        if var not in self.metaDTypeMap[className]:
+                            return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
+                        else:
+                            return TC.ReAssignmentError(*currentToken.getAll(),value)
+                    
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
 
     def parseWorkout(self):
         
@@ -375,7 +395,23 @@ class Parser:
                 else:
                     return TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
 
-                continue
+            if currentToken == TC.FalseBoolean:
+                var = currentToken.getLiteral()[1:]
+               
+                if var in self.workout:
+                    if 'Boolean' in dTypeMap:
+                        if var in dTypeMap['Boolean']:
+                            self.tree['workout'][var] = TC.Boolean('false',currentToken.getLine(),currentToken.getStart())
+
+                            self.removeFromDataTypeMap(var,dTypeMap)
+                            continue
+                        
+                    if 'Boolean' in self.workout[var]['dataType']:      
+                        return TC.ReAssignmentError(*currentToken.getAll(),'false')
+                    else:
+                        return TC.NotABoolean(*currentToken.getAll())
+                else:
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
 
             # print(currentToken)
             if currentToken != TC.Assignment:
@@ -400,6 +436,8 @@ class Parser:
             else:
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
+                if className == 'Variable' or className == 'FalseBoolean':
+                    return TC.AssigningAttributeToAttribute(*currentToken.getAll())
                 # check if var is present in dtype map
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
@@ -410,20 +448,20 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'workout')
                     else:
                         if var in self.workout:
-                            if var not in dTypeMap[className]:
+                            if var not in self.workoutDTypeMap[className]:
                                 return TC.TypeError(*currentToken.getAll(),var,className,self.workout[var]['dataType'])
                                 
                             return TC.ReAssignmentError(*currentToken.getAll(),value)
                         else:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
                 else:
-                        value = currentToken.getLiteral()
-
-                        
-                        if className in self.workoutDTypeMap:
-                            print(f'All attributes of type <{className}> have been assigned')
-
-                        return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
+                        if var in self.workout:
+                            if var not in self.workoutDTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
+                            else:
+                                return TC.ReAssignmentError(*currentToken.getAll(),value)
+                    
+                        return TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
 
 
     def parseSets(self): # parse one set at a time
@@ -498,9 +536,25 @@ class Parser:
                 else:
                     return TC.AttributeDoesNotExist(*currentToken.getAll(), 'set')
 
-                continue
+            if currentToken == TC.FalseBoolean:
+                var = currentToken.getLiteral()[1:]
+               
+                if var in self.set:
+                    if 'Boolean' in dTypeMap:
+                        if var in dTypeMap['Boolean']:
+                            self.tree['set'][var] = TC.Boolean('false',currentToken.getLine(),currentToken.getStart())
 
-            # print(currentToken)
+                            self.removeFromDataTypeMap(var,dTypeMap)
+                            continue
+                        
+                    if 'Boolean' in self.set[var]['dataType']:      
+                        return TC.ReAssignmentError(*currentToken.getAll(),'false')
+                    else:
+                        return TC.NotABoolean(*currentToken.getAll())
+                else:
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(), 'set')
+
+            
             if currentToken != TC.Assignment:
                 className = type(currentToken).__name__
                 if className in dTypeMap:
@@ -530,7 +584,10 @@ class Parser:
                 
                 var, value = currentToken.lv , currentToken.rv
                 className = type(value).__name__
+                if className == 'Variable' or className == 'FalseBoolean':
+                    return TC.AssigningAttributeToAttribute(*currentToken.getAll())
                 # check if var is present in dtype map
+                # if className in self.setDTypeMap:
                 if className in dTypeMap:
                     if var in dTypeMap[className]:
                         # if this is the case
@@ -540,7 +597,7 @@ class Parser:
                         self.removeFromDataTypeMap(var,dTypeMap, 'set')
                     else:
                         if var in self.set:
-                            if var not in dTypeMap[className]:
+                            if var not in self.setDTypeMap[className]:
                                 return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
 
 
@@ -548,13 +605,18 @@ class Parser:
                         else:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(),'set')
                 else:
-                        value = currentToken.getLiteral()
 
-                        
-                        if className in self.settDTypeMap:
-                            print(f'All attributes of type <{className}> have been assigned')
+                    if var in self.set:
+                        if var not in self.setDTypeMap[className]:
+                            return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
+                        else:
+                            return TC.ReAssignmentError(*currentToken.getAll(),value)
+                    
+                    
 
-                        return TC.NoAttributeAcceptThisValue(*currentToken.getAll())
+                
+                    return TC.AttributeDoesNotExist(*currentToken.getAll(),'set')
+
 
         self.tree['sets'].append(listOfExercisesInOneSet)
         

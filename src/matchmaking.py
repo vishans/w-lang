@@ -89,6 +89,9 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     if validate(token, TC.Variable.RegexPattern):
         return TC.Variable(token, *others)
 
+    if validate(token, TC.FalseBoolean.RegexPattern):
+        return TC.FalseBoolean(token, *others)
+
     if validate(token, TC.HourMinute.RegexPattern):
         return TC.HourMinute(token, *others)
 
@@ -109,7 +112,7 @@ def matchAndMakeToken(token: str, *others) -> TC.Token:
     
 if __name__ == '__main__':
 
-    print(type(matchAndMakeToken('1h', 1,1)))
+    print(type(matchAndMakeToken('!sup-hello-world', 1,1)))
 
     # from datetime import date, time , datetime,timedelta
 

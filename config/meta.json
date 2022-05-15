@@ -30,7 +30,7 @@
     },
     "pd-print":{
         "dataType":"Boolean",
-        "defaultValue":"false"
+        "defaultValue":"true"
     },
     "exclude-unit":{
         "dataType":"Boolean",

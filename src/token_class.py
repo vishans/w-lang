@@ -94,7 +94,17 @@ class Nothing(Token):
         return 'None'
 
 class Variable(Token):
-    RegexPattern = r'^[A-Za-z][A-Za-z\-]*[A-Za-z]$'  
+    RegexPattern = r'^[A-Za-z]+([A-Za-z\-][A-Za-z]+)*$'  
+
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'Variable <{self.literal}> at line {self.line} at position {self.start}'
+
+class FalseBoolean(Token):
+    RegexPattern = r'^![A-Za-z]+([A-Za-z\-][A-Za-z]+)*$'  
 
     def __init__(self, token, line, start) -> None:
         super().__init__(token, line, start)
@@ -508,7 +518,7 @@ class ReAssignmentError(Error):
 
     def __repr__(self) -> str:
         return f'''Re-assignment Error
-            f"You are trying to re-assign attibute <{self.literal}> with value <{self.with_}> on line {self.line}'''
+            You are trying to re-assign attibute <{self.literal}> with value <{self.with_}> on line {self.line}'''
 
 
 class AttributeDoesNotExist(Error):
@@ -671,6 +681,16 @@ class MissingAttributesError(Error):
 
     def __repr__(self) -> str:
         return f'''Missing Attribute Error'''
+
+class AssigningAttributeToAttribute(Error):
+    
+    def __init__(self, token, line, start) -> None:
+        super().__init__(token, line, start)
+       
+
+    def __repr__(self) -> str:
+        return f'''On line {self.line}, <{self.literal}>
+        You cannot assign an attribute to another attribute.'''
 
 
 class Newline(Token):
