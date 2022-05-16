@@ -12,7 +12,7 @@
         "defaultValue":"'Normal'"
     },
     "resistance-type":{
-        "dataType":"String",
+        "dataType":["String", "NaN"],
         "defaultValue":"NaN"
     },
     "type":{
