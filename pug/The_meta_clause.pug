@@ -1,0 +1,80 @@
+extends doc_template 
+
+block t 
+    section
+        .text-box-title The meta clause
+        .text-box-content. 
+            The #[code meta:] clause is, as its name suggests for #[strong meta data].
+            For example if you want to save your workouts as a .csv file, you need to include the csv flag in the #[code meta:] clause.
+            #[br] 
+            #[br] 
+
+            Below is the exhaustive list of the default available attributes in the #[code meta:] clause
+             
+
+    section
+        .text-box-title(style="display: none;") List of Attributes
+        .text-box-content
+            table 
+                tr 
+                    th Attribute 
+                    th Data Type 
+                    th Description
+                    th Default Value
+                tr 
+                    td output-dir
+                    td String 
+                    td Specifies the output directory path whereby files should be saved if need be.
+                    td "My workouts"
+                tr 
+                    td csv
+                    td Boolean 
+                    td Flag specifying whether workout should be saved as .csv file at path specify by #[code output dir].
+                    td False
+
+                tr 
+                    td print-output
+                    td Boolean 
+                    td Specifies whether the generated workout should be printed to the standard output.
+                    td False
+                tr 
+                    td pd-print
+                    td Boolean 
+                    td Specifies whether the generated workout should be printed to the standard output. But this uses the pandas library to do so. You need to have pandas install on your machine.
+                    td False
+
+                tr 
+                    td script
+                    td Boolean 
+                    td Specifies whether the workout script should be saved at path specify by #[code output dir].
+                    td False
+                tr 
+                    td db
+                    td Boolean 
+                    td Specifies whether the generated workout should be saved to your specified database. You need to have a database set up and configured for this. 
+                    td False
+
+                tr 
+                    td exclude-unit
+                    td Boolean 
+                    td Specifies whether quantity units should be included when saving as .csv/printing your workouts. For example, if #[code exclude-unit] is #[code true] 10kg will be printed/saved as is, otherwise only 10 will be printed/saved.
+                    td False
+                tr 
+                    td db
+                    td Boolean 
+                    td Specifies whether the generated workout should be saved to your specified database. You need to have a database set up and configured for this. 
+                    td False
+
+                tr 
+                    td pass
+                    td Boolean 
+                    td Special attribute. It has no real purpose in workout generation but allows you to have an "empty" #[code meta:] clause. Since the #[code meta:] clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if #[code pass] is #[code true] or #[code false].
+                    td False
+
+    .text-box-content(flex) 
+        img(src="Screenshot (94).png", alt="zz", srcset="" )
+block pages 
+    +pages('An overview')
+
+block list_chapters
+    +listChapters('An overview')

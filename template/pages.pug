@@ -1,16 +1,18 @@
-mixin pages(previous, next)
+mixin pages(previous=false, next=false)
     .pages 
-        .next 
+        .next
             if previous
-                |<span class="material-icons one-point-five-rem-fs">
-                |arrow_back
-                |</span>
-                |#{previous} 
-        .prev  
+                a(href=getValidID(previous)+'.html') 
+                    |<span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
+                    |arrow_back
+                    |</span>
+                    |#{previous} 
+        .prev
             if next 
-                |#{next}  
-                |<span class="material-icons one-point-five-rem-fs">
-                |arrow_forward
-                |</span>
+                a(href=getValidID(next)+'.html') 
+                    |#{next}  
+                    |<span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
+                    |arrow_forward
+                    |</span>
 
 

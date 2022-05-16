@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/doc_template.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>An overview</title>
+  </head>
+  <body>
+    <nav><a href="index.html">
+        <div class="logo">W</div></a><a class="nav-item" href="about.html">About</a>
+    </nav>
+    <div class="main">
+      <div class="mobile-button">
+        <span class="material-icons" id="side-bar-button">
+           list
+          </span>
+        <span class="material-icons" id="top-of-page-button">
+        arrow_upward
+        </span>
+      </div>
+      <div class="hero-grid">
+        <div class="text-box">
+          <section>
+            <div class="text-box-title">The meta clause</div>
+            <div class="text-box-content">The <code>meta:</code> clause is, as its name suggests for <strong>meta data</strong>.
+              For example if you want to save your workouts as a .csv file, you need to include the csv flag in the <code>meta:</code> clause.
+              <br> 
+              <br> 
+              
+              Below is the exhaustive list of the default available attributes in the <code>meta:</code> clause
+               
+              
+            </div>
+          </section>
+          <section>
+            <div class="text-box-title" style="display: none;">List of Attributes</div>
+            <div class="text-box-content">
+              <table> 
+                <tr> 
+                  <th>Attribute </th>
+                  <th>Data Type </th>
+                  <th>Description</th>
+                  <th>Default Value</th>
+                </tr>
+                <tr> 
+                  <td>output-dir</td>
+                  <td>String </td>
+                  <td>Specifies the output directory path whereby files should be saved if need be.</td>
+                  <td>"My workouts"</td>
+                </tr>
+                <tr> 
+                  <td>csv</td>
+                  <td>Boolean </td>
+                  <td>Flag specifying whether workout should be saved as .csv file at path specify by <code>output dir</code>.</td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>print-output</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether the generated workout should be printed to the standard output.</td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>pd-print</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether the generated workout should be printed to the standard output. But this uses the pandas library to do so. You need to have pandas install on your machine.</td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>script</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether the workout script should be saved at path specify by <code>output dir</code>.</td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>db</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether the generated workout should be saved to your specified database. You need to have a database set up and configured for this. </td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>exclude-unit</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether quantity units should be included when saving as .csv/printing your workouts. For example, if <code>exclude-unit</code> is <code>true</code> 10kg will be printed/saved as is, otherwise only 10 will be printed/saved.</td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>db</td>
+                  <td>Boolean </td>
+                  <td>Specifies whether the generated workout should be saved to your specified database. You need to have a database set up and configured for this. </td>
+                  <td>False</td>
+                </tr>
+                <tr> 
+                  <td>pass</td>
+                  <td>Boolean </td>
+                  <td>Special attribute. It has no real purpose in workout generation but allows you to have an "empty" <code>meta:</code> clause. Since the <code>meta:</code> clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if <code>pass</code> is <code>true</code> or <code>false</code>.</td>
+                  <td>False</td>
+                </tr>
+              </table>
+            </div>
+          </section>
+          <div class="text-box-content" flex> <img src="Screenshot (94).png" alt="zz" srcset=""></div>
+        </div>
+        <div class="side-bar hyphen" id="side-bar" lang="en">
+          <div class="list-container">
+            <ul><a href="An_overview.html"> 
+                <li current="current">An overview</li></a>
+              <div id="sub-list"></div><a href="Clauses.html"> 
+                <li>Clauses</li></a><a href="Variables.html"> 
+                <li>Variables</li></a>
+            </ul>
+          </div>
+        </div>
+        <div class="pages"> 
+          <div class="next"><a href="An_overview.html">
+               <span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
+              arrow_back
+              </span>
+An overview </a>
+          </div>
+          <div class="prev">
+          </div>
+        </div>
+      </div>
+      <div class="footer"> 
+        <div class="footer-logo"> 
+          <div>W</div>
+        </div>
+        <div class="footer-semantic"> <a>W's source code </a><a>Documentation's source code</a><a>Report an issue</a></div>
+      </div>
+    </div>
+  </body>
+  <script src="script/doc_button.js"> </script>
+  <script src="script/putSectionInChapters.js"> </script>
+</html>

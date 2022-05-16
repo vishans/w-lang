@@ -24,6 +24,29 @@ body{
 //    overflow: hidden;
 }
 
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    //font-size: 1.5rem;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+
+    td, th {
+        border: 1px solid white;
+    }
+    
+
+  }
+
 nav{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
     box-sizing: border-box;
@@ -148,6 +171,11 @@ nav{
     li[current]{
         color: red;
     }
+
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
    
     
 
@@ -250,6 +278,16 @@ nav{
     .prev{
        justify-content: flex-end;
     }
+
+    a{
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
 }
 
 .one-point-five-rem-fs{
@@ -279,11 +317,29 @@ nav{
     }
 
     .text-box-content{
+        overflow: auto;
         padding: var(--text-box-content-padding);
+        
+        //align-items: center;
+        //justify-content: center;
 
         li{
             margin-bottom: 5px;
             margin-left: 1rem;
+        }
+
+        img{
+            max-width: 100%;
+            max-height: 100%;
+            //width: 40vw;
+            
+
+        }
+
+        &[flex]{
+            display: flex;
+            justify-content: center;
+            padding: 3rem;
         }
         
     }
@@ -306,7 +362,7 @@ pre.code-box{
 }
 
 #sub-list{
-    color: orange;
+    //olor: orange;
     padding: .5rem 0  .5rem 1.5rem ;
 
     a{

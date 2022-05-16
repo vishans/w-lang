@@ -17,6 +17,25 @@ body {
   overflow-x: hidden;
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+tr:nth-child(even) td, tr:nth-child(even) th {
+  border: 1px solid white;
+}
+
 nav {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
   box-sizing: border-box;
@@ -117,6 +136,10 @@ nav a:visited {
 .list-container li[current] {
   color: red;
 }
+.list-container a {
+  text-decoration: none;
+  color: inherit;
+}
 
 .side-bar {
   grid-column: 1/2;
@@ -190,6 +213,15 @@ nav a:visited {
 .pages .prev {
   justify-content: flex-end;
 }
+.pages a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.pages a:hover {
+  text-decoration: underline;
+}
 
 .one-point-five-rem-fs {
   font-size: 2rem;
@@ -205,11 +237,21 @@ nav a:visited {
   padding: var(--text-box-title-padding);
 }
 .text-box .text-box-content {
+  overflow: auto;
   padding: var(--text-box-content-padding);
 }
 .text-box .text-box-content li {
   margin-bottom: 5px;
   margin-left: 1rem;
+}
+.text-box .text-box-content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.text-box .text-box-content[flex] {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
 }
 
 pre.code-box {
@@ -223,7 +265,6 @@ pre.code-box {
 }
 
 #sub-list {
-  color: orange;
   padding: 0.5rem 0 0.5rem 1.5rem;
 }
 #sub-list a {

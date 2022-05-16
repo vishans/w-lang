@@ -41,11 +41,12 @@ block t
             var myCode = `meta:
                 db
                 csv
-
+            
             workout:
                 61kg 60.6kg 
                 18:00 
                 45min
+                # this is a comment
 
             set:
                 "squat" 1-15 25kg type="warm up"
@@ -70,10 +71,10 @@ block t
 
 block pages 
    
-    +pages(null,`The meta: clause`)     
+    +pages(null,`The meta clause`)     
 
           
-block list_chapeters
+block list_chapters
     +listChapters('An overview')
 
 

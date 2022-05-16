@@ -6,7 +6,9 @@ mixin listChapters (chapterInQuestion)
     ul
         for chapter of chaptersList 
             if chapter == chapterInQuestion
-                li(current)= chapter
+                a(href=getValidID(chapter)+".html") 
+                    li(current)= chapter
                 #sub-list
             else
-                li= chapter
+                a(href=getValidID(chapter)+".html") 
+                    li= chapter

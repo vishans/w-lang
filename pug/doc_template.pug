@@ -3,6 +3,11 @@ include ../utils/listChapter
 include ../utils/codeBlock
 include ../template/pages
 
+-
+    function getValidID(id){
+        id = id.split(' ');
+        return id.join('_');
+    }
 
 
 doctype html
@@ -82,7 +87,7 @@ html(lang="en")
 
                 .side-bar.hyphen#side-bar(lang="en")
                     .list-container
-                        block list_chapeters
+                        block list_chapters
                             +listChapters('Clauses')
                 block pages
                     .pages 
