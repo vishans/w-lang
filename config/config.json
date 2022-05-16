@@ -5,13 +5,6 @@
         "set":"config\\set.json",
         "exercises":"config\\exercises.json",
         "database":"config\\database.json"
-    },
-    "interpreter":{
-        "order":{
-            "meta":["debug"],
-            "sets":["exercise-name","external-resistance"],
-            "workout":["date","day","id","body-weight-before","body-weight-after","start-time","duration", "end-time"]
-
-        }
     }
+    
 }
