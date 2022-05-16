@@ -350,10 +350,14 @@ class Parser:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
                 else:
                     if var in self.meta:
-                        if var not in self.metaDTypeMap[className]:
-                            return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
-                        else:
-                            return TC.ReAssignmentError(*currentToken.getAll(),value)
+                        try:
+                            if var not in self.metaDTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.meta[var]['dataType'])
+                            else:
+                                return TC.ReAssignmentError(*currentToken.getAll(),value)
+                        except KeyError:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.meta[var]['dataType'])
+
                     
                     return TC.AttributeDoesNotExist(*currentToken.getAll(),'meta')
 
@@ -456,10 +460,15 @@ class Parser:
                             return TC.AttributeDoesNotExist(*currentToken.getAll(), 'workout')
                 else:
                         if var in self.workout:
-                            if var not in self.workoutDTypeMap[className]:
-                                return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
-                            else:
-                                return TC.ReAssignmentError(*currentToken.getAll(),value)
+                            try:
+                                if var not in self.workoutDTypeMap[className]:
+                                    return TC.TypeError(*currentToken.getAll(),var,className,self.workout[var]['dataType'])
+                                else:
+                                    return TC.ReAssignmentError(*currentToken.getAll(),value)
+                            except KeyError:
+                                    return TC.TypeError(*currentToken.getAll(),var,className,self.workout[var]['dataType'])
+
+
                     
                         return TC.AttributeDoesNotExist(*currentToken.getAll(),'workout')
 
@@ -607,11 +616,14 @@ class Parser:
                 else:
 
                     if var in self.set:
-                        if var not in self.setDTypeMap[className]:
+                        try:
+                            if var not in self.setDTypeMap[className]:
+                                return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
+                            else:
+                                return TC.ReAssignmentError(*currentToken.getAll(),value)
+                        except KeyError:
                             return TC.TypeError(*currentToken.getAll(),var,className,self.set[var]['dataType'])
-                        else:
-                            return TC.ReAssignmentError(*currentToken.getAll(),value)
-                    
+
                     
 
                 
