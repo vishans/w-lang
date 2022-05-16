@@ -7,7 +7,11 @@
         "rep-duration":"0s"
     },
     "REST":{
-        "rep": 1
+        "rep": 1,
+        "rep-duration":"3min",
+        "type":"'Rest'"
+
+
     },
     "squat":{
         "type":"'Hypertrophy'",
