@@ -6,11 +6,11 @@ mixin pages(previous=false, next=false)
                     |<span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
                     |arrow_back
                     |</span>
-                    |#{previous} 
+                    .ptext= previous
         .prev
             if next 
                 a(href=getValidID(next)+'.html') 
-                    |#{next}  
+                    .ptext= next  
                     |<span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
                     |arrow_forward
                     |</span>

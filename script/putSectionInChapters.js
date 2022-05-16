@@ -47,6 +47,8 @@ function isElementInViewport (el) {
 
 let sections = $('section .text-box-title');
 let subList = $('#sub-list');
+let listContainer = $('.list-container');
+
 
 sections.each(function(){
     let id = this.innerText;
@@ -55,7 +57,9 @@ sections.each(function(){
     window.addEventListener('scroll', function(){
         window.requestAnimationFrame(function(){
         if(isElementInViewport(parentElement)){
-            $('#' + getValidID(id) + '_listed').css('color', 'green')
+            $('#' + getValidID(id) + '_listed').css('color', 'green');
+            listContainer[0].scrollTo(0, $('#' + getValidID(id) + '_listed')[0].offsetTop)
+            
         }
         else{
             $('#' + getValidID(id) + '_listed').css('color', 'black')

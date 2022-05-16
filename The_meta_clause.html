@@ -32,9 +32,8 @@
               
               Below is the exhaustive list of the default available attributes in the <code>meta:</code> clause
                
-              
             </div>
-          </section>
+          </section><br>
           <section>
             <div class="text-box-title" style="display: none;">List of Attributes</div>
             <div class="text-box-content">
@@ -96,20 +95,105 @@
                 <tr> 
                   <td>pass</td>
                   <td>Boolean </td>
-                  <td>Special attribute. It has no real purpose in workout generation but allows you to have an "empty" <code>meta:</code> clause. Since the <code>meta:</code> clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if <code>pass</code> is <code>true</code> or <code>false</code>.</td>
+                  <td>Special attribute. It has no real purpose for the interpreter but allows you to have an "empty" <code>meta:</code> clause. Since the <code>meta:</code> clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if <code>pass</code> is <code>true</code> or <code>false</code>.</td>
                   <td>False</td>
                 </tr>
               </table>
             </div>
           </section>
-          <div class="text-box-content" flex> <img src="Screenshot (94).png" alt="zz" srcset=""></div>
+          <div class="text-box-content">The default value of any attribute can be changed. To do so, you need to go to <code>config/meta.json</code>.</div>
+          <section> 
+            <div class="text-box-title" style="display: none;">meta file</div>
+            <div class="text-box-content" img><img src="media/meta.png" alt="meta.json" srcset="">
+              
+            </div>
+          </section>
+          <section> 
+            <div class="text-box-title">pd-print</div>
+            <pre class="code-box"><span style="color: grey;"># workout with a single set
+</span><span style="color: grey;"># just for the sake of example
+</span>
+<span style="color: red;">meta:
+</span>    <span style="color: orange;">pd-print
+</span>
+<span style="color: red;">workout:
+</span>    <span style="color: rgb(255,152,150);">63kg </span><span style="color: grey;"># weighed 63 kg before working out
+</span>    <span style="color: rgb(255,152,150);">62.5kg </span><span style="color: grey;"># weighed 62.5 kg after working out
+</span>    <span style="color: rgb(23,190,207);">18:00 </span><span style="color: rgb(152,223,138);">1h30min </span> <span style="color: grey;"># workout started at 18:00 and lasted for one and a half hour
+</span>    <span style="color: grey;"># the duration will be automatically calculated
+</span>
+<span style="color: red;">set:
+</span>    <span style="color: #9AA835;">&quot;squat&quot; </span><span style="color: #CE670A;">1-15 </span><span style="color: rgb(255,152,150);">25kg </span><span style="color: grey;"># did 15 rep of squats with 25kg on the barbell</span></pre><br>
+            <div class="text-box-content">The output should look something like this below</div>
+            <pre class="code-box">workout
+   id      date body-weight-before body-weight-after start-time  duration  \
+0  -1  17-05-22               63kg            62.5kg   18:00:00  01:30:00   
+
+   end-time session mood last-meal last-bowel-movement  
+0  19:30:00     NaN  NaN       NaN                 NaN 
+ 
+sets
+    wID  setID  exID  repID  CumRep exercise-name exercise-execution  \
+0    -1      1     1      1       1         squat             Normal   
+1    -1      1     1      2       2         squat             Normal   
+2    -1      1     1      3       3         squat             Normal   
+3    -1      1     1      4       4         squat             Normal   
+4    -1      1     1      5       5         squat             Normal   
+5    -1      1     1      6       6         squat             Normal   
+6    -1      1     1      7       7         squat             Normal   
+7    -1      1     1      8       8         squat             Normal   
+8    -1      1     1      9       9         squat             Normal   
+9    -1      1     1     10      10         squat             Normal   
+10   -1      1     1     11      11         squat             Normal   
+11   -1      1     1     12      12         squat             Normal   
+12   -1      1     1     13      13         squat             Normal   
+13   -1      1     1     14      14         squat             Normal   
+14   -1      1     1     15      15         squat             Normal   
+
+   resistance-type         type external-resistance percentage-execution  \
+0          Barbell  Hypertrophy                25kg                 100%   
+1          Barbell  Hypertrophy                25kg                 100%   
+2          Barbell  Hypertrophy                25kg                 100%   
+3          Barbell  Hypertrophy                25kg                 100%   
+4          Barbell  Hypertrophy                25kg                 100%   
+5          Barbell  Hypertrophy                25kg                 100%   
+6          Barbell  Hypertrophy                25kg                 100%   
+7          Barbell  Hypertrophy                25kg                 100%   
+8          Barbell  Hypertrophy                25kg                 100%   
+9          Barbell  Hypertrophy                25kg                 100%   
+10         Barbell  Hypertrophy                25kg                 100%   
+11         Barbell  Hypertrophy                25kg                 100%   
+12         Barbell  Hypertrophy                25kg                 100%   
+13         Barbell  Hypertrophy                25kg                 100%   
+14         Barbell  Hypertrophy                25kg                 100%   
+
+   rep-duration difficulty-index  
+0      00:00:00                0  
+1      00:00:00                0  
+2      00:00:00                0  
+3      00:00:00                0  
+4      00:00:00                0  
+5      00:00:00                0  
+6      00:00:00                0  
+7      00:00:00                0  
+8      00:00:00                0  
+9      00:00:00                0  
+10     00:00:00                0  
+11     00:00:00                0  
+12     00:00:00                0  
+13     00:00:00                0  
+14     00:00:00                0  </pre><br>
+            <div class="text-box-content">If you are wondering, how some attributes like <code>exercise-execution</code>, 
+              <code>type</code>, <code>resistance-type</code>, <code>rep-duration</code>... have a value even though their values have not been explicitly given, this is because, these attributes have default values. Just like the <code>meta:</code> clause has a file where attributes' default values and data types can be specified, the <code>set</code> clause has one too and so does the <code>workout</code> clause. We'll look at them later on.
+            </div>
+          </section>
         </div>
         <div class="side-bar hyphen" id="side-bar" lang="en">
           <div class="list-container">
             <ul><a href="An_overview.html"> 
-                <li current="current">An overview</li></a>
-              <div id="sub-list"></div><a href="Clauses.html"> 
-                <li>Clauses</li></a><a href="Variables.html"> 
+                <li>An overview</li></a><a href="The_meta_clause.html"> 
+                <li current="current">The meta clause</li></a>
+              <div id="sub-list"></div><a href="Variables.html"> 
                 <li>Variables</li></a>
             </ul>
           </div>
@@ -119,9 +203,12 @@
                <span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
               arrow_back
               </span>
-An overview </a>
+              <div class="ptext">An overview</div></a>
           </div>
-          <div class="prev">
+          <div class="prev"><a href="TBD.html"> 
+              <div class="ptext">TBD</div><span class="material-icons one-point-five-rem-fs" style="text-decoration: none;">
+              arrow_forward
+              </span></a>
           </div>
         </div>
       </div>

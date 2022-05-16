@@ -11,6 +11,7 @@ block t
 
             Below is the exhaustive list of the default available attributes in the #[code meta:] clause
              
+    br
 
     section
         .text-box-title(style="display: none;") List of Attributes
@@ -68,13 +69,101 @@ block t
                 tr 
                     td pass
                     td Boolean 
-                    td Special attribute. It has no real purpose in workout generation but allows you to have an "empty" #[code meta:] clause. Since the #[code meta:] clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if #[code pass] is #[code true] or #[code false].
+                    td Special attribute. It has no real purpose for the interpreter but allows you to have an "empty" #[code meta:] clause. Since the #[code meta:] clause can't be empty, you can just include pass if you have no other attributes you want to change. It does not matter if #[code pass] is #[code true] or #[code false].
                     td False
 
-    .text-box-content(flex) 
-        img(src="Screenshot (94).png", alt="zz", srcset="" )
+    .text-box-content. 
+        The default value of any attribute can be changed. To do so, you need to go to #[code config/meta.json].
+    section 
+        .text-box-title(style="display: none;") meta file
+        .text-box-content(img).
+            #[img(src="media/meta.png", alt="meta.json", srcset="")]
+
+    section 
+        .text-box-title pd-print
+        -
+            var pdCode = `# workout with a single set
+            # just for the sake of example
+
+            meta:
+                pd-print
+
+            workout:
+                63kg # weighed 63 kg before working out
+                62.5kg # weighed 62.5 kg after working out
+                18:00 1h30min  # workout started at 18:00 and lasted for one and a half hour
+                # the duration will be automatically calculated
+
+            set:
+                "squat" 1-15 25kg # did 15 rep of squats with 25kg on the barbell`;
+        +codeBlock(pdCode, reToTypeMap)
+        br
+        .text-box-content The output should look something like this below
+        pre.code-box. 
+            workout
+               id      date body-weight-before body-weight-after start-time  duration  \
+            0  -1  17-05-22               63kg            62.5kg   18:00:00  01:30:00   
+
+               end-time session mood last-meal last-bowel-movement  
+            0  19:30:00     NaN  NaN       NaN                 NaN 
+             
+            sets
+                wID  setID  exID  repID  CumRep exercise-name exercise-execution  \
+            0    -1      1     1      1       1         squat             Normal   
+            1    -1      1     1      2       2         squat             Normal   
+            2    -1      1     1      3       3         squat             Normal   
+            3    -1      1     1      4       4         squat             Normal   
+            4    -1      1     1      5       5         squat             Normal   
+            5    -1      1     1      6       6         squat             Normal   
+            6    -1      1     1      7       7         squat             Normal   
+            7    -1      1     1      8       8         squat             Normal   
+            8    -1      1     1      9       9         squat             Normal   
+            9    -1      1     1     10      10         squat             Normal   
+            10   -1      1     1     11      11         squat             Normal   
+            11   -1      1     1     12      12         squat             Normal   
+            12   -1      1     1     13      13         squat             Normal   
+            13   -1      1     1     14      14         squat             Normal   
+            14   -1      1     1     15      15         squat             Normal   
+
+               resistance-type         type external-resistance percentage-execution  \
+            0          Barbell  Hypertrophy                25kg                 100%   
+            1          Barbell  Hypertrophy                25kg                 100%   
+            2          Barbell  Hypertrophy                25kg                 100%   
+            3          Barbell  Hypertrophy                25kg                 100%   
+            4          Barbell  Hypertrophy                25kg                 100%   
+            5          Barbell  Hypertrophy                25kg                 100%   
+            6          Barbell  Hypertrophy                25kg                 100%   
+            7          Barbell  Hypertrophy                25kg                 100%   
+            8          Barbell  Hypertrophy                25kg                 100%   
+            9          Barbell  Hypertrophy                25kg                 100%   
+            10         Barbell  Hypertrophy                25kg                 100%   
+            11         Barbell  Hypertrophy                25kg                 100%   
+            12         Barbell  Hypertrophy                25kg                 100%   
+            13         Barbell  Hypertrophy                25kg                 100%   
+            14         Barbell  Hypertrophy                25kg                 100%   
+
+               rep-duration difficulty-index  
+            0      00:00:00                0  
+            1      00:00:00                0  
+            2      00:00:00                0  
+            3      00:00:00                0  
+            4      00:00:00                0  
+            5      00:00:00                0  
+            6      00:00:00                0  
+            7      00:00:00                0  
+            8      00:00:00                0  
+            9      00:00:00                0  
+            10     00:00:00                0  
+            11     00:00:00                0  
+            12     00:00:00                0  
+            13     00:00:00                0  
+            14     00:00:00                0  
+        br
+        .text-box-content. 
+            If you are wondering, how some attributes like #[code exercise-execution], 
+            #[code type], #[code resistance-type], #[code rep-duration]... have a value even though their values have not been explicitly given, this is because, these attributes have default values. Just like the #[code meta:] clause has a file where attributes' default values and data types can be specified, the #[code set] clause has one too and so does the #[code workout] clause. We'll look at them later on.
 block pages 
-    +pages('An overview')
+    +pages('An overview', 'TBD')
 
 block list_chapters
-    +listChapters('An overview')
+    +listChapters('The meta clause')
