@@ -1,3 +1,4 @@
+# TODO bring back strict flag
 from copy import deepcopy
 from matchmaking import matchAndMakeToken
 import json

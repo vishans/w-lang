@@ -1,9 +1,6 @@
+# TODO bring back strict flag
 from copy import deepcopy
-from functools import partialmethod
 import json
-from tokenize import Token
-
-from pandas import wide_to_long
 import token_class as TC
 import csv
 import os
@@ -11,7 +8,6 @@ import shutil
 from datetime import datetime
 from string import Template
 from parser_ import Parser
-import token_class
 import importlib
 from pprint import pprint
 
@@ -661,7 +657,7 @@ class Interpreter:
                         
                         return TC.RepError(*rep.getAll(),'For a new exercise, Rep should start with a 1')
 
-                        # add zero too and prevent that in strict mode (TO-DO)
+                        # add zero too and prevent that in strict mode (TODO)
 
                     prevEnd = end
 
@@ -798,6 +794,8 @@ class Interpreter:
         
         if self.getPDPrint():
             import pandas as pd
+            pd.set_option('display.max_columns', None)
+            pd.set_option('display.max_rows', None)
             print('sets')
             print(pd.DataFrame(setsDict))
             print()

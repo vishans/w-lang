@@ -9,7 +9,7 @@
     },
     "exercise-execution":{
         "dataType":"String",
-        "defaultValue":"'Normal'"
+        "defaultValue":"'normal'"
     },
     "resistance-type":{
         "dataType":["String", "NaN"],
@@ -17,7 +17,7 @@
     },
     "type":{
         "dataType":"String",
-        "defaultValue":"'Hypertrophy'"
+        "defaultValue":"'hypertrophy'"
     },
     "external-resistance":{
         "dataType":"Kilogram",

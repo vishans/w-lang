@@ -1,24 +1,27 @@
 {
     "bicep curl":{
-        "type":"'Hypertrophy'",
-        "exercise-execution":"'Normal'",      
-        "resistance-type": "'Barbel'" ,       
+        "type":"'hypertrophy'",
+        "exercise-execution":"'normal'",      
+        "resistance-type": "'barbel'" ,       
         "percentage-execution":"100%",  
         "rep-duration":"0s"
     },
     "REST":{
         "rep": 1,
         "rep-duration":"3min",
-        "type":"'Rest'"
+        "type":"'rest'"
 
 
     },
     "squat":{
-        "type":"'Hypertrophy'",
-        "exercise-execution":"'Normal'",      
+        "type":"'hypertrophy'",
+        "exercise-execution":"'normal'",      
         "resistance-type": "'T-Bar'" ,       
         "percentage-execution":"100%",  
         "rep-duration":"0s",
         "external-resistance": "69kg"
+    },
+    "hand stand":{
+        "type": "'skill'"
     }
 }
