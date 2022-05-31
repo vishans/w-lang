@@ -1,13 +1,4 @@
 {
-   
-    "include-qty-info":{
-        "dataType":"Boolean",
-        "defaultValue":"false"
-    },
-    "debug":{
-        "dataType":"Boolean",
-        "defaultValue":"false"
-    },
     "output-dir":{
         "dataType":"String",
         "defaultValue":"'My workouts'"
@@ -17,14 +8,6 @@
         "defaultValue":"false"
     },
     "print-output":{
-        "dataType":"Boolean",
-        "defaultValue":"false"
-    },
-    "strict":{
-        "dataType":"Boolean",
-        "defaultValue":"false"
-    },
-    "pass":{
         "dataType":"Boolean",
         "defaultValue":"false"
     },
@@ -41,6 +24,14 @@
         "defaultValue":"false"
     },
     "db":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
+    },
+    "debug":{
+        "dataType":"Boolean",
+        "defaultValue":"false"
+    },
+    "pass":{
         "dataType":"Boolean",
         "defaultValue":"false"
     }
