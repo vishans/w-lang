@@ -13,6 +13,13 @@
 
 
     },
+    "rest":{
+        "rep": 1,
+        "rep-duration":"3min",
+        "type":"'rest'"
+
+
+    },
     "squat":{
         "type":"'hypertrophy'",
         "exercise-execution":"'normal'",      
@@ -23,5 +30,24 @@
     },
     "hand stand":{
         "type": "'skill'"
+    },
+    "arm circle":{
+        "type": "'warm up'"
+    },
+    "chest expansion":{
+        "type": "'warm up'"
+    },
+    "shoulder stretch":{
+        "type": "'warm up'"
+    },
+    "tricep stretch":{
+        "type": "'warm up'"
+    },
+    "wrist extention":{
+        "type": "'warm up'"
+    },
+    "warm up":{
+        "type": "'warm up'"
     }
+
 }

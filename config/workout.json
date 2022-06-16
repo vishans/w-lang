@@ -3,6 +3,10 @@
         "dataType":["Integer","NaN"],
         "defaultValue":"NaN"
     },
+    "name":{
+        "dataType":["String", "NaN"],
+        "defaultValue":"NaN"
+    },
     "date":{
         "dataType":["Date"],
         "defaultValue":null
@@ -26,10 +30,6 @@
     "end-time":{
         "dataType":["Time","Minute", "MinuteSecond", "HourMinute","Second"],
         "defaultValue":null
-    },
-    "session":{
-        "dataType":["String","NaN"],
-        "defaultValue":"NaN"
     },
     "mood":{
         "dataType":["String", "NaN"],

@@ -5,7 +5,7 @@
     },
     "rep":{
         "dataType":["Rep","Integer"],
-        "defaultValue":null
+        "defaultValue":1
     },
     "exercise-execution":{
         "dataType":"String",
@@ -29,6 +29,10 @@
     },
     "rep-duration":{
         "dataType":["Second", "Minute", "MinuteSecond","NaN"],
+        "defaultValue":"NaN"
+    },
+    "comment":{
+        "dataType":["String", "NaN"],
         "defaultValue":"NaN"
     },
     "difficulty-index":{

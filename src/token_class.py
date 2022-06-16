@@ -129,7 +129,7 @@ class NaN(Token):
 
 
 class String(Token):
-    RegexPattern = r'''^("[A-Za-z0-9 \.\-]*"|'[A-Za-z0-9 \.\-]*')$'''
+    RegexPattern = r'''^("[A-Za-z0-9 \.\-+]*"|'[A-Za-z0-9 \.\-+]*')$'''
     SQLDataType = 'VARCHAR(300)'
 
     def __init__(self, token, line,start) -> None:
